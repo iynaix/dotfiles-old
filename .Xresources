@@ -1,0 +1,56 @@
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintslight
+
+URxvt.font: xft:Fira Code:size=11:Medium,xft:EmojiOne Color
+URxvt.boldFont: xft:Fira Code:size=11:Bold
+URxvt.italicFont: xft:Fira Code:size=11:Italic
+URxvt.boldItalicFont: xft:Fira Code:size=11:Bold:Italic
+! URxvt.letterSpace: -1
+URxvt.scrollBar: false
+URxvt.cursorColor: #f3f3f3
+URxvt.cursorColor2: #6f7682
+URxvt.perl-ext-common: default,matcher,clipboard,url-select,keyboard-select,resize-font
+URxvt.url-select.launcher: /usr/bin/xdg-open
+! enable Ctrl+Shift bindings to work properly
+! https://wiki.archlinux.org/index.php/Rxvt-unicode
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+! clipboard
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+
+*background:     #011627
+*foreground:     #d6deeb
+
+! black dark/light
+*.color0:        #011627
+*.color8:        #44596b
+
+! red dark/light
+*.color1:        #f78c6c
+*.color9:        #ef5350
+
+! green dark/light
+*.color2:        #addb67
+*.color10:       #22da6e
+
+! yellow dark/light
+*.color3:        #ffcb8b
+*.color11:       #ffeb95
+
+! blue dark/light
+*.color4:        #82aaff
+*.color12:       #5ca7e4
+
+! magenta dark/light
+*.color5:        #c792ea
+*.color13:       #7e57c2
+
+! cyan dark/light
+*.color6:        #7fdbca
+*.color14:       #21c7a8
+
+! white dark/light
+*.color7:        #bec5d4
+*.color15:       #ffffff
