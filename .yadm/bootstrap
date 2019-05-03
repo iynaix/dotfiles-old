@@ -1,0 +1,105 @@
+#! /bin/bash
+
+# this script is meant to be run by yadm, assumes yay is already installed on the system
+# portions of this script have been adapted from Luke Smith's LARBS:
+# https://github.com/LukeSmithxyz/LARBS
+
+set -e
+
+base_packages = (
+    "arc-gtk-theme"
+    "code"
+    "curl"
+    "emacs"
+    "exa"
+    "feh"
+    "firefox"
+    "firefox-developer"
+    "htmltidy"
+    "htop"
+    "inxi"
+    "ipython"
+    "libreoffice-fresh"
+    "mongodb"
+    "mpv"
+    "neovim"
+    "nodejs"
+    "npm"
+    "ntfs-3g"
+    "numix-gtk-theme"
+    "openssh"
+    # "otf-fira-code"
+    "postgresql"
+    "python-pip"
+    "python-pipenv"
+    "ranger"
+    "renameutils"
+    "ripgrep"
+    "samba"
+    "sxiv"
+    "termite-terminfo"
+    "ttf-arphic-uming"
+    "ttf-baekmuk"
+    "ttf-emojione"
+    "ttf-freefont"
+    # "ttf-ubuntu-font-family"
+    "vlc"
+    "youtube-dl"
+    "zatura"
+    "zatura-pdf-poppler"
+    "zsh"
+)
+
+aur_packages = (
+    "gitflow-avh"
+    "google-chrome-dev"
+    "ngrok"
+    "rar"
+    "stellar"
+    "subliminal"
+    # TODO: nerd fonts?
+    # "nerd-fonts-fira-code"
+    # "nerd-fonts-ubuntu-mono"
+)
+
+echo "## Installing Base Packages..."
+pacman -S ${base_packages[@]}
+
+echo "## Installing AUR Packages..."
+yay -S --noconfirm ${aur_packages[@]}
+
+# Make pacman and yay colorful and adds eye candy on the progress bar because why not.
+grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color/Color/" /etc/pacman.conf
+grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+
+if command -v nvim >/dev/null 2>&1; then
+    echo "Bootstrapping Vim..."
+    vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
+
+
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Bootstrapping oh-my-zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
+
+
+if [ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]; then
+    echo "Bootstrapping spaceship-prompt..."
+    git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+fi
+
+# TODO: bootstrap emacs, vscode?
+# TODO: reminder about .ssh folder
+
+# Autologin
+mkdir -p /etc/systemd/system/getty@tty1.service.d
+if [! -d "/etc/systemd/system/getty@tty1.service.d/override.conf" ]; then
+    echo "Setting up auto login..."
+
+    cat <<-'EOF' > /etc/systemd/system/getty@tty1.service.d/override.conf
+    [Service]
+    ExecStart=
+    ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM
+    EOF
+fi
