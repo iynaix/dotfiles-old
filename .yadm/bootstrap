@@ -61,7 +61,7 @@ aur_packages=(
 )
 
 echo "## Installing Base Packages..."
-pacman -S ${base_packages[@]}
+pacman -S --noconfirm ${base_packages[@]}
 
 echo "## Installing AUR Packages..."
 yay -S --noconfirm ${aur_packages[@]}
