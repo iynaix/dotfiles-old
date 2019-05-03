@@ -6,7 +6,7 @@
 
 set -e
 
-base_packages = (
+base_packages=(
     "arc-gtk-theme"
     "code"
     "curl"
@@ -28,7 +28,6 @@ base_packages = (
     "ntfs-3g"
     "numix-gtk-theme"
     "openssh"
-    # "otf-fira-code"
     "postgresql"
     "python-pip"
     "python-pipenv"
@@ -42,7 +41,6 @@ base_packages = (
     "ttf-baekmuk"
     "ttf-emojione"
     "ttf-freefont"
-    # "ttf-ubuntu-font-family"
     "vlc"
     "youtube-dl"
     "zatura"
@@ -50,16 +48,15 @@ base_packages = (
     "zsh"
 )
 
-aur_packages = (
+aur_packages=(
     "gitflow-avh"
     "google-chrome-dev"
     "ngrok"
     "rar"
     "stellar"
     "subliminal"
-    # TODO: nerd fonts?
-    # "nerd-fonts-fira-code"
-    # "nerd-fonts-ubuntu-mono"
+    "nerd-fonts-fira-code"
+    "nerd-fonts-ubuntu-mono"
 )
 
 echo "## Installing Base Packages..."
