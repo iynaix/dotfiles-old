@@ -36,6 +36,7 @@ base_packages=(
     "ranger"
     "renameutils"
     "ripgrep"
+    "rofi"
     "samba"
     "sxiv"
     "termite-terminfo"
@@ -44,6 +45,8 @@ base_packages=(
     "ttf-freefont"
     "vifm"
     "vlc"
+    "yarn"
+    "youtube-dl"
     "youtube-dl"
     "zathura"
     "zathura-pdf-poppler"
@@ -70,8 +73,8 @@ echo "## Installing AUR Packages..."
 yay -S --noconfirm --needed ${aur_packages[@]}
 
 # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
-grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color/Color/" /etc/pacman.conf
-grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+grep "^Color" /etc/pacman.conf >/dev/null || sudo sed -i "s/^#Color/Color/" /etc/pacman.conf
+grep "ILoveCandy" /etc/pacman.conf >/dev/null || sudo sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
 if command -v nvim >/dev/null 2>&1; then
     echo "Bootstrapping Vim..."
