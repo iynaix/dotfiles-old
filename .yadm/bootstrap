@@ -16,6 +16,7 @@ base_packages=(
     "emacs"
     "exa"
     "feh"
+    "fzf"
     "firefox-developer-edition"
     "tidy"
     "htop"
@@ -31,6 +32,7 @@ base_packages=(
     "postgresql"
     "python-pip"
     "python-pipenv"
+    "python-virtualenvwrapper"
     "ranger"
     "renameutils"
     "ripgrep"
@@ -40,6 +42,7 @@ base_packages=(
     "ttf-arphic-uming"
     "ttf-baekmuk"
     "ttf-freefont"
+    "vifm"
     "vlc"
     "youtube-dl"
     "zathura"
@@ -61,10 +64,10 @@ aur_packages=(
 )
 
 echo "## Installing Base Packages..."
-yay -S --noconfirm ${base_packages[@]}
+yay -S --noconfirm --needed ${base_packages[@]}
 
 echo "## Installing AUR Packages..."
-yay -S --noconfirm ${aur_packages[@]}
+yay -S --noconfirm --needed ${aur_packages[@]}
 
 # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
 grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color/Color/" /etc/pacman.conf
