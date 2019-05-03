@@ -1,24 +1,6 @@
 Xft.antialias: true
 Xft.hinting: true
-Xft.hintstyle: hintslight
-
-URxvt.font: xft:Fira Code:size=11:Medium,xft:EmojiOne Color
-URxvt.boldFont: xft:Fira Code:size=11:Bold
-URxvt.italicFont: xft:Fira Code:size=11:Italic
-URxvt.boldItalicFont: xft:Fira Code:size=11:Bold:Italic
-! URxvt.letterSpace: -1
-URxvt.scrollBar: false
-URxvt.cursorColor: #f3f3f3
-URxvt.cursorColor2: #6f7682
-URxvt.perl-ext-common: default,matcher,clipboard,url-select,keyboard-select,resize-font
-URxvt.url-select.launcher: /usr/bin/xdg-open
-! enable Ctrl+Shift bindings to work properly
-! https://wiki.archlinux.org/index.php/Rxvt-unicode
-URxvt.iso14755: false
-URxvt.iso14755_52: false
-! clipboard
-URxvt.keysym.M-c: perl:clipboard:copy
-URxvt.keysym.M-v: perl:clipboard:paste
+Xft.hintstyle: hintfull
 
 *background:     #011627
 *foreground:     #d6deeb
