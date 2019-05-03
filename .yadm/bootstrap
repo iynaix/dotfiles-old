@@ -7,7 +7,7 @@
 set -e
 
 # elevate sudo as needed
-[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+# [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 base_packages=(
     "arc-gtk-theme"
@@ -61,7 +61,7 @@ aur_packages=(
 )
 
 echo "## Installing Base Packages..."
-pacman -S --noconfirm ${base_packages[@]}
+yay -S --noconfirm ${base_packages[@]}
 
 echo "## Installing AUR Packages..."
 yay -S --noconfirm ${aur_packages[@]}
