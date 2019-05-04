@@ -33,6 +33,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'jparise/vim-graphql'
+Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'rking/ag.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/splice.vim'
@@ -48,7 +49,10 @@ Plug 'vim-scripts/IndexedSearch'
 " Initialize plugin system
 call plug#end()
 
-" run :PackUpdate on initial load to install packages
+" enable 24bit true color
+if (has("termguicolors"))
+    set termguicolors
+endif
 
 "Enable loading filetype and indentation plugins
 set fileformat=unix

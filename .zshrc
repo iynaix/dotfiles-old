@@ -492,3 +492,5 @@ extractaudio() {
 singleaudioavi() {
     eval mencoder $1 -o ${1%.*}.avi -oac copy -ovc copy -aid $2
 }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -76,12 +76,6 @@ yay -S --noconfirm --needed ${aur_packages[@]}
 grep "^Color" /etc/pacman.conf >/dev/null || sudo sed -i "s/^#Color/Color/" /etc/pacman.conf
 grep "ILoveCandy" /etc/pacman.conf >/dev/null || sudo sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
-if command -v nvim >/dev/null 2>&1; then
-    echo "Bootstrapping Vim..."
-    vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
-fi
-
-
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "Bootstrapping oh-my-zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -93,8 +87,10 @@ if [ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]; then
     git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
 fi
 
-# TODO: bootstrap emacs, vscode?
-# TODO: reminder about .ssh folder
+if command -v nvim >/dev/null 2>&1; then
+    echo "Bootstrapping Vim..."
+    nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
 
 # Autologin
 mkdir -p /etc/systemd/system/getty@tty1.service.d
@@ -107,3 +103,6 @@ if [! -d "/etc/systemd/system/getty@tty1.service.d/override.conf" ]; then
     ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM
     EOF
 fi
+
+# TODO: bootstrap emacs, vscode?
+# TODO: reminder about .ssh folder
