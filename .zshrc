@@ -62,7 +62,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git history-substring-search dotenv colorize virtualenvwrapper cp ripgrep command-not-found colored-man-pages yarn npm)
+plugins=(git history-substring-search dotenv colorize virtualenvwrapper archlinux cp ripgrep command-not-found colored-man-pages yarn npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -165,14 +165,11 @@ alias gcaam="gaa && gcam"
 alias gcam="git commit --amend"
 alias gdc="git diff --cached"
 alias gdi="git diff"
-alias gh="git_pretty_log -1" #shows the git head
 alias gl="git pull"
 alias glc='gl origin "$( git rev-parse --abbrev-ref HEAD )"'
 alias gpc='gp origin "$( git rev-parse --abbrev-ref HEAD )"'
 alias groot='cd $(git rev-parse --show-toplevel)'
 # pretty git logging, stolen from Gary Bernhardt
-alias gr="git_pretty_log -30" #recent commits only from current branch
-alias gra="git_pretty_log --all" #recent commits from all reachable refs
 alias gri='git rebase --interactive'
 alias gst="git status -s -b && echo && gr -1 | head -n 1"
 alias gsub="git submodule update --init --recursive"
@@ -386,77 +383,12 @@ _fab_list() {
 }
 compdef _fab_list fab
 
-# open the files containing the search term in nvim
-# also automatically searches for the keyword in vim
-ack-open () {
-    local x
-    x="$(ack --print0 -l "$@" | xargs -0)"
-    if [[ -n $x ]]; then
-        eval command nvim -c "/$*[-1] $x"
-    else
-        echo "No files found"
-    fi
-}
-
-# open the files containing the search term in nvim
-# also automatically searches for the keyword in vim
-rg-open () {
-    local x
-    x="$(rg --print0 -l "$@" | xargs -0)"
-    if [[ -n $x ]]; then
-        eval command nvim -c "/$*[-1] $x"
-    else
-        echo "No files found"
-    fi
-}
-
 # shortcut for git bisect including setup
 # argument would be the refspec of the good commit
 gbisect () {
     git bisect start
     git bisect bad
     git bisect good $*
-}
-
-# wrapper for the pretty git log
-git_pretty_log() {
-    git --no-pager log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit $*
-}
-
-# global replace using perl
-# 2nd last argument is pattern to replace, last argument the replacement
-replaceall() {
-    if [[ $# -lt 2 ]]; then
-        echo "At least 2 arguments are required"
-    else
-        ack -l ${*[1,-3]} ${*[-2]} | xargs perl -pi -E "s/${*[-2]}/${*[-1]}/g"
-    fi
-}
-
-# repeats the given command until it succeeds
-# useful for downloading tasks
-repeattilldone() {
-    # no arguments given, run the previous command till it succeeds
-    if [[ $? -eq 0 ]]; then
-        while [ $? -ne 0 ]; do !!; done
-    else
-        $*
-        while [ $? -ne 0 ]; do $*; done
-    fi
-}
-
-# prepare or reset screen for chromecasting
-chromecast() {
-    xrandr | grep Screen | grep -q 1920
-    # outputs are off, re-enable
-    if [[ $? -eq 0 ]]; then
-        xrandr --output DVI-I-1 --mode 1920x1080 --left-of HDMI-0
-        xrandr --output DVI-D-0 --mode 1920x1080 --right-of HDMI-0
-    # outputs are on, disable
-    else
-        xrandr --output DVI-I-1 --off
-        xrandr --output DVI-D-0 --off
-    fi
 }
 
 #######################################################################

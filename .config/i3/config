@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+font pango:Ubuntu 6
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -30,17 +30,14 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec "i3-sensible-terminal"
+bindsym $mod+Return exec $TERMINAL
 
 # kill focused window
 bindsym $mod+Shift+q kill
+bindsym $mod+BackSpace kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# start rofi (a program launcher)
+bindsym $mod+d exec --no-startup-id rofi -combi-modi drun,run -show combi -modi combi
 
 # change focus
 bindsym $mod+h focus left
@@ -66,16 +63,26 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# bindings for larger operations between monitors
+bindsym $mod+semicolon focus output left
+bindsym $mod+apostrophe focus output right
+bindsym $mod+Home focus output left
+bindsym $mod+End focus output left
+
+bindsym $mod+Shift+semicolon move output left
+bindsym $mod+Shift+apostrophe move output right
+bindsym $mod+Shift+Home move output left
+bindsym $mod+Shift+End move output left
+
 # resize windows (row above hjkl)
 bindsym $mod+Shift+y resize shrink width 10 px or 10 ppt
 bindsym $mod+Shift+u resize grow height 10 px or 10 ppt
 bindsym $mod+Shift+i resize shrink height 10 px or 10 ppt
 bindsym $mod+Shift+p resize grow width 10 px or 10 ppt
 
-# split in horizontal orientation
-bindsym $mod+b split h
-
-# split in vertical orientation
+# horizontal split
+bindsym $mod+Shift+v split h
+# vertical split
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
@@ -97,6 +104,9 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
+# pressing a workspace switch brings you back to previous workspace
+workspace_auto_back_and_forth yes
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -135,35 +145,91 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# multi montior setup
+set $monitor1 "DP-2"
+set $monitor2 "DP-0.8"
+
+# predictable binding of workspaces to monitors
+workspace $ws1 output $monitor1
+workspace $ws2 output $monitor1
+workspace $ws3 output $monitor1
+workspace $ws4 output $monitor1
+workspace $ws5 output $monitor1
+workspace $ws6 output $monitor2
+workspace $ws7 output $monitor2
+workspace $ws8 output $monitor2
+workspace $ws9 output $monitor2
+workspace $ws10 output $monitor2
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
+# application shortcuts
+bindsym $mod+r exec --no-startup-id termite -e ranger
+bindsym $mod+Shift+e exec --no-startup-id termite -e nvim
+bindsym $mod+Shift+f exec --no-startup-id nemo
+bindsym $mod+Shift+w exec --no-startup-id google-chrome-unstable
+
 # custom mode for performing system level tasks
-set $mode_system (s)hutdown, (r)eboot, (l)ock, (e)xit
-mode "$mode_system" {
-    bindsym s exec --no-startup-id i3exit shutdown, mode "default"
-    bindsym r exec --no-startup-id i3exit reboot, mode "default"
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
-    bindsym e exec --no-startup-id i3exit logout, mode "default"
+# set $mode_system (s)hutdown, (r)eboot, (l)ock, (e)xit
+# mode "$mode_system" {
+#     bindsym s exec --no-startup-id systemctl poweroff -i, mode "default"
+#     bindsym r exec --no-startup-id systemctl reboot, mode "default"
+#     bindsym l exec --no-startup-id i3lock, mode "default"
+#     bindsym e exec --no-startup-id i3-msg exit, mode "default"
 
-    # exit mode with "Enter" or "Escape"
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+Shift+x mode "$mode_system"
+#     # exit mode with "Enter" or "Escape"
+#     bindsym Return mode "default"
+#     bindsym Escape mode "default"
+# }
+# bindsym $mod+Shift+x mode "$mode_system"
 
-# bindsym $mod+r mode "resize"
+# set window colors
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-    status_command i3blocks
-    position top
-}
+set $bg-color 	         #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+
+# class                 border              background         text                 indicator
+client.focused          $inactive-bg-color  $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+# class                 border  backgr. text    indic.   child_border
+# client.focused          #404552 #404552 #9ba2b3 #595f6d  #666a76
+# client.focused_inactive #2f343f #2f343f #595f6d #454948
+# client.unfocused        #2f343f #2f343f #595f6d #454948
+# client.urgent           #cb4b16 #fdf6e3 #1abc9c #268bd2
+# client.placeholder      #000000 #0c0c0c #ffffff #000000 
 
 # autostart applications
-exec_always feh --bg-fill ~/moe-50737-sayori.jpg
-# setup multimonitor
-exec_always xrandr --output DP-0.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3440x1440 --pos 1440x258 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
+exec_always --no-startup-id ~/.fehbg &
+# setup multi monitor
+exec_always --no-startup-id xrandr --output DP-0.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3440x1440 --pos 1440x258 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
+# setup compositor
+exec --no-startup-id compton -b
+# exec --no-startup-id nmapplet
+exec_always --no-startup-id xrdb ~/.Xresources
+# polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# start chrome
+exec --no-startup-id $TERMINAL
+exec --no-startup-id i3-msg 'workspace 6; exec --no-startup-id google-chrome-unstable; split h; exec --no-startup-id google-chrome-unstable --incognito'
+
+# i3-gaps config
+gaps inner 8
+gaps outer 5
+# smart_gaps on
+
+for_window [class=".*"] border pixel 0
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace) 
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+smart_borders on
+hide_edge_borders none

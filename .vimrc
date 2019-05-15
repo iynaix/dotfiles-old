@@ -26,14 +26,10 @@ Plug 'bling/vim-airline'
 Plug 'ervandew/supertab'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haishanh/night-owl.vim'
-Plug 'klen/python-mode'
-Plug 'masterodie/vim-poe-filter-syntax'
 Plug 'mattn/emmet-vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'jparise/vim-graphql'
-Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'rking/ag.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'sjl/splice.vim'
@@ -114,8 +110,11 @@ set undodir=/tmp
 set autochdir
 "do not use backups
 set nobackup
+" use system clipboard
+set clipboard=unnamed
 
 "right clicking produces a menu
+set mouse=a
 set mousemodel=popup
 set mousehide "hides the mouse while typing
 
@@ -136,7 +135,7 @@ set shortmess=atToOI "disable welcome message
 
 let mapleader = " " "Set mapleader
 set timeoutlen=500 "Lower the timeout after typing the leader key
-set nomodeline "do not use modelines
+set modeline "do not use modelines
 
 set virtualedit=block "virtual edit mode in visual block so can go past EOL
 set gdefault "set substitution to be global by default e.g. :s///g

@@ -1,9 +1,17 @@
+Xft.dpi: 96
 Xft.antialias: true
 Xft.hinting: true
-Xft.hintstyle: hintfull
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+         
+*.font: FuraCode Nerd Font Mono:Medium:size=11
+*.bold_font: FuraCode Nerd Font Mono:Bold:size=11
+*.cursorfg: #f3f3f3
 
-*background:     #011627
-*foreground:     #d6deeb
+*.background:     #011627
+*.foreground:     #d6deeb
 
 ! black dark/light
 *.color0:        #011627

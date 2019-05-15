@@ -51,7 +51,7 @@ foreground = #d6deeb
 background = #011627
 
 # 20% background transparency (requires a compositor)
-#background = rgba(63, 63, 63, 0.8)
+# background = rgba(1, 22, 39, 0.9)
 
 # If unset, will reverse foreground and background
 highlight = #2f2f2f
@@ -80,7 +80,7 @@ color15 = #ffffff
 #background = #3f3f3f
 #active_foreground = #e68080
 #active_background = #3f3f3f
-#padding = 2
+#padding = 5
 #border = #3f3f3f
 #border_width = 0.5
 #roundness = 2.0

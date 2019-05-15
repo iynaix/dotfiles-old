@@ -1,7 +1,7 @@
 # set default variables
 export PATH="$PATH:$HOME/bin"
 export EDITOR="nvim"
-export TERMINAL="termite"
+export TERMINAL="xst"
 
 # start i3 if not already running
 # [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x i3 >/dev/null && exec startx
