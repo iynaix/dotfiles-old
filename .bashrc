@@ -101,6 +101,9 @@ fi
 
 #-----------------------------------
 
+# load shortcut aliases
+[ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
+
 #highlight prompt
 PS1='\h:\w\$\[\e[0m\] '
 

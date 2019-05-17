@@ -1,0 +1,15 @@
+vv=~/Videos
+va=~/Videos/Anime
+vac=~/Videos/Anime/Current
+vc=~/Videos/Courses
+vm=~/Videos/Movies
+vu=~/Videos/US
+vu=~/Videos/US/Current
+vn=~/Videos/US/New
+p=~/projects
+pc=~/projects/coinfc
+pcb=~/projects/coinfc-backend
+pe=~/projects/ergodox-layout
+D=~/Downloads
+dt=~/Downloads/pending
+du=~/Downloads/Unsorted

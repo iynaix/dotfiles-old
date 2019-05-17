@@ -103,17 +103,20 @@ if [ -f /etc/profile.d/fzf.zsh ]; then
     export FZF_DEFAULT_OPTS='--height 40% --reverse --border --select-1 --exit-0'
 fi
 
+# load shortcut aliases
+[ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
 
 ##################################################
 # ALIASES
 ##################################################
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias c='printf "\ec"'
+alias :e="nvim"
+alias :q="exit"
+alias :sp="bspc node -p south; $TERMINAL"
+alias :vs="bspc node -p east; $TERMINAL"
+alias c="clear"
 alias cal="cal -3"
 alias calc='ipy -i -c "from math import *"'
 alias clearq="echo > $TMPDIR/q"
-alias del="rm -rf"
 alias df="df -h"
 alias f="fab"
 alias nvim=nvim
@@ -124,29 +127,25 @@ alias isodate='date -u +"%Y-%m-%dT%H:%M:%SZ"'
 alias ls="exa --group-directories-first --color-scale"
 alias ll="ls -al"
 alias lns="ln -s"
-alias loc='grep -v "^$" -R . | wc -l'
 alias mergeclean="find . -type f -name '*.orig' -exec rm -f {} \;"
-alias mplayer-ascii="mplayer -vo caca"
 alias open='xdg-open'
 alias qmv='qmv --format destination-only'
-alias reboot="sudo systemctl reboot"
+alias r="ranger"
 alias py='python'
 alias showq="touch /tmp/q && tail -f /tmp/q"
-alias striptags="sed \"s/<[^>]\+>//g\""
 alias stopemacs="pkill -SIGUSR2 emacs"
-alias shutdown="sudo systemctl poweroff"
-alias todo="rg TODO"
-alias top="htop"
-alias tree="exa --group-directories-first --color-scale --tree"
 alias subs="subliminal download -l 'en' -s"
+alias todo="rg TODO"
+alias tree="exa --group-directories-first --color-scale --tree"
 alias vi=nvim
 alias vim=nvim
 alias wget='wget --content-disposition'
 alias whereami='echo "$( hostname --fqdn ) ($(hostname -i)):$( pwd )"'
 alias xclip="xclip -selection c"
 alias y="yay"
+alias yn="yay"
 alias yt="youtube-dl"
-alias yt-audio="yt --audio-format mp3 --extract-audio"
+alias yta="yt --audio-format mp3 --extract-audio"
 alias coinfc="openproj coinfc"
 alias coinfc-backend="openproj coinfc-backend"
 alias coinfcweb="tmuxp load ~/.tmuxp/coinfcweb.yml"
@@ -175,14 +174,6 @@ alias gst="git status -s -b && echo && gr -1 | head -n 1"
 alias gsub="git submodule update --init --recursive"
 # access github page for the repo we are currently in
 alias github="open \`git remote -v | grep github.com | grep fetch | head -1 | awk '{print $2}' | sed 's/git:/http:/git'\`"
-
-# easier crypto hash functions
-alias md5="hashing_function md5sum"
-alias sha1="hashing_function sha1sum"
-alias sha224="hashing_function sha224sum"
-alias sha256="hashing_function sha256sum"
-alias sha384="hashing_function sha384sum"
-alias sha512="hashing_function sha512sum"
 
 alias gf="git flow"
 alias gff="gf feature"
@@ -228,30 +219,6 @@ grd() {
 gffrd() {
     gb -D feature/$1
     gp origin --delete feature/$1
-}
-
-# # resets hard, or can reset a path
-# grh() {
-#     if [[ $# -eq 0 ]]; then
-#         git reset --hard
-#     else
-#         if [[ -a $1 ]]; then
-#             #is a valid path, reset that path
-#             git checkout $*
-#         else
-#             #probably a commit, just pass the arguments thru
-#             git reset --hard $*
-#         fi
-#     fi
-# }
-
-# sudo to a command, or do sudo to the last typed command if no argument given
-s(){
-    if [[ $# == 0 ]]; then
-        sudo $(history -p '!!')
-    else
-        sudo "$@"
-    fi
 }
 
 # find and use manage.py
@@ -301,21 +268,6 @@ djls() {
     if [[ $? -ne 0 ]]; then
         dj runserver 0.0.0.0:8001 $*
     fi
-}
-
-# utility for a hashing function, works on directories or individual files
-# first argument is the hashing command and the second is the path
-hashing_function() {
-    if [ -d $2 ]; then
-        find $2 -type f -print0 | sort -z | xargs -0 $1 | $1
-    else
-        $1 $2
-    fi
-}
-
-# crc32 for anime
-crc32() {
-    hashing_function "cksfv" $1 | tail -n1
 }
 
 # server command, runs a local server

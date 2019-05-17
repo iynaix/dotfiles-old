@@ -1,0 +1,27 @@
+! vim: ft=xdefaults
+
+rofi.font: FuraCode Nerd Font Medium 15
+rofi.theme: ~/.config/rofi/theme/iynaix.rasi
+rofi.show-icons:                     true
+rofi.icon-theme:                     Numix
+! "Hide the prefix mode prefix on the combi view." Set from: Default
+rofi.combi-hide-mode-prefix:         true
+
+
+rofi.bw: 0
+! "Row height (in chars)" Set from: Default
+rofi.eh:                             1
+! "DRUN format string. (Supports: generic,name,comment,exec,categories)" Set from: Default
+! rofi.drun-display-format:            {name} [<span weight='light' size='small'><i>({generic})</i></span>]
+
+! rofi.bg
+! rofi.fg
+! rofi.hlbg
+! rofi.hlfg
+
+! "Window width" Set from: Default
+! rofi.width:                          50
+! "Number of lines" Set from: Default
+! rofi.lines:                          15
+! "Padding" Set from: Default
+! rofi.padding:                        0

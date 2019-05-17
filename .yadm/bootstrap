@@ -11,6 +11,7 @@ set -e
 
 base_packages=(
     "arc-gtk-theme"
+    "bat"
     "code"
     "curl"
     "dunst"
@@ -20,6 +21,7 @@ base_packages=(
     "firefox-developer-edition"
     "fzf"
     "gimp"
+    "highlight"
     "htop"
     "ipython"
     "libreoffice-fresh"
@@ -71,6 +73,7 @@ aur_packages=(
     "rar"
     "stellar"
     "subliminal"
+    "ttf-clear-sans"
     "ttf-emojione"
     "ttf-font-awesome-4"
     "vivaldi"

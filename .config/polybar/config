@@ -1,7 +1,7 @@
 ; vim: ft=dosini
 
-[bar/iynaix]
-monitor = ${env:MONITOR:}
+[bar/primary]
+monitor = DP-2
 width = 100%
 height = 30
 offset-x = 0
@@ -28,7 +28,8 @@ font-2 = siji:pixelsize=10;0
 ; modules-left = bspwm
 ;modules-center = xwindow
 modules-center = bspwm
-modules-right = battery volume mpd spotify date powermenu
+; modules-right = battery volume mpd date powermenu
+modules-right = volume date
 
 ;tray-position = right
 ;tray-padding = 2
@@ -36,8 +37,38 @@ modules-right = battery volume mpd spotify date powermenu
 
 wm-restack = bspwm
 
-scroll-up = bspwm-desknext
-scroll-down = bspwm-deskprev
+[bar/secondary]
+monitor = DP-0.8
+width = 100%
+height = 30
+offset-x = 0
+offset-y = 0
+
+;background = #5a000000
+background = #66000000
+foreground = #eee
+
+underline-size = 2
+underline-color = #eee
+
+spacing = 1
+padding-left = 0
+padding-right = 0
+module-margin-left = 0 
+module-margin-right = 0
+
+font-0 = Noto Sans:size=10;0
+font-1 = FontAwesome:size=10;1
+font-2 = siji:pixelsize=10;0
+
+modules-center = bspwm
+modules-right = date
+
+;tray-position = right
+;tray-padding = 2
+;tray-background = #66333333
+
+wm-restack = bspwm
 
 ; MODULES
 
@@ -45,11 +76,16 @@ scroll-down = bspwm-deskprev
 type = internal/bspwm
 
 pin-workspaces = true
+enable-click = true
+enable-scroll = false
 
-; ws-icon-0 = web;
-; ws-icon-1 = term;
-; ws-icon-2 = chat;
-; ws-icon-3 = code;
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 6;
+ws-icon-4 = 8;
+ws-icon-5 = 9;
+ws-icon-6 = 10;
 ; ws-icon-4 = music;
 ws-icon-default = 
 
