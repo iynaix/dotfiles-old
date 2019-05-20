@@ -1,9 +1,17 @@
+/* vim: set ft=css: */
+
 * {
-    active-background: #7d7abc;
+    background: rgba ( 45, 48, 59, 95 % );
+    background-color: @background;
+    foreground: rgba ( 196, 203, 212, 100 % );
+    border-color: @background;
+    spacing: 2;
+
+    active-background: rgba ( 29, 31, 33, 17 % );
     active-foreground: @background;
     normal-background: @background;
     normal-foreground: @foreground;
-    urgent-background: #dab6fc;
+    urgent-background: rgba ( 29, 31, 33, 17 % );
     urgent-foreground: @foreground;
 
     alternate-active-background: @background;
@@ -13,18 +21,12 @@
     alternate-urgent-background: @background;
     alternate-urgent-foreground: @foreground;
 
-    selected-active-background: #bbadff;
-    selected-active-foreground: @background;
-    selected-normal-background: #dab6fc;
-    selected-normal-foreground: @background;
-    selected-urgent-background: #af99ed;
-    selected-urgent-foreground: @background;
-
-    background-color: @background;
-    background: #1c1c1c;
-    foreground: #efefef;
-    border-color: @background;
-    spacing: 2;
+    selected-active-background: rgba ( 68, 145, 237, 100 % );
+    selected-active-foreground: rgba ( 249, 249, 249, 100 % );
+    selected-normal-background: rgba ( 64, 132, 214, 100 % );
+    selected-normal-foreground: rgba ( 249, 249, 249, 100 % );
+    selected-urgent-background: rgba ( 165, 66, 66, 100 % );
+    selected-urgent-foreground: rgba ( 249, 249, 249, 100 % );
 }
 
 window {
@@ -44,7 +46,7 @@ window {
 }
 
 #textbox {
-    text-color: #7d7abc;
+    text-color: @foreground;
     padding: 0px 0px 0px 0px;
 }
 

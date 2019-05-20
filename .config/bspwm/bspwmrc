@@ -4,8 +4,11 @@
 xrandr --output DP-0.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3440x1440 --pos 1440x258 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
 # bspc monitor -d 1 2 3 4 5 6 7 8 9 0
-bspc monitor DP-2 -d 1 2 3 4 5
-bspc monitor %DP-0.8 -d 6 7 8 9 10
+pri_wksp="1 2 3 4 5"
+sec_wksp="6 7 8 9 10"
+
+bspc monitor DP-2 -d $pri_wksp
+bspc monitor %DP-0.8 -d $sec_wksp
 
 bspc config automatic_scheme longest_side
 
@@ -40,6 +43,7 @@ bspc config pointer_action2 resize_corner
 
 bspc rule -a discord desktop=9 follow=on
 bspc rule -a Code desktop=2 follow=on
+bspc rule -a Filezilla desktop=10
 
 [[ ! $(pidof -x sxhkd) ]] && sxhkd &
 ~/.fehbg &

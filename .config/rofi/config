@@ -1,6 +1,6 @@
 ! vim: ft=xdefaults
 
-rofi.font: FuraCode Nerd Font Medium 15
+rofi.font: Clear Sans Light 14
 rofi.theme: ~/.config/rofi/theme/iynaix.rasi
 rofi.show-icons:                     true
 rofi.icon-theme:                     Numix
@@ -12,7 +12,7 @@ rofi.bw: 0
 ! "Row height (in chars)" Set from: Default
 rofi.eh:                             1
 ! "DRUN format string. (Supports: generic,name,comment,exec,categories)" Set from: Default
-! rofi.drun-display-format:            {name} [<span weight='light' size='small'><i>({generic})</i></span>]
+rofi.drun-display-format: {name}
 
 ! rofi.bg
 ! rofi.fg
@@ -20,8 +20,8 @@ rofi.eh:                             1
 ! rofi.hlfg
 
 ! "Window width" Set from: Default
-! rofi.width:                          50
+rofi.width:                          800px
 ! "Number of lines" Set from: Default
-! rofi.lines:                          15
+rofi.lines:                          10
 ! "Padding" Set from: Default
 ! rofi.padding:                        0

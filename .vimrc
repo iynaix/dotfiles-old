@@ -135,7 +135,8 @@ set shortmess=atToOI "disable welcome message
 
 let mapleader = " " "Set mapleader
 set timeoutlen=500 "Lower the timeout after typing the leader key
-set modeline "do not use modelines
+set modeline
+set noshowmode
 
 set virtualedit=block "virtual edit mode in visual block so can go past EOL
 set gdefault "set substitution to be global by default e.g. :s///g
@@ -159,7 +160,7 @@ set splitbelow
 
 " automatically give executable permissions if file begins with #! and contains
 " '/bin/' in the path
-au bufwritepost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod a+x <afile> | endif | endif
+au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod a+x <afile> | endif | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Mappings
@@ -203,7 +204,7 @@ nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
 "Edit the vimrc file
 nnoremap <silent> <leader>ev :e $HOME/.vimrc<CR>
 nnoremap <silent> <leader>ez :e $HOME/.zshrc<CR>
-au bufwritepost .vimrc source %
+au BufWritePost .vimrc source %
 
 set pastetoggle=<F12>
 
