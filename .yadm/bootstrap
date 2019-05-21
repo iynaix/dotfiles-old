@@ -10,6 +10,7 @@ set -e
 # [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 base_packages=(
+    "alsa-utils"
     "arc-gtk-theme"
     "bat"
     "bspwm"
@@ -54,6 +55,8 @@ base_packages=(
     "ttf-hack"
     "vifm"
     "vlc"
+    "xorg-xbacklight"
+    "xorg-xsetroot"
     "yarn"
     "youtube-dl"
     "zathura"

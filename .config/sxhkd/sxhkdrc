@@ -184,7 +184,28 @@ super + {_, shift +}v
 super + {_, shift +}e
     {$TERMINAL -e ranger,nemo}
 
-# TODO: 
-# screenshots
+#
+# special keys
+#
 
-# TODO: scratchpads
+XF86AudioLowerVolume
+    amixer -q set Master 5%-
+
+XF86AudioRaiseVolume
+    amixer -q set Master 5%+ on
+
+XF86AudioMute
+    amixer -q set Master toggle
+
+XF86MonBrightnessDown
+    xbacklight -dec 5
+
+XF86MonBrightnessUp
+    xbacklight -inc 5
+
+# TODO: audio controls
+# XF86AudioPlay
+# XF86AudioPrev
+# XF86AudioNext
+
+# TODO: screenshots
