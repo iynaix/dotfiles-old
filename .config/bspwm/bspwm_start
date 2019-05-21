@@ -1,0 +1,35 @@
+#!/bin/sh
+
+termclass="xst-256color"
+browserclass="Google-chrome-unstable"
+
+webworkspace=1
+dlworkspace=10
+listworkspace=8
+fileworkspace=3
+termworkspace=6
+
+# pointer
+xsetroot -cursor_name left_ptr &
+
+# web browsers on workspace 1
+bspc rule -a $browserclass -o desktop=$webworkspace follow=on &
+google-chrome-unstable --incognito &
+
+bspc rule -a $browserclass -o desktop=$webworkspace &
+google-chrome-unstable &
+
+# workflowy
+bspc rule -a WorkFlowy -o desktop=$listworkspace &
+env DESKTOPINTEGRATION=0 /opt/WorkFlowy-x86_64.AppImage &
+
+# downloads workspace
+bspc rule -a Transmission-gtk -o desktop=$dlworkspace &
+transmission-gtk &
+
+# terminal workspaces
+bspc rule -a "ranger" -o desktop=$fileworkspace &
+$TERMINAL -c ranger -e ranger ~/Downloads &
+
+bspc rule -a $termclass -o desktop=$termworkspace follow=on &
+$TERMINAL &

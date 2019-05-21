@@ -12,6 +12,7 @@ set -e
 base_packages=(
     "arc-gtk-theme"
     "bat"
+    "bspwm"
     "code"
     "curl"
     "dunst"
@@ -46,6 +47,7 @@ base_packages=(
     "smplayer-skins"
     "smplayer-themes"
     "sxiv"
+    "sxhkd"
     "tidy"
     "tmux"
     "ttf-freefont"
@@ -99,6 +101,7 @@ fi
 if [ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]; then
     echo "Bootstrapping spaceship-prompt..."
     git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
+    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 fi
 
 if command -v nvim >/dev/null 2>&1; then
