@@ -28,6 +28,7 @@ base_packages=(
     "ipython"
     "libreoffice-fresh"
     "mpv"
+    "neofetch"
     "neovim"
     "network-manager-applet"
     "nodejs"

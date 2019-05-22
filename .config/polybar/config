@@ -21,12 +21,12 @@ module-margin-left = 0
 module-margin-right = 0
 
 font-0 = Noto Sans:size=10;0
-font-1 = FontAwesome:size=10;1
-font-2 = siji:pixelsize=10;0
+font-1 = Fura Code Nerd Font:size=10;1
 
+modules-left = bspwm_ind
 modules-center = bspwm
 ; modules-right = battery volume mpd date
-modules-right = volume date
+modules-right = lan volume date
 
 ;tray-position = right
 ;tray-padding = 2
@@ -55,9 +55,9 @@ module-margin-left = 0
 module-margin-right = 0
 
 font-0 = Noto Sans:size=10;0
-font-1 = FontAwesome:size=10;1
-font-2 = siji:pixelsize=10;0
+font-1 = Fura Code Nerd Font:size=10;1
 
+modules-left = bspwm_ind
 modules-center = bspwm
 modules-right = date
 
@@ -88,11 +88,11 @@ module-margin-left = 0
 module-margin-right = 0
 
 font-0 = Noto Sans:size=10;0
-font-1 = FontAwesome:size=10;1
-font-2 = siji:pixelsize=10;0
+font-1 = Fura Code Nerd Font:size=10
 
+modules-left = bspwm_ind
 modules-center = bspwm
-modules-right = volume backlight battery date
+modules-right = wlan volume backlight battery date
 ; modules-right = battery volume mpd date
 
 ;tray-position = right
@@ -111,16 +111,18 @@ enable-click = true
 enable-scroll = false
 
 ws-icon-0 = 1;
-ws-icon-1 = 2;
+ws-icon-1 = 2;
 ws-icon-2 = 3;
-ws-icon-3 = 6;
-ws-icon-4 = 8;
-ws-icon-5 = 9;
-ws-icon-6 = 10;
-; ws-icon-4 = music;
-ws-icon-default = 
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
+ws-icon-default = 
 
-format = <label-state> <label-mode>
+format = <label-state>
 
 label-focused = %icon%
 label-focused-background = #88000000
@@ -137,10 +139,41 @@ label-empty = %icon%
 label-empty-foreground = #44ffffff
 label-empty-padding = 4
 
-[module/xwindow]
-type = internal/xwindow
-label = %title:0:120:...%
-label-padding = 4
+[module/bspwm_ind]
+type = internal/bspwm
+
+format = <label-mode>
+
+label-focused = %icon%
+label-focused-background = #88000000
+label-focused-underline= #ddd
+label-focused-padding = 4
+
+label-occupied = %icon%
+label-occupied-padding = 4
+
+label-urgent = %icon%
+label-urgent-padding = 4
+
+label-monocle = 
+label-monocle-background = #88000000
+label-monocle-underline= #ddd
+label-monocle-padding = 4
+
+label-fullscreen = 
+label-fullscreen-background = #88000000
+label-fullscreen-underline= #ddd
+label-fullscreen-padding = 4
+
+label-sticky = 
+label-sticky-background = #88000000
+label-sticky-underline= #ddd
+label-sticky-padding = 4
+
+label-floating = 
+label-floating-background = #88000000
+label-floating-underline= #ddd
+label-floating-padding = 4
 
 [module/date]
 type = internal/date
@@ -150,7 +183,7 @@ interval = 1.0
 
 ; See "man date" for details on how to format the date string
 ; NOTE: if you want to use syntax tags here you need to use %%{...}
-date = %a %b %d, 
+date = %a %b %d
 
 ; Optional time format
 time = %H:%M
@@ -158,14 +191,11 @@ time = %H:%M
 ; if `date-alt` or `time-alt` is defined, clicking
 ; the module will toggle between formats
 ; date-alt = %A, %d %B %Y
-time-alt = %H:%M:%S
+time-alt = %a %b %d 
 
 ; label = %date% %time%
 label = %time%
-format =    <label>
-;format-background = #ddffffff
-;format-background = #8000000
-;format-foreground = #333
+format =  <label>
 format-padding = 3
 
 [module/padding]
@@ -275,3 +305,23 @@ format-online =    <label-song>
 ; Default: %artist% - %title%
 label-song = %title%
 format-online-padding = 3
+
+[module/lan]
+type = internal/network
+
+interface = enp0s31f6
+
+interval = 1
+
+label-connected = 
+label-disconnected =  Not Connected
+
+[module/wlan]
+type = internal/network
+
+interface = wlp2s0
+
+interval = 1
+
+label-connected =  %essid%
+label-disconnected =  Not Connected
