@@ -1,7 +1,8 @@
 ; vim: ft=dosini
 
-[bar/primary]
-monitor = DP-2
+; MODULES
+
+[bar/base]
 width = 100%
 height = 30
 offset-x = 0
@@ -14,7 +15,6 @@ foreground = #eee
 underline-size = 2
 underline-color = #eee
 
-spacing = 1
 padding-left = 0
 padding-right = 0
 module-margin-left = 0 
@@ -22,84 +22,38 @@ module-margin-right = 0
 
 font-0 = Noto Sans:size=10;0
 font-1 = Fura Code Nerd Font:size=10;1
+
+;tray-position = right
+;tray-padding = 2
+;tray-background = #66333333
+
+wm-restack = bspwm
+
+[bar/primary]
+inherit = bar/base
+monitor = DP-2
 
 modules-left = bspwm_ind
 modules-center = bspwm
 ; modules-right = battery volume mpd date
 modules-right = lan volume date
 
-;tray-position = right
-;tray-padding = 2
-;tray-background = #66333333
-
-wm-restack = bspwm
-
 [bar/secondary]
+inherit = bar/base
 monitor = DP-0.8
-width = 100%
-height = 30
-offset-x = 0
-offset-y = 0
-
-;background = #5a000000
-background = #66000000
-foreground = #eee
-
-underline-size = 2
-underline-color = #eee
-
-spacing = 1
-padding-left = 0
-padding-right = 0
-module-margin-left = 0 
-module-margin-right = 0
-
-font-0 = Noto Sans:size=10;0
-font-1 = Fura Code Nerd Font:size=10;1
 
 modules-left = bspwm_ind
 modules-center = bspwm
 modules-right = date
 
-;tray-position = right
-;tray-padding = 2
-;tray-background = #66333333
-
-wm-restack = bspwm
-
 [bar/laptop]
+inherit = bar/base
 monitor = eDP1
-width = 100%
-height = 30
-offset-x = 0
-offset-y = 0
-
-;background = #5a000000
-background = #66000000
-foreground = #eee
-
-underline-size = 2
-underline-color = #eee
-
-spacing = 1
-padding-left = 0
-padding-right = 0
-module-margin-left = 0 
-module-margin-right = 0
-
-font-0 = Noto Sans:size=10;0
-font-1 = Fura Code Nerd Font:size=10
 
 modules-left = bspwm_ind
 modules-center = bspwm
 modules-right = wlan volume backlight battery date
 ; modules-right = battery volume mpd date
-
-;tray-position = right
-;tray-padding = 2
-;tray-background = #66333333
-
-wm-restack = bspwm
 
 ; MODULES
 
@@ -258,7 +212,7 @@ type = internal/alsa
 format-volume = <ramp-volume>  <label-volume>
 format-muted = <label-muted>
 label-volume = %percentage%
-label-muted =   muted
+label-muted = 
 label-muted-foreground = #aaa
 format-volume-padding = 3
 format-muted-padding = 3
@@ -295,7 +249,7 @@ interval = 2
 ;   <icon-next>
 ;   <icon-seekb>
 ;   <icon-seekf>
-format-online =    <label-song>
+format-online =  <label-song>
 
 ; Available tokens:
 ;   %artist%
@@ -314,7 +268,8 @@ interface = enp0s31f6
 interval = 1
 
 label-connected = 
-label-disconnected =  Not Connected
+label-disconnected = 
+
 
 [module/wlan]
 type = internal/network
@@ -323,5 +278,5 @@ interface = wlp2s0
 
 interval = 1
 
-label-connected =  %essid%
-label-disconnected =  Not Connected
+label-connected = 直%essid%
+label-disconnected = 睊

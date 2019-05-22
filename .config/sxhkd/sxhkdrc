@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + d
-    rofi -combi-modi drun,run -show combi -modi combi
+	rofi -combi-modi drun,run -show combi -modi combi
 
 # reload bspwm
 ctrl + shift + Escape
@@ -18,9 +18,9 @@ ctrl + shift + Escape
 # bspwm hotkeys
 #
 
-# TODO: rofi shutdown actions menu
+# rofi shutdown actions menu
 ctrl + alt + Delete
-    rofi-powermenu
+	rofi-powermenu
 
 # close and kill
 super + {_,shift +}BackSpace
@@ -48,7 +48,7 @@ super + {t,shift + space,f}
 
 # set the node flags
 super + ctrl + {m,y}
-    bspc node -g {marked,,sticky}
+	bspc node -g {marked,,sticky}
 
 #
 # focus/swap
@@ -62,23 +62,23 @@ super + {_,shift + }{h,j,k,l}
 super + {_,shift + }c
 	bspc node -f {next,prev}.local
 
-# # focus the next/previous desktop in the current monitor
-# super + bracket{left,right}
-# 	bspc desktop -f {prev,next}.local
+# focus the previous / next desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
 
 # focus the previous / next monitor
-super + bracket{left,right}
+super + shift + bracket{left,right}
 	bspc monitor -f {prev,next}
-    
+
 # move to the previous / next monitor
 super + shift + bracket{left,right}
 	bspc node -m {prev,next}
 
 # focus the older or newer node in the focus history
-# super + {o,i}
-# 	bspc wm -h off; \
-# 	bspc node {older,newer} -f; \
-# 	bspc wm -h on
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
 
 # focus or send to the given desktop
 # super + {_,shift + }{1-9,0}
@@ -86,8 +86,8 @@ super + shift + bracket{left,right}
 
 # focus given desktop, also does i3 inspired workspace back and forth
 super + {1-9,0}
-    desktop='{1-9,10}'; \
-    bspc query -D -d "$desktop.focused" && bspc desktop -f last || bspc desktop -f "$desktop"
+	desktop='{1-9,10}'; \
+	bspc query -D -d "$desktop.focused" && bspc desktop -f last || bspc desktop -f "$desktop"
 
 # send to given desktop
 super + shift + {1-9,0}
@@ -95,7 +95,7 @@ super + shift + {1-9,0}
 
 # rotate nodes
 super + {_,shift +}r
-    bspc node @/ -R {90,270}
+	bspc node @/ -R {90,270}
 
 #
 # preselect
@@ -135,37 +135,37 @@ super + {Left,Down,Up,Right}
 
 # adjust inner gaps
 super + g : {k,j}
-    new_gap=$(( $(bspc config window_gap) {+,-} 5 )); \
-    bspc config window_gap $((new_gap >= 0 ? new_gap : 0))
+	new_gap=$(( $(bspc config window_gap) {+,-} 5 )); \
+	bspc config window_gap $((new_gap >= 0 ? new_gap : 0))
 
 # adjust outer gaps
 super + g : {h,l}
-    bar_height=30; \
-    padding=$(( $(bspc config left_padding) {+,-} 5 )); \
-    bspc config left_padding $((padding >= 0 ? padding : 0)); \
-    bspc config right_padding $((padding >= 0 ? padding : 0)); \
-    bspc config bottom_padding $((padding >= 0 ? padding : 0)); \
-    bspc config top_padding $((padding >= 0 ? bar_height + padding : bar_height));
+	bar_height=30; \
+	padding=$(( $(bspc config left_padding) {+,-} 5 )); \
+	bspc config left_padding $((padding >= 0 ? padding : 0)); \
+	bspc config right_padding $((padding >= 0 ? padding : 0)); \
+	bspc config bottom_padding $((padding >= 0 ? padding : 0)); \
+	bspc config top_padding $((padding >= 0 ? bar_height + padding : bar_height));
 
 # reset all gaps
 super + g : equal
-    window_gap=10; \
-    bar_height=30; \
-    padding=10; \
-    bspc config window_gap $window_gap; \
-    bspc config left_padding $padding; \
-    bspc config right_padding $padding; \
-    bspc config bottom_padding $padding; \
-    bspc config top_padding $((padding + bar_height))
+	window_gap=10; \
+	bar_height=30; \
+	padding=10; \
+	bspc config window_gap $window_gap; \
+	bspc config left_padding $padding; \
+	bspc config right_padding $padding; \
+	bspc config bottom_padding $padding; \
+	bspc config top_padding $((padding + bar_height))
 
 # gapless
 super + shift + g
-    bar_height=30; \
-    bspc config window_gap 0; \
-    bspc config left_padding 0; \
-    bspc config right_padding 0; \
-    bspc config bottom_padding 0; \
-    bspc config top_padding $((bar_height))
+	bar_height=30; \
+	bspc config window_gap 0; \
+	bspc config left_padding 0; \
+	bspc config right_padding 0; \
+	bspc config bottom_padding 0; \
+	bspc config top_padding $((bar_height))
 
 
 #
@@ -174,34 +174,34 @@ super + shift + g
 
 # browser
 super + {_, shift +}w
-    google-chrome-unstable {_,--incognito}
+	google-chrome-unstable {_,--incognito}
 
 # code editors
 super + {_, shift +}v
-    {$TERMINAL -e nvim,code}
+	{$TERMINAL -e nvim,code}
 
 # file browser (TODO: change nemo to spacefm?)
 super + {_, shift +}e
-    {$TERMINAL -e ranger,nemo}
+	{$TERMINAL -e ranger,nemo}
 
 #
 # special keys
 #
 
 XF86AudioLowerVolume
-    amixer -q set Master 5%-
+	amixer -q set Master 5%-
 
 XF86AudioRaiseVolume
-    amixer -q set Master 5%+ on
+	amixer -q set Master 5%+ on
 
 XF86AudioMute
-    amixer -q set Master toggle
+	amixer -q set Master toggle
 
 XF86MonBrightnessDown
-    xbacklight -dec 5
+	xbacklight -dec 5
 
 XF86MonBrightnessUp
-    xbacklight -inc 5
+	xbacklight -inc 5
 
 # TODO: audio controls
 # XF86AudioPlay
