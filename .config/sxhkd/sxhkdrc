@@ -48,7 +48,7 @@ super + {t,shift + space,f}
 
 # set the node flags
 super + ctrl + {m,y}
-	bspc node -g {marked,,sticky}
+	bspc node -g {marked,sticky}
 
 #
 # focus/swap
@@ -89,9 +89,11 @@ super + {1-9,0}
 	desktop='{1-9,10}'; \
 	bspc query -D -d "$desktop.focused" && bspc desktop -f last || bspc desktop -f "$desktop"
 
-# send to given desktop
+# send to given desktop, then move and focus that node
 super + shift + {1-9,0}
-	bspc node -d '{1-9,10}'
+    wid=$(bspc query -N -n); \
+    bspc node -d '{1-9,10}'; \
+    bspc node -f ${wid}
 
 # rotate nodes
 super + {_,shift +}r
