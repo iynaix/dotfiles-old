@@ -13,7 +13,8 @@ fi
 
 bspc config automatic_scheme longest_side
 
-active="#676e7d"
+normal="#30302f"
+active="#30302f"
 focused="#4491ed"
 bar_height=30
 padding=15
@@ -29,7 +30,7 @@ bspc config left_padding         $padding
 bspc config right_padding        $padding
 bspc config bottom_padding       $padding
 
-bspc config presel_feedback_color   $active
+bspc config presel_feedback_color   $focused
 bspc config split_ratio             0.5
 bspc config focus_follows_pointer   true
 # smart gaps

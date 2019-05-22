@@ -4,9 +4,10 @@ termclass="xst-256color"
 browserclass="Google-chrome-unstable"
 
 webworkspace=1
-listworkspace=8
 fileworkspace=3
 termworkspace=6
+listworkspace=8
+dlworkspace=10
 
 # set wallpaper
 if xrandr | grep "eDP1 connected"; then
@@ -18,7 +19,9 @@ fi
 # start compton
 compton -b &
 
-# web browsers on workspace 1
+# TODO: receptacles on web and downloads workspaces
+
+# web browsers
 bspc rule -a $browserclass -o desktop=$webworkspace follow=on &
 google-chrome-unstable --incognito &
 
@@ -34,9 +37,15 @@ if ! xrandr | grep -q "eDP1 connected"; then
     transmission-gtk &
 fi
 
+bspc rule -a $termclass:dltxt -o desktop=$dlworkspace &
+$TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
+
+bspc rule -a $termclass:dlterm -o desktop=$dlworkspace &
+$TERMINAL -n dlterm &
+
 # terminal workspaces
-bspc rule -a "ranger" -o desktop=$fileworkspace &
-$TERMINAL -c ranger -e ranger ~/Downloads &
+bspc rule -a $termclass:ranger -o desktop=$fileworkspace &
+$TERMINAL -n ranger -e ranger ~/Downloads &
 
 bspc rule -a $termclass -o desktop=$termworkspace follow=on &
 $TERMINAL &

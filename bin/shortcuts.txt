@@ -11,5 +11,5 @@ pc=~/projects/coinfc
 pcb=~/projects/coinfc-backend
 pe=~/projects/ergodox-layout
 D=~/Downloads
-dt=~/Downloads/pending
+dp=~/Downloads/pending
 du=~/Downloads/Unsorted
