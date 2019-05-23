@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+import bspc
+
+# set window back to normal tiling status
+node_info = bspc.tree("--node", "focused")
+if node_info["client"]["state"] == "floating" and node_info["sticky"]:
+    bspc.node("--state", "~floating", "--flag", "sticky=off", "--layer", "normal")
+    exit()
+
+
+# set window to picture in picture mode
+bspc.node("--state", "floating", "--flag", "sticky=on", "--layer", "above")
+
+# set dimensions of pip window
+bspc.resize_window(0.2, 0.2)
+
+# move window to bottom right
+bspc.move_window_to_corner("bottom-right", padding=10)
