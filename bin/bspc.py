@@ -71,11 +71,9 @@ def resize_window(target_w, target_h):
     node("--resize", "bottom_right", target_w - win["w"], target_h - win["h"])
 
 
-def move_window_to_corner(loc=None, *, padding=0):
+def move_window_to_corner(loc=None, *, pad_x=0, pad_y=0):
     mon = monitor_geometry()
     win = window_geometry()
-
-    pad_x = 0
 
     if loc is None or loc == "center":
         loc = "center-center"
@@ -83,21 +81,21 @@ def move_window_to_corner(loc=None, *, padding=0):
 
     if hori == "left":
         dx = mon["x"] - win["x"]
-        pad_x += padding
     elif hori == "center":
         dx = mon["x"] + mon["w"] / 2 - win["w"] / 2 - win["x"]
+        pad_x = 0
     elif hori == "right":
         dx = mon["x"] + mon["w"] - win["w"] - win["x"]
-        pad_x -= padding
+        pad_x = -pad_x
 
     if vert == "top":
         dy = mon["y"] - win["y"]
-        pad_y = BAR_HEIGHT + padding
+        pad_y = BAR_HEIGHT + pad_y
     elif vert == "center":
         dy = mon["y"] + mon["h"] / 2 - win["h"] / 2 - win["y"]
         pad_y = BAR_HEIGHT
     elif vert == "bottom":
         dy = mon["y"] + mon["h"] - win["h"] - win["y"]
-        pad_y = -padding
+        pad_y = -pad_y
 
     node("--move", int(dx + pad_x), int(dy + pad_y))

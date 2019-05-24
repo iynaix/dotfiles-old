@@ -5,7 +5,7 @@ browserclass="Google-chrome-unstable"
 
 webworkspace=1
 fileworkspace=3
-termworkspace=6
+sectermworkspace=7
 listworkspace=8
 dlworkspace=10
 
@@ -47,5 +47,5 @@ $TERMINAL -n dlterm &
 bspc rule -a $termclass:ranger -o desktop=$fileworkspace &
 $TERMINAL -n ranger -e ranger ~/Downloads &
 
-bspc rule -a $termclass -o desktop=$termworkspace follow=on &
-$TERMINAL &
+bspc rule -a $termclass:initialterm -o desktop=$sectermworkspace follow=on &
+$TERMINAL -n initialterm &
