@@ -79,8 +79,9 @@ super + shift + bracket{left,right}
 	bspc monitor -f {prev,next}
 
 # move to the previous / next monitor
-super + shift + bracket{left,right}
-	bspc node -m {prev,next}
+super + ctrl + bracket{left,right}
+    othermondesktop=$(bspc query -D -m {prev,next} -d '.active' --names); \
+    bspc node -d $othermondesktop
 
 # focus the last node/desktop
 # super + {grave,Tab}

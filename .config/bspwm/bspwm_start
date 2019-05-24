@@ -1,12 +1,13 @@
 #!/bin/sh
 
-termclass="st"
+termclass="St"
 browserclass="Google-chrome-unstable"
 
 webworkspace=1
 fileworkspace=3
 sectermworkspace=7
 listworkspace=8
+chatworkspace=9
 dlworkspace=10
 
 # set wallpaper
@@ -42,6 +43,9 @@ $TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
 
 bspc rule -a $termclass:dlterm -o desktop=$dlworkspace &
 $TERMINAL -n dlterm &
+
+# chatworkspace
+# google-chrome-unstable --app=https://web.whatsapp.com &
 
 # terminal workspaces
 bspc rule -a $termclass:ranger -o desktop=$fileworkspace &

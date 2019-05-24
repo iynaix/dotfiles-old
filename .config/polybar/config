@@ -279,5 +279,5 @@ interface = wlp2s0
 
 interval = 1
 
-label-connected = 直%essid%
+label-connected = 直  %essid%
 label-disconnected = 睊

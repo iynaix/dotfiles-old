@@ -43,8 +43,9 @@ bspc config pointer_modifier mod4
 bspc config pointer_action1 move
 bspc config pointer_action2 resize_corner
 
-bspc rule -a discord desktop=9 follow=on
 bspc rule -a Code desktop=2 follow=on
+bspc rule -a *:web.whatsapp.com desktop=9
+bspc rule -a discord desktop=9 follow=on
 bspc rule -a Filezilla desktop=10
 bspc rule -a Transmission-gtk desktop=10
 
