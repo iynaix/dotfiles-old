@@ -77,13 +77,13 @@ aur_packages=(
     "ngrok"
     "polybar"
     "rar"
+    "st-luke-git"
     "stellar"
     "subliminal"
     "ttf-clear-sans"
     "ttf-emojione"
     "ttf-font-awesome-4"
     "vivaldi"
-    "xst"
 )
 
 echo "## Installing Base Packages..."

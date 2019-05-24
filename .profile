@@ -1,7 +1,7 @@
 # set default variables
 export PATH="$PATH:$HOME/bin"
 export EDITOR="nvim"
-export TERMINAL="xst"
+export TERMINAL="st"
 
 # start bspwm if not already running
 # [ "$(tty)" = "/dev/tty1" ] && ! pgrep -x bspwm >/dev/null && exec startx
