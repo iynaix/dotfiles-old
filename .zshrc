@@ -104,7 +104,7 @@ if [ -f /etc/profile.d/fzf.zsh ]; then
 fi
 
 # load shortcut aliases
-[ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
+[ -f "$HOME/.shortcutrc" ] && source "$HOME/.shortcutrc"
 
 ##################################################
 # ALIASES
@@ -170,7 +170,7 @@ alias gpc='gp origin "$( git rev-parse --abbrev-ref HEAD )"'
 alias groot='cd $(git rev-parse --show-toplevel)'
 # pretty git logging, stolen from Gary Bernhardt
 alias gri='git rebase --interactive'
-alias gst="git status -s -b && echo && gr -1 | head -n 1"
+alias gst="git status -s -b && echo && git log | head -n 1"
 alias gsub="git submodule update --init --recursive"
 # access github page for the repo we are currently in
 alias github="open \`git remote -v | grep github.com | grep fetch | head -1 | awk '{print $2}' | sed 's/git:/http:/git'\`"

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-termclass="Xst"
+# termclass="St"
+termclass="xst-256color"
 browserclass="Google-chrome-unstable"
 
 webworkspace=1

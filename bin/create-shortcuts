@@ -26,7 +26,7 @@ def comment_block(lines):
 def shell_shortcuts(shortcuts):
     ret = []
     for name, dest in shortcuts.items():
-        ret.append(f'alias {name}=cd "{dest}"')
+        ret.append(f'alias {name}="cd {dest}"')
     return comment_block(ret)
 
 
