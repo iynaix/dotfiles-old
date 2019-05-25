@@ -5,17 +5,17 @@ Xft.rgba: rgb
 Xft.autohint: false
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
-         
+
 *.font: FuraCode Nerd Font Mono:Medium:size=11
 *.bold_font: FuraCode Nerd Font Mono:Bold:size=11
 
-st.alpha: 1
-
-*.cursorColor: #f3f3f3
-*.cursorfg: #f3f3f3
+! blinking cursor
+! st.cursorshape: 1
+st.termname: st-256color
 
 *.background:     #011627
 *.foreground:     #d6deeb
+*.cursorColor: #f3f3f3
 
 ! black dark/light
 *.color0:        #011627

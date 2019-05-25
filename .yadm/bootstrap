@@ -77,7 +77,6 @@ aur_packages=(
     "ngrok"
     "polybar"
     "rar"
-    "st-luke-git"
     "stellar"
     "subliminal"
     "ttf-clear-sans"
