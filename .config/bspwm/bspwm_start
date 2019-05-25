@@ -1,6 +1,6 @@
 #!/bin/sh
 
-termclass="St"
+termclass="Xst"
 browserclass="Google-chrome-unstable"
 
 webworkspace=1

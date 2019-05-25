@@ -84,6 +84,7 @@ aur_packages=(
     "ttf-emojione"
     "ttf-font-awesome-4"
     "vivaldi"
+    "xst"
 )
 
 echo "## Installing Base Packages..."
