@@ -200,17 +200,6 @@ nnoremap J mzJ`z
 vnoremap < <gv
 vnoremap > >gv
 
-"Search the current file for the word under the cursor and display matches
-nnoremap <silent> ,gw
-     \ :vimgrep /<C-r><C-w>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:set nohls<CR>
-
-"Search the current file for the WORD under the cursor and display matches
-nnoremap <silent> ,gW
-     \ :vimgrep /<C-r><C-a>/ %<CR>:ccl<CR>:cwin<CR><C-W>J:set nohls<CR>
-
-"Swap two words
-nnoremap <silent> gw :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`'
-
 "Edit the vimrc file
 nnoremap <silent> <leader>ev :e $HOME/.vimrc<CR>
 nnoremap <silent> <leader>ez :e $HOME/.zshrc<CR>
@@ -218,17 +207,9 @@ au BufWritePost .vimrc source %
 
 set pastetoggle=<F12>
 
-"Copy to X CLIPBOARD
-nnoremap ,y "+y
-vnoremap ,y "+y
-"Cut to X CLIPBOARD
-nnoremap ,d "+d
-vnoremap ,d "+d
-"Paste from X CLIPBOARD
-nnoremap ,p "+gp
-vnoremap ,p "+gp
-nnoremap ,P "+gP
-vnoremap ,P "+gP
+" copy and paste to clipboard
+vnoremap <C-c> "+y
+map <C-p> "+P
 
 " Automatically jump to end of text you pasted:
 vnoremap <silent> y y`]
@@ -281,11 +262,6 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-"`a jumps to line and column marked with ma whereas typing 'a jumps to line in current file marked with ma.
-"'a is much more useful, so swap the maps
-nnoremap ' `
-nnoremap ` '
-
 " Unfuck my screen
 " nnoremap <c-l> :syntax sync fromstart<cr>:redraw!<cr>
 
@@ -300,16 +276,6 @@ cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>"
-
-"Toggle menu bar
-nnoremap <F10> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
-
-"View differences between the current buffer and the original file.
-"(Based on code from $VIMRUNTIME/vimrc_example.vim.)
-if !exists(":DiffOrig")
-    command DiffOrig vertical new | set buftype=nofile | read # | 0d_ | diffthis
-        \ | wincmd p | diffthis
-endif
 
 " closes the buffer without closing the window
 function! BufferDelete()
@@ -367,28 +333,6 @@ nnoremap j gj
 nnoremap gj j
 nnoremap k gk
 nnoremap gk k
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Visual Search
-" Search for visual highlighted text (similar to *)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" From http://got-ravings.blogspot.com/2008/07/vim-pr0n-visual-search-mappings.html
-
-" makes * and # work on visual mode too.
-function! s:VSetSearch(cmdtype)
-    let temp = @s
-    norm! gv"sy
-    let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-    let @s = temp
-endfunction
-
-xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
-
-" recursively vimgrep for word under cursor or selection if you hit leader-star
-nmap <leader>* :execute 'noautocmd vimgrep /\V' . substitute(escape(expand("<cword>"), '\'), '\n', '\\n', 'g') . '/ **'<CR>
-vmap <leader>* :<C-u>call <SID>VSetSearch()<CR>:execute 'noautocmd vimgrep /' . @/ . '/ **'<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ag.vim

@@ -14,6 +14,9 @@ def load_shortcuts():
             if line.startswith("#"):
                 continue
             shortcut, folder = line.strip().split("=")
+            if shortcut in ret:
+                print(f"Duplicate shortcut: {shortcut}!")
+                raise SystemExit()
             ret[shortcut] = folder
     return ret
 
@@ -60,3 +63,5 @@ if __name__ == "__main__":
 
     write_shortcuts(SHELL_SHORTCUTS_PATH, shortcuts, shell_shortcuts)
     write_shortcuts(RANGER_SHORTCUTS_PATH, shortcuts, ranger_shortcuts)
+
+    print("Successfully updated shortcuts.")
