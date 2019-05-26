@@ -155,8 +155,18 @@ set splitbelow
 "swap exists warning, damn annoying, edit anyway
 :au SwapExists * let v:swapchoice = 'e'
 
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>[6 q\<Esc>\\"
+    let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>[4 q\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>[2 q\<Esc>\\"
+else
+	let &t_SI = "\<Esc>[6 q"
+	let &t_SR = "\<Esc>[4 q"
+	let &t_EI = "\<Esc>[2 q"
+endif
+
 " Remove trailing whitespace from end of file
-" autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * :%s/\s\+$//e
 
 " automatically give executable permissions if file begins with #! and contains
 " '/bin/' in the path

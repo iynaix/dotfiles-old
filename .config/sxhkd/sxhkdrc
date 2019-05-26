@@ -60,7 +60,7 @@ super + shift + p
 
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}.local
+	bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
 # super + {p,b,comma,period}
@@ -72,18 +72,20 @@ super + p
 super + {_,shift + }Tab
 	bspc node -f {next,prev}.local
 
-# focus the previous / next desktop in the current monitor
-super + bracket{left,right}
-	bspc desktop -f {prev,next}.local
-
 # focus the previous / next monitor
-super + shift + bracket{left,right}
+super + bracket{left,right}
 	bspc monitor -f {prev,next}
 
-# move to the previous / next monitor
-super + ctrl + bracket{left,right}
+# move to the previous / next monitor, retains node focus
+super + shift + bracket{left,right}
+    wid=$(bspc query -N -n); \
     othermondesktop=$(bspc query -D -m {prev,next} -d '.active' --names); \
-    bspc node -d $othermondesktop
+    bspc node -d $othermondesktop; \
+    bspc node -f ${wid}
+
+# focus the previous / next desktop in the current monitor (DE style)
+ctrl + alt + {Left,Right}
+	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
 # super + {grave,Tab}
@@ -100,7 +102,7 @@ super + {1-9,0}
 	desktop='{1-9,10}'; \
 	bspc query -D -d "$desktop.focused" && bspc desktop -f last || bspc desktop -f "$desktop"
 
-# send to given desktop, then move and focus that node
+# send to given desktop, retains node focus
 super + shift + {1-9,0}
     wid=$(bspc query -N -n); \
     bspc node -d '{1-9,10}'; \
