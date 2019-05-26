@@ -218,9 +218,12 @@ XF86MonBrightnessDown
 XF86MonBrightnessUp
 	xbacklight -inc 5
 
+# screenshots
+super + shift + backslash
+    rofi-screenshot
+
 # TODO: audio controls
 # XF86AudioPlay
 # XF86AudioPrev
 # XF86AudioNext
 
-# TODO: screenshots

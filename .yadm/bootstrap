@@ -27,6 +27,7 @@ base_packages=(
     "htop"
     "ipython"
     "libreoffice-fresh"
+    "maim"
     "mpv"
     "neofetch"
     "neovim"
