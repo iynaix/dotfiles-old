@@ -280,5 +280,5 @@ interface = wlp2s0
 
 interval = 1
 
-label-connected = 直  %essid%
-label-disconnected = 睊
+label-connected = %{A:nm-connection-editor&:}直  %essid%%{A}
+label-disconnected = %{A:nm-connection-editor}睊%{A}
