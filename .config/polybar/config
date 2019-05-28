@@ -17,7 +17,7 @@ underline-color = #eee
 
 padding-left = 0
 padding-right = 0
-module-margin-left = 0 
+module-margin-left = 0
 module-margin-right = 0
 
 font-0 = Noto Sans:size=10;0
@@ -155,7 +155,7 @@ format-padding = 3
 
 [module/padding]
 type = custom/text
-content = 	 
+content =
 content-foreground = #00000000
 content-background = #55000000
 
@@ -228,7 +228,7 @@ type = internal/mpd
 
 host = 127.0.0.1
 port = 6600
-password = 
+password =
 
 ; Seconds to sleep between progressbar/song timer sync
 ; Default: 1
@@ -268,7 +268,7 @@ interface = enp0s31f6
 
 interval = 1
 
-label-connected = 
+label-connected =
 label-disconnected = 
 
 
@@ -279,5 +279,5 @@ interface = wlp2s0
 
 interval = 1
 
-label-connected = 直  %essid%
-label-disconnected = 睊
+label-connected = %{A:nm-connection-editor&:}直  %essid%%{A}
+label-disconnected = %{A:nm-connection-editor}睊%{A}
