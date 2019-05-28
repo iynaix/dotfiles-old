@@ -2,8 +2,8 @@
 
 _rofi() {
     rofi -sep '|' -columns 6 -lines 1 -disable-history true -cycle true \
-        -theme ~/.config/rofi/theme/rofi-simplemenu.rasi -width 80 -height 200 \
-        -dmenu -font "FuraCode Nerd Font 40" "$@"
+        -theme ~/.config/rofi/theme/rofi-simplemenu.rasi -width -30 \
+        -dmenu -font "FuraCode Nerd Font 30" "$@"
     }
 
 choice=$(echo "||||" | _rofi)
@@ -17,19 +17,19 @@ case "$choice" in
         xset dpms force off
         ;;
     )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='ClearSans' font='30' weight='bold'>Logging out. Are you sure?</span>")
+        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Logging out. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then
             bspc quit
         fi
         ;;
     )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='ClearSans' font='30' weight='bold'>Rebooting. Are you sure?</span>")
+        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Rebooting. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then
             systemctl reboot
         fi
         ;;
     )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='ClearSans' font='30' weight='bold'>Powering off. Are you sure?</span>")
+        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Powering off. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then
             systemctl poweroff
         fi

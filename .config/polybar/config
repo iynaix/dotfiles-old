@@ -1,6 +1,15 @@
 ; vim: ft=dosini
 
-; MODULES
+; COLORS
+[colors]
+; can't inherit with transparency, 60% transparency
+background = #99011627
+focused = #011627
+foreground = ${xrdb:foreground}
+empty = #4dd6deeb
+urgent = ${xrdb:color12}
+
+; BARS
 
 [bar/base]
 width = 100%
@@ -8,16 +17,15 @@ height = 30
 offset-x = 0
 offset-y = 0
 
-;background = #5a000000
-background = #66000000
-foreground = #eee
+background = ${colors.background}
+foreground = ${colors.foreground}
 
 underline-size = 2
-underline-color = #eee
+underline-color = ${colors.foreground}
 
 padding-left = 0
 padding-right = 0
-module-margin-left = 0 
+module-margin-left = 0
 module-margin-right = 0
 
 font-0 = Noto Sans:size=10;0
@@ -78,20 +86,20 @@ ws-icon-9 = 10;
 format = <label-state>
 
 label-focused = %icon%
-label-focused-background = #88000000
-label-focused-underline= #ddd
+label-focused-background = ${colors.focused}
+label-focused-underline= ${colors.foreground}
 label-focused-padding = 4
 
 label-occupied = %icon%
 label-occupied-padding = 4
 
 label-urgent = %icon%
-label-urgent-background= #82aaff
-label-urgent-underline= #82aaff
+label-urgent-background= ${colors.urgent}
+label-urgent-underline= ${colors.urgent}
 label-urgent-padding = 4
 
 label-empty = %icon%
-label-empty-foreground = #44ffffff
+label-empty-foreground = ${colors.empty}
 label-empty-padding = 4
 
 [module/bspwm_ind]
@@ -100,8 +108,8 @@ type = internal/bspwm
 format = <label-mode>
 
 label-focused = %icon%
-label-focused-background = #88000000
-label-focused-underline= #ddd
+label-focused-background = ${colors.focused}
+label-focused-underline= ${colors.background}
 label-focused-padding = 4
 
 label-occupied = %icon%
@@ -111,23 +119,23 @@ label-urgent = %icon%
 label-urgent-padding = 4
 
 label-monocle = 
-label-monocle-background = #88000000
-label-monocle-underline= #ddd
+label-monocle-background = ${colors.background}
+label-monocle-underline= ${colors.background}
 label-monocle-padding = 4
 
 label-fullscreen = 
-label-fullscreen-background = #88000000
-label-fullscreen-underline= #ddd
+label-fullscreen-background = ${colors.background}
+label-fullscreen-underline= ${colors.background}
 label-fullscreen-padding = 4
 
 label-sticky = 
-label-sticky-background = #88000000
-label-sticky-underline= #ddd
+label-sticky-background = ${colors.background}
+label-sticky-underline= ${colors.background}
 label-sticky-padding = 4
 
 label-floating = 
-label-floating-background = #88000000
-label-floating-underline= #ddd
+label-floating-background = ${colors.background}
+label-floating-underline= ${colors.background}
 label-floating-padding = 4
 
 [module/date]
@@ -152,12 +160,6 @@ time-alt = %a %b %d
 label = %time%
 format =  <label>
 format-padding = 3
-
-[module/padding]
-type = custom/text
-content = 	 
-content-foreground = #00000000
-content-background = #55000000
 
 [module/battery]
 type = internal/battery
@@ -211,10 +213,9 @@ ramp-4 = 🌑
 type = internal/alsa
 
 format-volume = <ramp-volume>  <label-volume>
-format-muted = <label-muted>
+format-muted = <label-muted>  0
 label-volume = %percentage%
 label-muted = 
-label-muted-foreground = #aaa
 format-volume-padding = 3
 format-muted-padding = 3
 
@@ -228,7 +229,7 @@ type = internal/mpd
 
 host = 127.0.0.1
 port = 6600
-password = 
+password =
 
 ; Seconds to sleep between progressbar/song timer sync
 ; Default: 1
@@ -268,7 +269,7 @@ interface = enp0s31f6
 
 interval = 1
 
-label-connected = 
+label-connected =
 label-disconnected = 
 
 
