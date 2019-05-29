@@ -23,8 +23,10 @@ ctrl + alt + Delete
 	rofi-powermenu
 
 # close and kill
-super + {_,shift +}BackSpace
-	bspc node -{c,k}
+# super + {_,shift + }BackSpace
+# 	bspc node -{c,k}
+super + BackSpace
+	bspc node -c
 
 # alternate between the tiled and monocle layout
 super + m
@@ -69,8 +71,6 @@ super + {_,shift + }{h,j,k,l}
 # focus the node for the given path jump
 # super + {p,b,comma,period}
 # 	bspc node -f @{parent,brother,first,second}
-super + p
-	bspc node -f @parent
 
 # focus the next/previous node in the current desktop
 super + {_,shift + }Tab
@@ -82,10 +82,11 @@ super + bracket{left,right}
 
 # move to the previous / next monitor, retains node focus
 super + shift + bracket{left,right}
-    wid=$(bspc query -N -n); \
-    othermondesktop=$(bspc query -D -m {prev,next} -d '.active' --names); \
-    bspc node -d $othermondesktop; \
-    bspc node -f ${wid}
+    bspc node -m {prev,next} --follow
+    # wid=$(bspc query -N -n); \
+    # othermondesktop=$(bspc query -D -m {prev,next} -d '.active' --names); \
+    # bspc node -d $othermondesktop; \
+    # bspc node -f ${wid}
 
 # focus the previous / next desktop in the current monitor (DE style)
 ctrl + alt + {Left,Right}
@@ -94,6 +95,8 @@ ctrl + alt + {Left,Right}
 # focus the last node/desktop
 # super + {grave,Tab}
 # 	bspc {node,desktop} -f last
+super + grave
+	bspc node -f last
 
 # focus the older or newer node in the focus history
 super + {o,i}
@@ -108,13 +111,11 @@ super + {1-9,0}
 
 # send to given desktop, retains node focus
 super + shift + {1-9,0}
-    wid=$(bspc query -N -n); \
-    bspc node -d '{1-9,10}'; \
-    bspc node -f ${wid}
+    bspc node -d '{1-9,10}' --follow
 
-# rotate nodes
-super + {_,shift +}r
-	bspc node @/ -R {90,270}
+# rotate parent / root
+super + {_, ctrl + }{_,shift + }r
+	bspc node {@parent,@/} -R {90,270}
 
 #
 # preselect
@@ -192,15 +193,15 @@ super + shift + slash
 #
 
 # browser
-super + {_, shift +}w
+super + {_, shift + }w
 	google-chrome-unstable {_,--incognito}
 
 # code editors
-super + {_, shift +}v
+super + {_, shift + }v
 	{$TERMINAL -e nvim,code}
 
 # file browser (TODO: change nemo to spacefm?)
-super + {_, shift +}e
+super + {_, shift + }e
 	{$TERMINAL -e ranger ~/Downloads,nemo}
 
 #

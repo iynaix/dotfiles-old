@@ -118,11 +118,6 @@ label-occupied-padding = 4
 label-urgent = %icon%
 label-urgent-padding = 4
 
-label-monocle = 
-label-monocle-background = ${colors.background}
-label-monocle-underline= ${colors.background}
-label-monocle-padding = 4
-
 label-fullscreen = 
 label-fullscreen-background = ${colors.background}
 label-fullscreen-underline= ${colors.background}

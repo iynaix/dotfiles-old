@@ -2,14 +2,14 @@
 
 # termclass="St"
 termclass="st-256color"
-browserclass="Google-chrome-unstable"
+chromeclass="Google-chrome-unstable"
 
-webworkspace=1
-fileworkspace=3
-sectermworkspace=7
-listworkspace=8
-chatworkspace=9
-dlworkspace=10
+webdesktop=1
+filedesktop=3
+sectermdesktop=7
+listdesktop=8
+chatdesktop=9
+dldesktop=10
 
 # setups for different machines
 if xrandr | grep "eDP1 connected"; then
@@ -25,36 +25,36 @@ fi
 # start compton
 compton -b &
 
-# TODO: receptacles on web and downloads workspaces
+# TODO: receptacles on web and downloads desktops
 
 # web browsers
-bspc rule -a $browserclass -o desktop=$webworkspace follow=on &
+bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
 google-chrome-unstable --incognito &
 
-bspc rule -a $browserclass -o desktop=$webworkspace &
+bspc rule -a $chromeclass -o desktop=$webdesktop &
 google-chrome-unstable &
 
 # workflowy
-bspc rule -a WorkFlowy -o desktop=$listworkspace &
+bspc rule -a WorkFlowy -o desktop=$listdesktop &
 env DESKTOPINTEGRATION=0 /opt/WorkFlowy-x86_64.AppImage &
 
-# downloads workspace
+# downloads desktop
 if ! xrandr | grep -q "eDP1 connected"; then
     transmission-gtk &
 fi
 
-bspc rule -a $termclass:dltxt -o desktop=$dlworkspace &
+bspc rule -a $termclass:dltxt -o desktop=$dldesktop &
 $TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
 
-bspc rule -a $termclass:dlterm -o desktop=$dlworkspace &
+bspc rule -a $termclass:dlterm -o desktop=$dldesktop &
 $TERMINAL -n dlterm &
 
-# chatworkspace
+# chatdesktop
 # google-chrome-unstable --app=https://web.whatsapp.com &
 
-# terminal workspaces
-bspc rule -a $termclass:ranger -o desktop=$fileworkspace &
+# terminal desktops
+bspc rule -a $termclass:ranger -o desktop=$filedesktop &
 $TERMINAL -n ranger -e ranger ~/Downloads &
 
-bspc rule -a $termclass:initialterm -o desktop=$sectermworkspace follow=on &
+bspc rule -a $termclass:initialterm -o desktop=$sectermdesktop follow=on &
 $TERMINAL -n initialterm &

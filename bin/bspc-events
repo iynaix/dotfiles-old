@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+import bspc
+import sys
+import os
+
+MONOCLE_FOCUS = "#c792ea"
+DEFAULT_FOCUS = "#4491ed"
+
+
+def handle_monocle(ev_name, mon_id, desk_id, tile_type):
+    """
+    change border focus of a monocle to indicate presence of other active
+    windows
+    """
+    focus_color = DEFAULT_FOCUS
+
+    if tile_type == "monocle":
+        # change focus color if not single monocle
+        nodes = bspc.query("--nodes", "--desktop", desk_id, "--node", ".leaf")
+        if len(nodes) > 1:
+            focus_color = MONOCLE_FOCUS
+
+    bspc.config("-d", desk_id, "focused_border_color", focus_color)
+
+
+while 1:
+    line = sys.stdin.readline()
+    if line.startswith("desktop_layout"):
+        handle_monocle(*line.split())

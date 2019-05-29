@@ -15,14 +15,24 @@ def _resize_to_aspect_ratio(width, height, aspect):
         return width, int(width / aspect)
 
 
+def config(*args):
+    args = [str(a) for a in ["bspc", "config", *args]]
+    return run(args)
+
+
 def node(*args):
     args = [str(a) for a in ["bspc", "node", *args]]
     return run(args)
 
 
+def query(*args):
+    args = [str(a) for a in ["bspc", "query", *args]]
+    return check_output(args).decode("ascii").splitlines()
+
+
 def tree(*args):
     args = [str(a) for a in ["bspc", "query", "--tree", *args]]
-    return json.loads(check_output(args).decode("utf-8"))
+    return json.loads(check_output(args).decode("ascii"))
 
 
 def monitor_geometry():
