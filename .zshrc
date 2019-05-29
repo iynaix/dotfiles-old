@@ -111,8 +111,8 @@ fi
 ##################################################
 alias :e="nvim"
 alias :q="exit"
-alias :sp="bspc node -p south; $TERMINAL"
-alias :vs="bspc node -p east; $TERMINAL"
+alias :sp="bspc node -p south; $TERMINAL & disown"
+alias :vs="bspc node -p east; $TERMINAL & disown"
 alias c="clear"
 alias cal="cal -3"
 alias calc='ipy -i -c "from math import *"'
