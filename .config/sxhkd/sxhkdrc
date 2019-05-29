@@ -40,9 +40,9 @@ super + y
 super + b
 	bspc node -s biggest.local
 
-# equalize size of windows at top level
-super + equal
-    bspc node @/ --balance
+# equalize size of windows at parent / root level
+super + {_,ctrl + }equal
+    bspc node {@parent,@/} --balance
 
 #
 # state/flags

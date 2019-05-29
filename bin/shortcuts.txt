@@ -1,5 +1,5 @@
 vv=~/Videos
-va=~/Videos/Anime
+vaa=~/Videos/Anime
 vac=~/Videos/Anime/Current
 vco=~/Videos/Courses
 vm=~/Videos/Movies

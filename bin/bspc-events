@@ -2,29 +2,74 @@
 
 import bspc
 import sys
-import os
 
-MONOCLE_FOCUS = "#c792ea"
-DEFAULT_FOCUS = "#4491ed"
+DEFAULT_FOCUS_COLOR = "#4491ed"
+MONOCLE_FOCUS_COLOR = "#c792ea"
+STICKY_FOCUS_COLOR = "#f78c6c"
+FLOATING_FOCUS_COLOR = "#22da6e"
 
 
-def handle_monocle(ev_name, mon_id, desk_id, tile_type):
+def set_monocle_border_color(layout, desk_id):
     """
     change border focus of a monocle to indicate presence of other active
     windows
     """
-    focus_color = DEFAULT_FOCUS
-
-    if tile_type == "monocle":
-        # change focus color if not single monocle
+    focus_color = DEFAULT_FOCUS_COLOR
+    if layout == "monocle":
+        # check for presence of other windows
         nodes = bspc.query("--nodes", "--desktop", desk_id, "--node", ".leaf")
         if len(nodes) > 1:
-            focus_color = MONOCLE_FOCUS
+            focus_color = MONOCLE_FOCUS_COLOR
 
-    bspc.config("-d", desk_id, "focused_border_color", focus_color)
+    bspc.config("focused_border_color", focus_color)
+    return focus_color
+
+
+def set_node_border_color(node_id):
+    focus_color = DEFAULT_FOCUS_COLOR
+    node_info = bspc.tree("--node", node_id)
+    if node_info["sticky"]:
+        focus_color = STICKY_FOCUS_COLOR
+    if node_info["client"]["state"] == "floating":
+        focus_color = FLOATING_FOCUS_COLOR
+
+    bspc.config("focused_border_color", focus_color)
+    return focus_color
+
+
+def handle_desktop_layout(mon_id, desk_id, tile_type):
+    set_monocle_border_color(tile_type, desk_id)
+
+
+def handle_node_focus(mon_id, desk_id, node_id):
+    desk_info = bspc.tree("--desktop", desk_id)
+
+    new_color = set_monocle_border_color(desk_info["layout"], desk_id)
+    # monocle color already changed, bail
+    if new_color != DEFAULT_FOCUS_COLOR:
+        return
+
+    set_node_border_color(node_id)
+
+
+def handle_node_state(mon_id, desk_id, node_id, node_state, val):
+    set_node_border_color(node_id)
+
+
+def handle_node_flag(mon_id, desk_id, node_id, node_flag, val):
+    set_node_border_color(node_id)
 
 
 while 1:
     line = sys.stdin.readline()
-    if line.startswith("desktop_layout"):
-        handle_monocle(*line.split())
+    [ev, *ev_args] = line.split()
+
+    print(ev, *ev_args)
+    if ev == "desktop_layout":
+        handle_desktop_layout(*ev_args)
+    elif ev == "node_focus":
+        handle_node_focus(*ev_args)
+    elif ev == "node_state":
+        handle_node_state(*ev_args)
+    elif ev == "node_flag":
+        handle_node_flag(*ev_args)

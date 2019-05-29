@@ -49,8 +49,8 @@ $TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
 bspc rule -a $termclass:dlterm -o desktop=$dldesktop &
 $TERMINAL -n dlterm &
 
-# chatdesktop
-# google-chrome-unstable --app=https://web.whatsapp.com &
+# chat desktop
+firefox-developer-edition --class=whatsapp https://web.whatsapp.com &
 
 # terminal desktops
 bspc rule -a $termclass:ranger -o desktop=$filedesktop &
@@ -58,3 +58,6 @@ $TERMINAL -n ranger -e ranger ~/Downloads &
 
 bspc rule -a $termclass:initialterm -o desktop=$sectermdesktop follow=on &
 $TERMINAL -n initialterm &
+
+# subscribe to bspc events
+bspc subscribe all | bspc-events

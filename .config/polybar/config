@@ -7,7 +7,7 @@ background = #99011627
 focused = #011627
 foreground = ${xrdb:foreground}
 empty = #4dd6deeb
-urgent = ${xrdb:color12}
+urgent = ${xrdb:color1}
 
 ; BARS
 
@@ -41,7 +41,7 @@ wm-restack = bspwm
 inherit = bar/base
 monitor = DP-2
 
-modules-left = bspwm_ind
+; modules-left = bspwm_ind
 modules-center = bspwm
 ; modules-right = battery volume mpd date
 modules-right = lan volume date
@@ -50,7 +50,7 @@ modules-right = lan volume date
 inherit = bar/base
 monitor = DP-0.8
 
-modules-left = bspwm_ind
+; modules-left = bspwm_ind
 modules-center = bspwm
 modules-right = date
 
@@ -58,7 +58,7 @@ modules-right = date
 inherit = bar/base
 monitor = eDP1
 
-modules-left = bspwm_ind
+; modules-left = bspwm_ind
 modules-center = bspwm
 modules-right = wlan volume backlight battery date
 ; modules-right = battery volume mpd date
