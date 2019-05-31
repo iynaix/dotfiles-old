@@ -9,67 +9,64 @@ STICKY_FOCUS_COLOR = "#f78c6c"
 FLOATING_FOCUS_COLOR = "#22da6e"
 
 
-def set_monocle_border_color(layout, desk_id):
-    """
-    change border focus of a monocle to indicate presence of other active
-    windows
-    """
-    focus_color = DEFAULT_FOCUS_COLOR
+def _set_focus_color(color):
+    bspc.config("focused_border_color", color)
+
+
+def _set_monocle_focus(desk_id):
+    desk_info = bspc.tree("--desktop", desk_id)
+    layout = desk_info["userLayout"]
+
+    # set color if monocle with other windows
     if layout == "monocle":
-        # check for presence of other windows
+        # any other windows?
         nodes = bspc.query("--nodes", "--desktop", desk_id, "--node", ".leaf")
         if len(nodes) > 1:
-            focus_color = MONOCLE_FOCUS_COLOR
+            _set_focus_color(MONOCLE_FOCUS_COLOR)
+            return True
 
-    bspc.config("focused_border_color", focus_color)
-    return focus_color
-
-
-def set_node_border_color(node_id):
-    focus_color = DEFAULT_FOCUS_COLOR
-    node_info = bspc.tree("--node", node_id)
-    if node_info["sticky"]:
-        focus_color = STICKY_FOCUS_COLOR
-    if node_info["client"]["state"] == "floating":
-        focus_color = FLOATING_FOCUS_COLOR
-
-    bspc.config("focused_border_color", focus_color)
-    return focus_color
+    return False
 
 
-def handle_desktop_layout(mon_id, desk_id, tile_type):
-    set_monocle_border_color(tile_type, desk_id)
-
-
-def handle_node_focus(mon_id, desk_id, node_id):
-    desk_info = bspc.tree("--desktop", desk_id)
-
-    new_color = set_monocle_border_color(desk_info["layout"], desk_id)
-    # monocle color already changed, bail
-    if new_color != DEFAULT_FOCUS_COLOR:
+def handle_border_color(ev, ev_args):
+    # wrong event, bail
+    if ev not in (
+            "desktop_layout",
+            "node_focus",
+            "node_state",
+            "node_flag",
+    ):
         return
 
-    set_node_border_color(node_id)
+    # as long as color is changed from default, bail early
+    mon_id, desk_id = ev_args[:2]
 
+    # bail for node state first
+    if ev == "desktop_layout":
+        if _set_monocle_focus(desk_id):
+            return
 
-def handle_node_state(mon_id, desk_id, node_id, node_state, val):
-    set_node_border_color(node_id)
+    else:
+        node_id = ev_args[2]
+        node_info = bspc.tree("--node", node_id)
 
+        if node_info["sticky"]:
+            _set_focus_color(STICKY_FOCUS_COLOR)
+            return
+        if node_info["client"]["state"] == "floating":
+            _set_focus_color(FLOATING_FOCUS_COLOR)
+            return
 
-def handle_node_flag(mon_id, desk_id, node_id, node_flag, val):
-    set_node_border_color(node_id)
+        # finally check monocle once again
+        if _set_monocle_focus(desk_id):
+            return
+
+    # no special settings, use default
+    _set_focus_color(DEFAULT_FOCUS_COLOR)
 
 
 while 1:
     line = sys.stdin.readline()
     [ev, *ev_args] = line.split()
 
-    print(ev, *ev_args)
-    if ev == "desktop_layout":
-        handle_desktop_layout(*ev_args)
-    elif ev == "node_focus":
-        handle_node_focus(*ev_args)
-    elif ev == "node_state":
-        handle_node_state(*ev_args)
-    elif ev == "node_flag":
-        handle_node_flag(*ev_args)
+    handle_border_color(ev, ev_args)
