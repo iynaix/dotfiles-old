@@ -1,0 +1,44 @@
+#!/usr/bin/bash
+
+# forces only a single instance of mpv to be opened
+
+wid=$(xdotool search --class mpv)
+
+# echo "1: $1, 2: $2"
+
+case "$1" in
+    open)
+        # replace current playing file
+        if [ $wid ]; then
+            cmd=$( jq -n \
+                --arg fname "$2" \
+                '{command: ["loadfile", $fname, "replace"]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+
+            # focus existing mpv window
+            bspc node --focus $wid
+        else
+            # open new instance
+            mpv --no-terminal -- "$2"
+        fi
+        ;;
+    pause)
+        # toggle pause
+        if [ $wid ]; then
+            cmd=$( jq -n \
+                '{command: ["cycle", "pause"]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+        fi
+        ;;
+    seek)
+        if [ $wid ]; then
+            cmd=$( jq -n \
+                --arg sk "$2"
+                '{command: ["seek", $2]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+        fi
+        ;;
+esac

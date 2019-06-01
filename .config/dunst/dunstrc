@@ -142,7 +142,7 @@
     startup_notification = false
 
     # dmenu path.
-    dmenu = /usr/bin/dmenu -p dunst:
+    dmenu = /usr/bin/rofi -p dunst:
 
     # Browser for opening urls in context menu.
     browser = google-chrome-unstable
@@ -176,7 +176,7 @@
     history = ctrl+mod4+h
 
     # Context menu.
-    context = ctrl+mod1+c
+    context = ctrl+mod1+period
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

@@ -187,6 +187,9 @@ super + shift + slash
 	bspc config bottom_padding 0; \
 	bspc config top_padding $((bar_height))
 
+# screenshots
+super + shift + backslash
+    rofi-screenshot
 
 #
 # launching programs
@@ -223,12 +226,11 @@ XF86MonBrightnessDown
 XF86MonBrightnessUp
 	xbacklight -inc 5
 
-# screenshots
-super + shift + backslash
-    rofi-screenshot
+# media control
+XF86AudioPlay
+    mpvctl pause
 
-# TODO: audio controls
-# XF86AudioPlay
+
 # XF86AudioPrev
 # XF86AudioNext
 
