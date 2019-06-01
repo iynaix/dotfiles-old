@@ -129,12 +129,11 @@ alias ll="ls -al"
 alias lns="ln -s"
 alias mergeclean="find . -type f -name '*.orig' -exec rm -f {} \;"
 alias open='xdg-open'
-alias qmv='qmv --format destination-only'
 alias r="ranger"
 alias py='python'
 alias showq="touch /tmp/q && tail -f /tmp/q"
 alias stopemacs="pkill -SIGUSR2 emacs"
-alias subs="subliminal download -l 'en' -s"
+alias subs="subliminal download -l 'en' -l 'eng' -s"
 alias todo="rg TODO"
 alias tree="exa --group-directories-first --color-scale --tree"
 alias vi=nvim
@@ -196,12 +195,7 @@ q() { "$@" > /dev/null 2>&1; }
 
 # system update with autoremove
 upd8() {
-    # http://www.reddit.com/r/LinuxActionShow/comments/32fv9i/easy_rollback_after_update_btrfs_and_grub/
-    # sudo btrfs subvolume snapshot -r / /.snapshots/`date -u +"%Y-%m-%dT%H:%M:%SZ"`
-    # update and auto remove
-    pacaur -Syyu --noedit && sudo pacman -Rs $(pacman -Qdtq)
-    # sudo mkinitcpio -p linux
-    # sudo grub-mkconfig -o /boot/efi/grub/grub.cfg
+    yay -Syyu && sudo pacman -Rs $(pacman -Qdtq)
 }
 
 # checkout and pull and merge gitflow branch

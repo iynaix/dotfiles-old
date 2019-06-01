@@ -20,7 +20,7 @@ case "$1" in
             bspc node --focus $wid
         else
             # open new instance
-            mpv --no-terminal -- "$2"
+            mpv --no-terminal --no-pause -- "$2"
         fi
         ;;
     pause)
