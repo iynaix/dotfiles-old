@@ -10,24 +10,29 @@ choice=$(echo "||||" | _rofi)
 
 case "$choice" in
     )
-        # TODO: mute all audio?
         betterlockscreen -l dimblur
+        mpvctl pause
+        # TODO: mute music
         ;;
+
     )
         xset dpms force off
         ;;
+
     )
         choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Logging out. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then
             bspc quit
         fi
         ;;
+
     )
         choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Rebooting. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then
             systemctl reboot
         fi
         ;;
+
     )
         choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Powering off. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then

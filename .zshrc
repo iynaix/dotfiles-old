@@ -62,7 +62,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git history-substring-search dotenv colorize virtualenvwrapper archlinux cp ripgrep command-not-found colored-man-pages yarn npm)
+plugins=(vi-mode git history-substring-search dotenv colorize virtualenvwrapper archlinux cp ripgrep command-not-found colored-man-pages yarn npm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -79,6 +79,11 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
 fi
+
+# don't show mode indicator for default insert mode
+# https://denysdovhan.com/spaceship-prompt/docs/Options.html#exit-code-exit_code
+SPACESHIP_VI_MODE_INSERT=''
+SPACESHIP_VI_MODE_COLOR='#21c7a8'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -328,47 +333,3 @@ _fab_list() {
     _describe -t commands "fabric commands" target_list
 }
 compdef _fab_list fab
-
-# shortcut for git bisect including setup
-# argument would be the refspec of the good commit
-gbisect () {
-    git bisect start
-    git bisect bad
-    git bisect good $*
-}
-
-#######################################################################
-# VIDEO RELATED
-#######################################################################
-
-# for converting wmv to avi
-wmv2avi () {
-    eval mencoder -ovc xvid -oac mp3lame -srate 44100 -af lavcresample=44100 -xvidencopts fixed_quant=4 $1 -o ${1%.*}.avi
-}
-
-# fixes the index of an avi file
-fixavi () {
-    eval mencoder -idx $1 -ovc copy -oac copy -o ${1%.*}_fixed.avi
-}
-
-# for joining avi files
-joinavi () {
-    if [[ $# -eq 1 ]]; then
-        echo "ERROR: Requires 2 or more input videos"
-    else
-        ffmpeg -f concat -i <(for f in $*; do echo "file '${f:a}'"; done) -c copy ${1%.*}_joined.avi
-    fi
-}
-
-# extract audio as an 320kbps mp3 file
-extractaudio() {
-    eval mencoder $1 -of rawaudio -oac mp3lame -ovc copy -o ${1%.*}.mp3
-}
-
-# retains only a single track, taking the first argument as the name of the file and the
-# audio track id as the second
-singleaudioavi() {
-    eval mencoder $1 -o ${1%.*}.avi -oac copy -ovc copy -aid $2
-}
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -23,7 +23,28 @@ case "$1" in
             mpv --no-terminal --no-pause -- "$2"
         fi
         ;;
+
+    play)
+        # always play
+        if [ $wid ]; then
+            cmd=$( jq -n \
+                '{command: ["set_property", "pause", false]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+        fi
+        ;;
+
     pause)
+        # always pause
+        if [ $wid ]; then
+            cmd=$( jq -n \
+                '{command: ["set_property", "pause", true]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+        fi
+        ;;
+
+    playpause)
         # toggle pause
         if [ $wid ]; then
             cmd=$( jq -n \
@@ -32,6 +53,17 @@ case "$1" in
             echo $cmd | socat - /tmp/mpvsocket
         fi
         ;;
+
+    smartpause)
+        # TODO: pause if mpv window is not visible
+        if [ $wid ]; then
+            cmd=$( jq -n \
+                '{command: ["set_property", "pause", true]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+        fi
+        ;;
+
     seek)
         if [ $wid ]; then
             cmd=$( jq -n \
