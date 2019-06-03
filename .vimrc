@@ -144,10 +144,6 @@ set ttyfast "set fast terminal for better redrawing
 
 set guifont=Fira\ Code\ Medium\ 11
 
-"Remove the toolbar with icons and the menubar
-set guioptions-=T
-set guioptions-=m
-
 "more natural splits
 set splitright
 set splitbelow
@@ -367,8 +363,8 @@ let splice_initial_scrollbind_path = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Airline (Statusbar)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:powerline_loaded = 0
-let g:airline_powerline_fonts = 1
+let g:powerline_loaded = 1
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1

@@ -16,6 +16,11 @@ case "$1" in
 
             echo $cmd | socat - /tmp/mpvsocket
 
+            cmd=$( jq -n \
+                '{command: ["set_property", "pause", false]}' )
+
+            echo $cmd | socat - /tmp/mpvsocket
+
             # focus existing mpv window
             bspc node --focus $wid
         else

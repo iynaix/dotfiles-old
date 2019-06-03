@@ -49,8 +49,8 @@ super + {_,ctrl + }equal
 #
 
 # set the window state
-super + {t,shift + space,f}
-	bspc node -t '~{tiled,floating,fullscreen}'
+super + {space,f}
+	bspc node -t '~{floating,fullscreen}'
 
 # set the node flags
 super + ctrl + {m,y}
@@ -167,25 +167,26 @@ super + slash : {h,l}
 	bspc config bottom_padding $((padding >= 0 ? padding : 0)); \
 	bspc config top_padding $((padding >= 0 ? bar_height + padding : bar_height));
 
-# reset all gaps
-super + slash : equal
-	window_gap=10; \
-	bar_height=30; \
-	padding=10; \
-	bspc config window_gap $window_gap; \
-	bspc config left_padding $padding; \
-	bspc config right_padding $padding; \
-	bspc config bottom_padding $padding; \
-	bspc config top_padding $((padding + bar_height))
-
-# gapless
+# toggle default gaps / gapless
 super + shift + slash
-	bar_height=30; \
-	bspc config window_gap 0; \
-	bspc config left_padding 0; \
-	bspc config right_padding 0; \
-	bspc config bottom_padding 0; \
-	bspc config top_padding $((bar_height))
+    curr_gap=$(bspc config window_gap); \
+    if [ $curr_gap -eq 0 ]; then; \
+        window_gap=10; \
+        bar_height=30; \
+        padding=10; \
+        bspc config window_gap $window_gap; \
+        bspc config left_padding $padding; \
+        bspc config right_padding $padding; \
+        bspc config bottom_padding $padding; \
+        bspc config top_padding $((padding + bar_height)); \
+    else; \
+        bar_height=30; \
+        bspc config window_gap 0; \
+        bspc config left_padding 0; \
+        bspc config right_padding 0; \
+        bspc config bottom_padding 0; \
+        bspc config top_padding $bar_height; \
+    fi
 
 # screenshots
 super + shift + backslash
