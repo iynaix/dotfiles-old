@@ -89,6 +89,7 @@ aur_packages=(
     "ttf-font-awesome-4"
     "vivaldi"
     "xst"
+    "dragon-drag-and-drop-git"
 )
 
 echo "## Installing Base Packages..."

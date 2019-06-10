@@ -73,8 +73,12 @@ super + {_,shift + }{h,j,k,l}
 # 	bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-super + {_,shift + }Tab
+alt + {_,shift + }Tab
 	bspc node -f {next,prev}.local
+
+# focus the next/previous node of the same class
+super + {_,shift + }Tab
+	bspc node -f {next,prev}.same_class
 
 # focus the previous / next monitor
 super + bracket{left,right}
@@ -107,7 +111,7 @@ super + {o,i}
 # focus given desktop, also does i3 inspired workspace back and forth
 super + {1-9,0}
 	desktop='{1-9,10}'; \
-	bspc query -D -d "$desktop.focused" && bspc desktop -f last || bspc desktop -f "$desktop"
+	bspc query -D -d "$desktop.focused" && bspc desktop -f last.local || bspc desktop -f "$desktop"
 
 # send to given desktop, retains node focus
 super + shift + {1-9,0}

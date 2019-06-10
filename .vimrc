@@ -61,6 +61,7 @@ set novisualbell "disable screen blinking
 set synmaxcol=0  "full syntax highlighting including long lines
 
 set title "Set title of the window
+set autoread " auto reload the file if it changes
 
 set showcmd "show (partial) commands (or size of selection in Visual mode) in status line
 set number

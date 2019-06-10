@@ -1,5 +1,5 @@
 # set default variables
-export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/bin:$HOME/.npm-global/bin:$HOME/.local/bin"
 export EDITOR="nvim"
 export TERMINAL="xst"
 

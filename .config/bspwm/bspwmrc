@@ -55,6 +55,7 @@ bspc rule -a whatsapp desktop=9
 bspc rule -a discord desktop=9 follow=on
 bspc rule -a Filezilla desktop=10
 bspc rule -a Transmission-gtk desktop=10
+bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 bspc rule -a Peek state=floating
 
