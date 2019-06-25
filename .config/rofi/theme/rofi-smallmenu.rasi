@@ -1,7 +1,7 @@
 /* vim: set ft=css: */
 
 * {
-    background: rgba ( 45, 48, 59, 95 % );
+    background: rgba ( 45, 48, 59, 100 % );
     background-color: @background;
     foreground: rgba ( 196, 203, 212, 100 % );
     border-color: @background;
