@@ -8,6 +8,7 @@ focused = #011627
 foreground = ${xrdb:foreground}
 empty = #4dd6deeb
 urgent = ${xrdb:color1}
+error = ${xrdb:color9}
 
 ; BARS
 
@@ -266,6 +267,7 @@ interval = 1
 
 label-connected =
 label-disconnected = 
+label-disconnected-foreground = ${colors.error}
 
 
 [module/wlan]
@@ -277,3 +279,4 @@ interval = 1
 
 label-connected = %{A:xst -e nmtui&:}直  %essid%%{A}
 label-disconnected = %{A:xst -e nmtui&:}睊%{A}
+label-disconnected-foreground = ${colors.error}
