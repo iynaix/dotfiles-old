@@ -357,6 +357,14 @@
 #    msg_urgency = critical
 #    fullscreen = show
 
+[brightness-change]
+    appname = "brightness-change"
+    history_ignore = yes
+
+[volume-change]
+    appname = "volume-change"
+    history_ignore = yes
+
 #[espeak]
 #    summary = "*"
 #    script = dunst_espeak.sh

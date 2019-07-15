@@ -217,13 +217,13 @@ super + {_, shift + }e
 #
 
 XF86AudioLowerVolume
-	amixer -q set Master 5%-
+	volume-change 5%-
 
 XF86AudioRaiseVolume
-	amixer -q set Master 5%+ on
+	volume-change 5%+ on
 
 XF86AudioMute
-	amixer -q set Master toggle
+	volume-change toggle
 
 XF86MonBrightnessDown
 	xbacklight -dec 5
