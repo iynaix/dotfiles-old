@@ -226,10 +226,10 @@ XF86AudioMute
 	volume-change toggle
 
 XF86MonBrightnessDown
-	xbacklight -dec 5
+	brightness-change -dec 5
 
 XF86MonBrightnessUp
-	xbacklight -inc 5
+	brightness-change -inc 5
 
 # media control
 XF86AudioPlay
