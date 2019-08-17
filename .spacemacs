@@ -107,7 +107,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
+   dotspacemacs-themes '(night-owl
+                         monokai
                          spolsky
                          molokai
                          solarized-light
@@ -116,13 +117,8 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Operator Mono"
+   dotspacemacs-default-font '("FuraCode Nerd Font"
                                :size 15
-                               ;; weight set to light as emacs does not seem to want to use
-                               ;; Operator Mono Medium's font weight, DO NOT INSTALL Operator
-                               ;; Mono Book and its variants for this to work!
-                               :weight light
-                               :width normal
                                :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
@@ -390,7 +386,4 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822")) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C"))))
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
  '(web-mode-javascript-comment-face ((t (:inherit web-mode-comment-face :slant italic)))))

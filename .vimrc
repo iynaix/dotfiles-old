@@ -206,7 +206,7 @@ set pastetoggle=<F12>
 
 " copy and paste to clipboard
 vnoremap <C-c> "+y
-map <C-p> "+P
+map <C-v> "+P
 
 " Automatically jump to end of text you pasted:
 vnoremap <silent> y y`]

@@ -59,6 +59,7 @@ base_packages=(
     "ttf-hack"
     "vifm"
     "vlc"
+    "x11-ssh-askpass"
     "xcape"
     "xorg-xbacklight"
     "xorg-xsetroot"
