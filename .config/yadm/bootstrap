@@ -22,6 +22,7 @@ base_packages=(
     "feh"
     "firefox-developer-edition"
     "fzf"
+    "gvfs-smb"
     "gimp"
     "highlight"
     "htop"
@@ -31,13 +32,14 @@ base_packages=(
     "mpd"
     "mpv"
     "ncmpcpp"
+    "nemo"
     "neofetch"
     "neovim"
     "network-manager-applet"
     "nodejs"
     "npm"
+    "nvidia"
     "ntfs-3g"
-    "numix-gtk-theme"
     "openssh"
     "peek"
     "postgresql"
@@ -55,6 +57,7 @@ base_packages=(
     "sxiv"
     "tidy"
     "tmux"
+    "transmission-gtk"
     "ttf-freefont"
     "ttf-hack"
     "vifm"
@@ -73,24 +76,25 @@ base_packages=(
 aur_packages=(
     "betterlockscreen"
     "compton-tryone-git"
+    "dragon-drag-and-drop-git"
     "gitflow-avh"
-    "google-chrome-dev"
+    "google-chrome"
     "gotop-bin"
     "mongodb-bin"
     "nerd-fonts-fira-code"
     "nerd-fonts-ubuntu-mono"
-    "ngrok"
+    "noto-fonts-emoji"
+    "numix-icon-theme-git"
     "polybar"
     "rar"
     "stellar"
     "subliminal"
     "tdrop-git"
     "ttf-clear-sans"
-    "ttf-emojione"
     "ttf-font-awesome-4"
+    "ttf-ubuntu-font-family"
     "vivaldi"
     "xst"
-    "dragon-drag-and-drop-git"
 )
 
 echo "## Installing Base Packages..."
@@ -109,6 +113,8 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 
+# declare ZSH_CUSTOM as it isnt defined in bash
+ZSH_CUSTOM=~/.oh-my-zsh/custom
 if [ ! -d "$ZSH_CUSTOM/themes/spaceship-prompt" ]; then
     echo "Bootstrapping spaceship-prompt..."
     git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
@@ -121,16 +127,13 @@ if command -v nvim >/dev/null 2>&1; then
 fi
 
 # Autologin
-mkdir -p /etc/systemd/system/getty@tty1.service.d
-if [! -d "/etc/systemd/system/getty@tty1.service.d/override.conf" ]; then
-    echo "Setting up auto login..."
+# if [ ! -d "/etc/systemd/system/getty@tty1.service.d/override.conf" ]; then
+#     echo "Setting up auto login..."
+#     sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
 
-    cat <<-'EOF' > /etc/systemd/system/getty@tty1.service.d/override.conf
-    [Service]
-    ExecStart=
-    ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM
-    EOF
-fi
+#     echo "[Service]" > tee /etc/systemd/system/getty@tty1.service.d/override.conf
+#     echo "ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM" >> tee -a /etc/systemd/system/getty@tty1.service.d/override.conf
+# fi
 
 # TODO: bootstrap emacs, vscode?
 # TODO: reminder about .ssh folder

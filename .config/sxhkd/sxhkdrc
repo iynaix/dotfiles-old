@@ -202,7 +202,7 @@ super + shift + backslash
 
 # browser
 super + {_, shift + }w
-	google-chrome-unstable {_,--incognito}
+	google-chrome-stable {_,--incognito}
 
 # code editors
 super + {_, shift + }v
