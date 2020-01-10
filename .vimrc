@@ -244,8 +244,8 @@ nnoremap K <nop>
 "do not save if buffer is untitled
 au FocusLost ^(\[No Name\]) :wa
 
-"jj now exits insert mode
-inoremap jj <ESC>
+"jk now exits insert mode
+inoremap jk <ESC>
 
 " absolute line numbers in insert mode, relative otherwise for easy movement
 au InsertEnter * :set nu nornu
