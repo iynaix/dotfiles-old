@@ -6,6 +6,7 @@ chromeclass="Google-chrome"
 
 webdesktop=1
 filedesktop=3
+nemodesktop=4
 sectermdesktop=7
 listdesktop=8
 chatdesktop=9
@@ -48,6 +49,9 @@ $TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
 
 bspc rule -a $termclass:dlterm -o desktop=$dldesktop &
 $TERMINAL -n dlterm &
+
+# nemo desktop
+bspc rule -a Nemo:nemo -o desktop=$nemodesktop &
 
 # chat desktop
 firefox-developer-edition --class=whatsapp https://web.whatsapp.com &
