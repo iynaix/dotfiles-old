@@ -52,6 +52,7 @@ $TERMINAL -n dlterm &
 
 # nemo desktop
 bspc rule -a Nemo:nemo -o desktop=$nemodesktop &
+nemo &
 
 # chat desktop
 firefox-developer-edition --class=whatsapp https://web.whatsapp.com &
