@@ -49,6 +49,7 @@ base_packages=(
     "npm"
     "ntfs-3g"
     "nvidia"
+    "nvidia-settings"
     "openssh"
     "peek"
     "postgresql"

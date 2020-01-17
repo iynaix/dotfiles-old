@@ -1,4 +1,6 @@
 ######## AUTO-GENERATED SHORTCUTS, DO NOT EDIT ########
+alias h="cd ~"
+alias c="cd ~/.config"
 alias vv="cd ~/Videos"
 alias vaa="cd ~/Videos/Anime"
 alias vac="cd ~/Videos/Anime/Current"

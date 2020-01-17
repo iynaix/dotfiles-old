@@ -1,3 +1,5 @@
+h=~
+c=~/.config
 vv=~/Videos
 vaa=~/Videos/Anime
 vac=~/Videos/Anime/Current
