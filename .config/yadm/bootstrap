@@ -86,6 +86,7 @@ base_packages=(
 
 aur_packages=(
     "betterlockscreen"
+    "brave-bin"
     "compton-tryone-git"
     "dragon-drag-and-drop-git"
     "gitflow-avh"

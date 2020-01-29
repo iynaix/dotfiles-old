@@ -2,7 +2,7 @@
 
 # termclass="St"
 termclass="st-256color"
-chromeclass="Google-chrome"
+chromeclass="Brave-browser"
 
 webdesktop=1
 filedesktop=3
@@ -30,10 +30,10 @@ compton -b &
 
 # web browsers
 bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
-google-chrome-stable --incognito &
+brave --incognito &
 
 bspc rule -a $chromeclass -o desktop=$webdesktop &
-google-chrome-stable &
+brave &
 
 # workflowy
 bspc rule -a WorkFlowy -o desktop=$listdesktop &
