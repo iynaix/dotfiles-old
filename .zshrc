@@ -38,6 +38,9 @@ DISABLE_AUTO_TITLE="true"
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
 
+# stop auto correcting . directories
+CORRECT_IGNORE_FILE='.*'
+
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
@@ -80,11 +83,6 @@ else
   export EDITOR='nvim'
 fi
 
-# don't show mode indicator for default insert mode
-# https://denysdovhan.com/spaceship-prompt/docs/Options.html#exit-code-exit_code
-SPACESHIP_VI_MODE_INSERT=''
-SPACESHIP_VI_MODE_COLOR='#21c7a8'
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -122,7 +120,7 @@ alias c="clear"
 alias cal="cal -3"
 alias calc='ipy -i -c "from math import *"'
 alias clearq="rm -rf /tmp/q"
-alias df="df -h"
+alias du="dust"
 alias f="fab"
 alias gotop="gotop -p"
 alias nvim=nvim
@@ -193,6 +191,60 @@ alias gfs="gf support"
 # django stuff
 alias djcelery="dj celeryd -B -E -l INFO"
 alias djrs="server"
+
+##################################################
+# PROMPT SETTINGS
+##################################################
+# Change cursor with support for inside/outside tmux
+function _set_cursor() {
+    if [[ $TMUX = '' ]]; then
+      echo -ne $1
+    else
+      echo -ne "\ePtmux;\e\e$1\e\\"
+    fi
+}
+
+function _set_block_cursor() { _set_cursor '\e[2 q' }
+function _set_beam_cursor() { _set_cursor '\e[6 q' }
+
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+      _set_block_cursor
+  else
+      _set_beam_cursor
+  fi
+}
+zle -N zle-keymap-select
+
+# ensure beam cursor when starting new terminal
+precmd_functions+=(_set_beam_cursor)
+# ensure insert mode and beam cursor when exiting vim
+# zle-line-init() { zle -K viins; _set_beam_cursor }
+
+SPACESHIP_PROMPT_SEPARATE_LINE=false
+SPACESHIP_CHAR_SYMBOL=❯
+SPACESHIP_CHAR_SUFFIX=" "
+SPACESHIP_PACKAGE_SHOW=false
+SPACESHIP_NODE_SHOW=false
+SPACESHIP_RUBY_SHOW=false
+SPACESHIP_ELM_SHOW=false
+SPACESHIP_ELIXIR_SHOW=false
+SPACESHIP_XCODE_SHOW_LOCAL=false
+SPACESHIP_SWIFT_SHOW_LOCAL=false
+SPACESHIP_GOLANG_SHOW=false
+SPACESHIP_PHP_SHOW=false
+SPACESHIP_RUST_SHOW=false
+SPACESHIP_JULIA_SHOW=false
+SPACESHIP_DOCKER_SHOW=false
+SPACESHIP_DOCKER_CONTEXT_SHOW=false
+SPACESHIP_AWS_SHOW=false
+SPACESHIP_CONDA_SHOW=false
+SPACESHIP_DOTNET_SHOW=false
+SPACESHIP_EMBER_SHOW=false
+SPACESHIP_KUBECONTEXT_SHOW=false
+SPACESHIP_TERRAFORM_SHOW=false
+SPACESHIP_TERRAFORM_SHOW=false
+SPACESHIP_VI_MODE_SHOW=false
 
 ##################################################
 # FUNCTION ALIASES
@@ -273,6 +325,11 @@ djls() {
     fi
 }
 
+# less verbose xev output with only the relevant parts
+keys() {
+    xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
+}
+
 # server command, runs a local server
 # tries running a django runserver_plus, falling back to runserver, then falling back to SimpleHttpServer
 server() {
@@ -337,3 +394,5 @@ _fab_list() {
     _describe -t commands "fabric commands" target_list
 }
 compdef _fab_list fab
+
+source /home/iynaix/.config/broot/launcher/bash/br

@@ -117,7 +117,7 @@ export HISTIGNORE="&:ls:[bf]g:exit"
 shopt -s cdspell
 
 # 256 color terminal
-export TERM=xterm-256color
+export TERM=st-256color
 
 # virtualenvwrapper related settings
 export WORKON_HOME=$HOME/.virtualenvs
@@ -126,3 +126,5 @@ export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
 source $(which virtualenvwrapper_lazy.sh)
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+source /home/iynaix/.config/broot/launcher/bash/br

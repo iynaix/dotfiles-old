@@ -7,7 +7,7 @@
 set -e
 
 # elevate sudo as needed
-# [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 base_packages=(
     "alsa-utils"
@@ -89,9 +89,13 @@ aur_packages=(
     "brave-bin"
     "compton-tryone-git"
     "dragon-drag-and-drop-git"
+    "dust"
     "gitflow-avh"
     "google-chrome"
     "gotop-bin"
+    # fix color emojis crashing st:
+    # https://gitlab.freedesktop.org/xorg/lib/libxft/merge_requests/1
+    "libxft-bgra"
     "mongodb-bin"
     "mongodb-compass"
     "nerd-fonts-fira-code"
@@ -103,7 +107,6 @@ aur_packages=(
     "tdrop-git"
     "ttf-clear-sans"
     "ttf-font-awesome-4"
-    "ttf-symbola"
     "ttf-ubuntu-font-family"
     "vivaldi"
     "workflowy"

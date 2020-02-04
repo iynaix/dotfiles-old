@@ -61,6 +61,7 @@ bspc rule -a Zathura state=tiled
 bspc rule -a Peek state=floating
 
 [[ ! $(pidof -x sxhkd) ]] && sxhkd &
+[[ ! $(pidof -x dunst) ]] && dunst &
 xrdb ~/.Xresources
 
 # set the pointer
