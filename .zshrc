@@ -95,6 +95,9 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# setup broot
+source /home/iynaix/.config/broot/launcher/bash/br
+
 ##################################################
 # SETUP FZF
 ##################################################
@@ -394,5 +397,3 @@ _fab_list() {
     _describe -t commands "fabric commands" target_list
 }
 compdef _fab_list fab
-
-source /home/iynaix/.config/broot/launcher/bash/br

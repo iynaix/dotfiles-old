@@ -13,6 +13,7 @@ base_packages=(
     "alsa-utils"
     "arc-gtk-theme"
     "bat"
+    "broot"
     "bspwm"
     "code"
     "curl"
