@@ -96,7 +96,7 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # setup broot
-source /home/iynaix/.config/broot/launcher/bash/br
+# source /home/iynaix/.config/broot/launcher/bash/br
 
 ##################################################
 # SETUP FZF
