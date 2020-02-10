@@ -1,9 +1,12 @@
 [Default Applications]
+application/x-shellscript=nvim.desktop
+image/gif=sxiv.desktop
+image/jpeg=sxiv.desktop
+image/png=sxiv.desktop
 text/html=brave.desktop
+text/plain=my_nvim.desktop
+x-scheme-handler/about=brave.desktop
 x-scheme-handler/http=brave.desktop
 x-scheme-handler/https=brave.desktop
-x-scheme-handler/about=brave.desktop
-x-scheme-handler/unknown=brave.desktop
 x-scheme-handler/magnet=transmission-gtk.desktop
-text/plain=my_nvim.desktop
-image/jpeg=sxiv.desktop
+x-scheme-handler/unknown=brave.desktop

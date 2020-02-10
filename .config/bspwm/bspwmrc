@@ -60,8 +60,6 @@ bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 bspc rule -a Peek state=floating
 
-[[ ! $(pidof -x sxhkd) ]] && sxhkd &
-[[ ! $(pidof -x dunst) ]] && dunst &
 xrdb ~/.Xresources
 
 # set the pointer
@@ -73,4 +71,4 @@ xsetroot -cursor_name left_ptr &
 # mpd
 [ ! -s ~/.config/mpd/pid ] && mpd
 
-[[ ! $(pidof -x chrome) ]] && ~/.config/bspwm/bspwm_start &
+[[ ! $(pidof -x brave) ]] && ~/.config/bspwm/bspwm_start &

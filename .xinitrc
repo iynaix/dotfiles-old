@@ -1,0 +1,3 @@
+sxhkd &
+dunst &
+exec bspwm
