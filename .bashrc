@@ -127,4 +127,4 @@ source $(which virtualenvwrapper_lazy.sh)
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-source /home/iynaix/.config/broot/launcher/bash/br
+# source /home/iynaix/.config/broot/launcher/bash/br
