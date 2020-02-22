@@ -62,13 +62,10 @@ bspc rule -a Peek state=floating
 
 xrdb ~/.Xresources
 
-# set the pointer
-xsetroot -cursor_name left_ptr &
-
 # polybar
 ~/.config/polybar/launch.sh &
 
 # mpd
-[ ! -s ~/.config/mpd/pid ] && mpd
+# [ ! -s ~/.config/mpd/pid ] && mpd
 
 [[ ! $(pidof -x brave) ]] && ~/.config/bspwm/bspwm_start &

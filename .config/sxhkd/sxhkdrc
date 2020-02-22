@@ -208,6 +208,10 @@ super + {_, shift + }w
 super + {_, shift + }v
 	{$TERMINAL -e nvim,code}
 
+# clipboard via clipmenu
+super + ctrl + v
+    CM_LAUNCHER=rofi clipmenu
+
 # file browser (TODO: change nemo to spacefm?)
 super + {_, shift + }e
 	{$TERMINAL -e ranger ~/Downloads,nemo}

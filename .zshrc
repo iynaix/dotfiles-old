@@ -195,9 +195,23 @@ alias gfs="gf support"
 alias djcelery="dj celeryd -B -E -l INFO"
 alias djrs="server"
 
+# use vim keys in tab completion menu
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'left' vi-backward-char
+bindkey -M menuselect 'down' vi-down-line-or-history
+bindkey -M menuselect 'up' vi-up-line-or-history
+bindkey -M menuselect 'right' vi-forward-char
+
+# don't nag about .env files
+ZSH_DOTENV_PROMPT=false
+
 ##################################################
 # PROMPT SETTINGS
 ##################################################
+
 # Change cursor with support for inside/outside tmux
 function _set_cursor() {
     if [[ $TMUX = '' ]]; then
@@ -221,8 +235,6 @@ zle -N zle-keymap-select
 
 # ensure beam cursor when starting new terminal
 precmd_functions+=(_set_beam_cursor)
-# ensure insert mode and beam cursor when exiting vim
-# zle-line-init() { zle -K viins; _set_beam_cursor }
 
 SPACESHIP_PROMPT_SEPARATE_LINE=false
 SPACESHIP_CHAR_SYMBOL=❯
@@ -336,17 +348,12 @@ keys() {
 # server command, runs a local server
 # tries running a django runserver_plus, falling back to runserver, then falling back to SimpleHttpServer
 server() {
-    # use webpack if possible
-    if [[ -a webpack.config.js ]]; then
-        npm start
     # is this django?
-    else
-        dj runserver_plus $*
+    dj runserver_plus $*
+    if [[ $? -ne 0 ]]; then
+        dj runserver $*
         if [[ $? -ne 0 ]]; then
-            dj runserver $*
-            if [[ $? -ne 0 ]]; then
-                python3 -m http.server ${1:-8000}
-            fi
+            python3 -m http.server ${1:-8000}
         fi
     fi
 }
