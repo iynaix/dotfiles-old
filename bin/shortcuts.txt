@@ -15,6 +15,6 @@ pe=~/projects/ergodox-layout
 PP=~/Pictures
 Ps=~/Pictures/Screenshots
 Pw=~/Pictures/Wallpapers
-D=~/Downloads
+dd=~/Downloads
 dp=~/Downloads/pending
 du=~/Downloads/pending/Unsorted

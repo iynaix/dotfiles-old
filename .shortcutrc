@@ -16,7 +16,7 @@ alias pe="cd ~/projects/ergodox-layout"
 alias PP="cd ~/Pictures"
 alias Ps="cd ~/Pictures/Screenshots"
 alias Pw="cd ~/Pictures/Wallpapers"
-alias D="cd ~/Downloads"
+alias dd="cd ~/Downloads"
 alias dp="cd ~/Downloads/pending"
 alias du="cd ~/Downloads/pending/Unsorted"
 ######## AUTO-GENERATED SHORTCUTS, DO NOT EDIT ########

@@ -18,6 +18,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     javascript
      vimscript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -266,7 +267,7 @@ layers configuration. You are free to put any user code."
   (setq frame-title-format '(buffer-name "%f" ("%b")))
 
   ;; Set escape keybinding to "jj"
-  (setq-default evil-escape-key-sequence "jj")
+  (setq-default evil-escape-key-sequence "jk")
   (setq-default evil-escape-delay 0.2)
   (setq-default evil-escape-inhibit-functions '(evil-visual-state-p evil-escape--is-magit-buffer))
 

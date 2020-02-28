@@ -145,13 +145,14 @@ alias stopemacs="pkill -SIGUSR2 emacs"
 alias subs="subliminal download -l 'en' -l 'eng' -s"
 alias todo="rg TODO"
 alias tree="exa --group-directories-first --color-scale --icons --tree"
+alias v=nvim
 alias vi=nvim
 alias vim=nvim
 alias wget='wget --content-disposition'
 alias whereami='echo "$( hostname --fqdn ) ($(hostname -i)):$( pwd )"'
 alias xclip="xclip -selection c"
 alias y="yay"
-alias yn="yay"
+alias yn="yarn"
 alias yt="youtube-dl"
 alias yta="yt --audio-format mp3 --extract-audio"
 alias yts="yt --write-auto-sub --sub-lang='en,eng' --convert-subs srt --embed-subs"
@@ -190,10 +191,6 @@ alias gffco="gff checkout"
 alias gfh="gf hotfix"
 alias gfr="gf release"
 alias gfs="gf support"
-
-# django stuff
-alias djcelery="dj celeryd -B -E -l INFO"
-alias djrs="server"
 
 # use vim keys in tab completion menu
 bindkey -M menuselect 'h' vi-backward-char

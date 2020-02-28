@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+from subprocess import check_output
+import sys
+import bspc
+
+DEBUG = False
+
+
+# used for debugging, run: tail -f /tmp/bspwm_dump
+def p(*arg, **kwargs):
+    if not DEBUG:
+        return
+    fp = open("/tmp/bspwm_dump", "a")
+    print(*arg, **kwargs, file=fp)
+
+
+[_, wid, window_class, instance_name, original_rules] = sys.argv
+
+
+def get_split_ratio(width, height, width_ratio=16, height_ratio=9):
+    MIN_SIZE = 100
+    BORDER_WIDTH = int(check_output(("bspc", "config", "border_width")))
+    WINDOW_GAP = int(check_output(("bspc", "config", "window_gap")))
+
+    if width >= height:
+        padding = int(check_output(("bspc", "config", "left_padding")))
+        target_width = (height / 9) * 16 - WINDOW_GAP + BORDER_WIDTH * 2 - padding
+        # existing window should at least 100 pixels wide
+        if width - target_width < MIN_SIZE:
+            return
+        return {"split_dir": "east", "split_ratio": 1 - target_width / width}
+    else:
+        padding = int(check_output(("bspc", "config", "bottom_padding")))
+        target_height = (width / 16) * 9 + BORDER_WIDTH * 2  # - WINDOW_GAP - padding
+        # existing window should at least 100 pixels tall
+        if height - target_height < MIN_SIZE:
+            return
+        return {"split_dir": "south", "split_ratio": 1 - target_height / height}
+
+
+NEW_RULES = {}
+
+if __name__ == "__main__":
+    p()
+    p(original_rules)
+
+    # try to open media files at 16:9
+    if window_class.lower() in ("mpv", "vlc", "smplayer"):
+        geometry = bspc.window_geometry()
+        NEW_RULES.update(get_split_ratio(geometry["w"], geometry["h"]))
+
+    # echo out new rules if any
+    p(NEW_RULES)
+    p(" ".join(f"{k}={v}" for k, v in NEW_RULES.items()))
+    if NEW_RULES:
+        print(" ".join(f"{k}={v}" for k, v in NEW_RULES.items()))

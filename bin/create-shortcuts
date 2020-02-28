@@ -5,6 +5,7 @@ from os.path import expanduser
 SHORTCUTS = expanduser("~/bin/shortcuts.txt")
 SHELL_SHORTCUTS_PATH = "~/.shortcutrc"
 RANGER_SHORTCUTS_PATH = "~/.config/ranger/shortcuts.conf"
+LF_SHORTCUTS_PATH = "~/.config/ranger/shortcutsrc"
 
 
 def load_shortcuts():
@@ -43,6 +44,15 @@ def ranger_shortcuts(shortcuts):
     return comment_block(ret)
 
 
+def lf_shortcuts(shortcuts):
+    ret = []
+    for name, dest in shortcuts.items():
+        ret.append(f"map g{name} cd {dest}")
+        # ret.append(f"map t{name} tab_new {dest}")
+        ret.append(f"map m{name} mv -v {dest}")
+        ret.append(f"map Y{name} cp -rv {dest}")
+    return comment_block(ret)
+
 def vifm_shortcuts(shortcuts):
     ret = []
     for name, dest in shortcuts.items():
@@ -63,5 +73,6 @@ if __name__ == "__main__":
 
     write_shortcuts(SHELL_SHORTCUTS_PATH, shortcuts, shell_shortcuts)
     write_shortcuts(RANGER_SHORTCUTS_PATH, shortcuts, ranger_shortcuts)
+    write_shortcuts(LF_SHORTCUTS_PATH, shortcuts, lf_shortcuts)
 
     print("Successfully updated shortcuts.")
