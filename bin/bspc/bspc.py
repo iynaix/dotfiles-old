@@ -1,31 +1,13 @@
 import json
-from subprocess import check_output, run, CalledProcessError
+from subprocess import CalledProcessError
 
-DEBUG = True
+from .utils import cmd
+
 BAR_HEIGHT = 30
 
 MONITORS = {}
 ULTRAWIDE_ID = None
 VERTICAL_ID = None
-
-
-# used for debugging, run: tail -f /tmp/bspwm_dump
-def p(*arg, **kwargs):
-    if not DEBUG:
-        return
-    fp = open("/tmp/bspwm_dump", "a")
-    print(*arg, **kwargs, file=fp)
-
-
-def rget(obj, name, default=None):
-    """recursive getitem, name can be nested, e.g. a.b.c"""
-    for part in name.split("."):
-        try:
-            obj = obj[part]
-        except KeyError:
-            return default
-    # handle 0 case!
-    return obj if obj is not None else default
 
 
 def _resize_to_aspect_ratio(width, height, aspect):
@@ -37,16 +19,6 @@ def _resize_to_aspect_ratio(width, height, aspect):
     # crop top and bottom:
     else:
         return width, int(width / aspect)
-
-
-def cmd(args, debug=False, output=False):
-    if debug:
-        p(" ".join(str(a) for a in args))
-
-    if output:
-        return check_output(args).decode("ascii")
-    else:
-        run(args)
 
 
 def config(*args, debug=False):
