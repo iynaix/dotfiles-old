@@ -66,7 +66,7 @@ super + shift + p
 
 # focus the node in the given direction
 super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+	bspc node -f {_,-s} {west,south,north,east}
 
 # focus the node for the given path jump
 # super + {p,b,comma,period}
@@ -214,7 +214,7 @@ super + ctrl + v
 
 # file browser (TODO: change nemo to spacefm?)
 super + {_, shift + }e
-	{$TERMINAL -e ranger ~/Downloads,nemo}
+	{$TERMINAL -e ranger ~/Downloads,nemo ~/Downloads}
 
 #
 # special keys

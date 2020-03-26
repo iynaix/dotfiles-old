@@ -80,6 +80,7 @@ base_packages=(
     "transmission-gtk"
     "ttf-freefont"
     "ttf-hack"
+    "udiskie"
     "vifm"
     "vlc"
     "x11-ssh-askpass"

@@ -11,6 +11,8 @@ x-scheme-handler/https=brave.desktop
 x-scheme-handler/magnet=transmission-gtk.desktop
 x-scheme-handler/unknown=brave.desktop
 text/vnd.qt.linguist=nvim.desktop
+application/json=nvim.desktop
 
 [Added Associations]
 text/vnd.qt.linguist=nvim.desktop;
+application/json=nvim.desktop;

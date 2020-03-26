@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import bspc
 import sys
+from bspc import ULTRAWIDE_ID, VERTICAL_ID
+import bspc
 
 DEFAULT_FOCUS_COLOR = "#4491ed"
 MONOCLE_FOCUS_COLOR = "#c792ea"
@@ -29,15 +30,6 @@ def _set_monocle_focus(desk_id):
 
 
 def handle_border_color(ev, ev_args):
-    # wrong event, bail
-    if ev not in (
-            "desktop_layout",
-            "node_focus",
-            "node_state",
-            "node_flag",
-    ):
-        return
-
     # as long as color is changed from default, bail early
     mon_id, desk_id = ev_args[:2]
 
@@ -65,8 +57,77 @@ def handle_border_color(ev, ev_args):
     _set_focus_color(DEFAULT_FOCUS_COLOR)
 
 
-while 1:
-    line = sys.stdin.readline()
-    [ev, *ev_args] = line.split()
+def third_win_id(desk_id=""):
+    if desk_id:
+        desk_id = f"{desk_id}:"
+    return bspc.query("-N", "-d", "-n", f"@{desk_id}/2/1")
 
-    handle_border_color(ev, ev_args)
+
+def balance_nodes(desk_id=""):
+    if desk_id:
+        desk_id = f"{desk_id}:"
+    bspc.node(f"@{desk_id}/", "--equalize", "--balance")
+
+
+def handle_node_add(ev, ev_args):
+    [mon_id, _, win_id] = ev_args[:3]
+    if mon_id == ULTRAWIDE_ID or mon_id == VERTICAL_ID:
+        if win_id == third_win_id():
+            balance_nodes()
+
+
+def handle_node_remove(ev, ev_args):
+    [mon_id, _, win_id] = ev_args[:3]
+    if mon_id == ULTRAWIDE_ID:
+        if not third_win_id():
+            balance_nodes()
+
+
+def handle_node_transfer(ev, ev_args):
+    [
+        src_mon_id,
+        src_desk_id,
+        src_node_id,
+        dest_mon_id,
+        dest_desk_id,
+        dest_node_id,
+    ] = ev_args
+
+    if src_mon_id == ULTRAWIDE_ID or src_mon_id == VERTICAL_ID:
+        # same as node_remove, balance remaining 2 nodes
+        if not third_win_id(src_desk_id):
+            balance_nodes(src_desk_id)
+
+    if dest_mon_id == ULTRAWIDE_ID or dest_mon_id == VERTICAL_ID:
+        # same as node_add, balance 3 nodes
+        if third_win_id(dest_desk_id) == dest_node_id:
+            balance_nodes(dest_desk_id)
+
+
+if __name__ == "__main__":
+    # setup 3rd window on vertical to split vertically
+    # if VERTICAL_ID:
+    #     subprocess.run(
+    #         ("bspc", "rule", "--add", "*", f"monitor={VERTICAL_ID}", "node=@/2", "split_dir=south")
+    #     )
+
+    # begin event processing loop
+    while 1:
+        line = sys.stdin.readline()
+        [ev, *ev_args] = line.split()
+
+        if ev in ("desktop_layout", "node_focus", "node_state", "node_flag"):
+            handle_border_color(ev, ev_args)
+
+        # auto balancing
+        if ULTRAWIDE_ID or VERTICAL_ID:
+            if ev == "node_add":
+                handle_node_add(ev, ev_args)
+
+            if ev == "node_remove":
+                handle_node_remove(ev, ev_args)
+
+            if ev == "node_transfer":
+                handle_node_transfer(ev, ev_args)
+
+        # print(int(time()), ev, ev_args)

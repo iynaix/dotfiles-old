@@ -2,46 +2,71 @@
 
 from subprocess import check_output
 import sys
+from bspc import p, VERTICAL_ID
 import bspc
 
 DEBUG = False
+MIN_SIZE = 100
+WIDTH_RATIO = 16
+HEIGHT_RATIO = 9
 
 
-# used for debugging, run: tail -f /tmp/bspwm_dump
-def p(*arg, **kwargs):
-    if not DEBUG:
-        return
-    fp = open("/tmp/bspwm_dump", "a")
-    print(*arg, **kwargs, file=fp)
-
-
-[_, wid, window_class, instance_name, original_rules] = sys.argv
-
-
-def get_split_ratio(width, height, width_ratio=16, height_ratio=9):
-    MIN_SIZE = 100
+def horizontal_split(
+    width, height, *, width_ratio=WIDTH_RATIO, height_ratio=HEIGHT_RATIO
+):
     BORDER_WIDTH = int(check_output(("bspc", "config", "border_width")))
     WINDOW_GAP = int(check_output(("bspc", "config", "window_gap")))
 
+    padding = int(check_output(("bspc", "config", "left_padding")))
+    target_width = (
+        (height / height_ratio) * width_ratio - WINDOW_GAP + BORDER_WIDTH * 2 - padding
+    )
+    # existing window should at least 100 pixels wide
+    if width - target_width < MIN_SIZE:
+        return
+    return {"split_dir": "east", "split_ratio": 1 - target_width / width}
+
+
+def vertical_split(
+    width, height, *, width_ratio=WIDTH_RATIO, height_ratio=HEIGHT_RATIO
+):
+    BORDER_WIDTH = int(check_output(("bspc", "config", "border_width")))
+
+    # padding = int(check_output(("bspc", "config", "bottom_padding")))
+    target_height = (
+        width / width_ratio
+    ) * height_ratio + BORDER_WIDTH * 2  # - WINDOW_GAP - padding
+    # existing window should at least 100 pixels tall
+    if height - target_height < MIN_SIZE:
+        return
+    return {"split_dir": "south", "split_ratio": 1 - target_height / height}
+
+
+def get_split_ratio(width, height, width_ratio=WIDTH_RATIO, height_ratio=HEIGHT_RATIO):
+    hori_split = horizontal_split(
+        width, height, width_ratio=width_ratio, height_ratio=height_ratio
+    )
+    vert_split = vertical_split(
+        width, height, width_ratio=width_ratio, height_ratio=height_ratio
+    )
+
     if width >= height:
-        padding = int(check_output(("bspc", "config", "left_padding")))
-        target_width = (height / 9) * 16 - WINDOW_GAP + BORDER_WIDTH * 2 - padding
-        # existing window should at least 100 pixels wide
-        if width - target_width < MIN_SIZE:
-            return
-        return {"split_dir": "east", "split_ratio": 1 - target_width / width}
+        return hori_split if hori_split else vert_split
     else:
-        padding = int(check_output(("bspc", "config", "bottom_padding")))
-        target_height = (width / 16) * 9 + BORDER_WIDTH * 2  # - WINDOW_GAP - padding
-        # existing window should at least 100 pixels tall
-        if height - target_height < MIN_SIZE:
-            return
-        return {"split_dir": "south", "split_ratio": 1 - target_height / height}
+        return vert_split if vert_split else hori_split
 
 
 NEW_RULES = {}
 
 if __name__ == "__main__":
+    [_, wid, window_class, instance_name, original_rules] = sys.argv
+
+    # if a preselection exists, use it
+    # has_presel = bspc.query(("--nodes", "--node" ".!automatic"))
+    # if has_presel:
+    #     exit(0)
+
+    # debugging information
     p()
     p(original_rules)
 
@@ -50,8 +75,16 @@ if __name__ == "__main__":
         geometry = bspc.window_geometry()
         NEW_RULES.update(get_split_ratio(geometry["w"], geometry["h"]))
 
+    else:
+        # third window on vertical monitor splits vertically
+        focused_mon = bspc.query("-M", "-m")
+        if focused_mon == VERTICAL_ID:
+            third_win_id = bspc.query("-N", "-d", "-n", f"@{VERTICAL_ID}:/2/1")
+            if not third_win_id:
+                NEW_RULES["split_dir"] = "south"
+
     # echo out new rules if any
-    p(NEW_RULES)
-    p(" ".join(f"{k}={v}" for k, v in NEW_RULES.items()))
     if NEW_RULES:
-        print(" ".join(f"{k}={v}" for k, v in NEW_RULES.items()))
+        rules_str = " ".join(f"{k}={v}" for k, v in NEW_RULES.items())
+        p(rules_str)
+        print(rules_str)

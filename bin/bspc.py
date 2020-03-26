@@ -1,7 +1,31 @@
 import json
-from subprocess import check_output, run
+from subprocess import check_output, run, CalledProcessError
 
+DEBUG = True
 BAR_HEIGHT = 30
+
+MONITORS = {}
+ULTRAWIDE_ID = None
+VERTICAL_ID = None
+
+
+# used for debugging, run: tail -f /tmp/bspwm_dump
+def p(*arg, **kwargs):
+    if not DEBUG:
+        return
+    fp = open("/tmp/bspwm_dump", "a")
+    print(*arg, **kwargs, file=fp)
+
+
+def rget(obj, name, default=None):
+    """recursive getitem, name can be nested, e.g. a.b.c"""
+    for part in name.split("."):
+        try:
+            obj = obj[part]
+        except KeyError:
+            return default
+    # handle 0 case!
+    return obj if obj is not None else default
 
 
 def _resize_to_aspect_ratio(width, height, aspect):
@@ -15,24 +39,44 @@ def _resize_to_aspect_ratio(width, height, aspect):
         return width, int(width / aspect)
 
 
-def config(*args):
+def cmd(args, debug=False, output=False):
+    if debug:
+        p(" ".join(str(a) for a in args))
+
+    if output:
+        return check_output(args).decode("ascii")
+    else:
+        run(args)
+
+
+def config(*args, debug=False):
     args = [str(a) for a in ["bspc", "config", *args]]
-    return run(args)
+    return cmd(args, debug=debug)
 
 
-def node(*args):
+def node(*args, debug=False):
     args = [str(a) for a in ["bspc", "node", *args]]
-    return run(args)
+    return cmd(args, debug=debug)
 
 
-def query(*args):
+def query(*args, debug=False):
     args = [str(a) for a in ["bspc", "query", *args]]
-    return check_output(args).decode("ascii").splitlines()
+    try:
+        ret = cmd(args, output=True, debug=debug).splitlines()
+        if len(ret) == 1:
+            return ret[0]
+        else:
+            return ret
+    except CalledProcessError:
+        return None
 
 
-def tree(*args):
+def tree(*args, debug=False):
     args = [str(a) for a in ["bspc", "query", "--tree", *args]]
-    return json.loads(check_output(args).decode("ascii"))
+    try:
+        return json.loads(cmd(args, output=True, debug=debug))
+    except CalledProcessError:
+        return None
 
 
 def monitor_geometry():
@@ -109,3 +153,15 @@ def move_window_to_corner(loc=None, *, pad_x=0, pad_y=0):
         pad_y = -pad_y
 
     node("--move", int(dx + pad_x), int(dy + pad_y))
+
+
+### COMPUTE CONSTANTS ###
+
+for mon_id in query("-M"):
+    monitor = tree("-m", mon_id)["rectangle"]
+    MONITORS[mon_id] = monitor
+
+    if monitor["width"] >= 3440:
+        ULTRAWIDE_ID = mon_id
+    if monitor["width"] < monitor["height"]:
+        VERTICAL_ID = mon_id

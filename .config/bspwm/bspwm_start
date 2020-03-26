@@ -65,4 +65,5 @@ bspc rule -a $termclass:initialterm -o desktop=$sectermdesktop follow=on &
 $TERMINAL -n initialterm &
 
 # subscribe to bspc events
+# note: this must be the last line in the file!
 bspc subscribe all | bspc-events

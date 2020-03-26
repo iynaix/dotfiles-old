@@ -18,3 +18,4 @@ Pw=~/Pictures/Wallpapers
 dd=~/Downloads
 dp=~/Downloads/pending
 du=~/Downloads/pending/Unsorted
+dk=/run/media/iynaix
