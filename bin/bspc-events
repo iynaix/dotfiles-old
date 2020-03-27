@@ -57,10 +57,32 @@ def handle_border_color(ev, ev_args):
     _set_focus_color(DEFAULT_FOCUS_COLOR)
 
 
-def third_win_id(desk_id=""):
-    if desk_id:
-        desk_id = f"{desk_id}:"
-    return bspc.query("-N", "-d", "-n", f"@{desk_id}/2/1")
+def get_leaves(node, *, path=""):
+    ret = {}
+    if node["firstChild"]:
+        ret.update(get_leaves(node["firstChild"], path=f"{path}1"))
+
+    if node["secondChild"]:
+        ret.update(get_leaves(node["secondChild"], path=f"{path}2"))
+
+    # found a leaf node!
+    if not node["firstChild"] and not node["secondChild"]:
+        node_id = node["id"]
+        nice_path = "/".join(list(path))
+        # key by both path and node id, so actual len is half
+        ret[nice_path] = node_id
+        ret[node_id] = nice_path
+
+    return ret
+
+
+def third_win_id(desk_id="focused"):
+    leaves = get_leaves(bspc.tree("-d", desk_id).get("root", {}))
+
+    # 3 leaf nodes total
+    # handle both child of first node / child of second node
+    if len(leaves) / 2 == 3:
+        return leaves.get("1/1") or leaves.get("2/2")
 
 
 def balance_nodes(desk_id=""):
@@ -72,7 +94,7 @@ def balance_nodes(desk_id=""):
 def handle_node_add(ev, ev_args):
     [mon_id, _, win_id] = ev_args[:3]
     if mon_id == ULTRAWIDE_ID or mon_id == VERTICAL_ID:
-        if win_id == third_win_id():
+        if int(win_id, 16) == third_win_id():
             balance_nodes()
 
 
@@ -100,17 +122,11 @@ def handle_node_transfer(ev, ev_args):
 
     if dest_mon_id == ULTRAWIDE_ID or dest_mon_id == VERTICAL_ID:
         # same as node_add, balance 3 nodes
-        if third_win_id(dest_desk_id) == dest_node_id:
+        if int(dest_node_id) == third_win_id(dest_desk_id):
             balance_nodes(dest_desk_id)
 
 
 if __name__ == "__main__":
-    # setup 3rd window on vertical to split vertically
-    # if VERTICAL_ID:
-    #     subprocess.run(
-    #         ("bspc", "rule", "--add", "*", f"monitor={VERTICAL_ID}", "node=@/2", "split_dir=south")
-    #     )
-
     # begin event processing loop
     while 1:
         line = sys.stdin.readline()

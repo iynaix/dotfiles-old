@@ -26,6 +26,9 @@ class XRandR:
                 self.displays.append(
                     {
                         **res,
+                        "bspwm_name": f"%{res['name']}"
+                        if "." in res["name"]
+                        else res["name"],
                         "connected": res["connected"] == "connected",
                         "primary": res["primary"] is not None,
                         "width": width,
@@ -63,53 +66,28 @@ class XRandR:
     def dim(self, x, y):
         return f"{x}x{y}"
 
-    def xrandr_display(
+    def xrandr_display_args(
         self,
         vertical=False,
-        rotate=None,
+        rotate="normal",
         x_offset=0,
         y_offset=0,
         primary=False,
         **kwargs,
     ):
-        dimensions = self.dim(kwargs["width"], kwargs["height"])
-
-        pos = self.dim(x_offset, y_offset)
-
-        if rotate is None:
-            rotate = "normal"
-
-        pri = "--primary" if primary else ""
-
-        return f'--output {kwargs["name"]} {pri} --mode {dimensions} --pos {pos} --rotate {rotate}'
-
-    def cmd(self, displays_with_kwargs):
-        "returns the xrandr command for the given displays"
-        disp_strings = []
-        x_offset = 0
-        for disp in displays_with_kwargs:
-            disp_strings.append(self.xrandr_display(**disp, x_offset=x_offset))
-            x_offset += disp["height"] if disp.get("vertical") else disp["width"]
-
-        return f'xrandr {" ".join(disp_strings)}'
-
-
-def init_displays(randr):
-    disps = [randr.primary]
-
-    # handle secondary vertical screen on desktop
-    if randr.primary["width"] >= 3440 and randr.secondary:
-        # NOTE: mutliple secondary displays are not implemented!
-        disps = [
-            {**randr.secondary[0], "vertical": True, "rotate": "left"},
-            {**randr.primary, "y_offset": 258},
+        args = [
+            "--output",
+            kwargs["name"],
+            "--primary" if primary else "",
+            "--mode",
+            self.dim(kwargs["width"], kwargs["height"]),
+            "--pos",
+            self.dim(x_offset, y_offset),
+            "--rotate",
+            rotate,
         ]
+        return [a for a in args if a]
 
-    return randr.cmd(disps)
-    # XRandR()
-
-
-# os.system(init_displays(randr))
 
 XRANDR_MONITORS = {}
 ULTRAWIDE_NAME = None
@@ -131,3 +109,5 @@ for mon in XRandR():
         ULTRAWIDE_NAME = mon_name(mon["name"])
     if mon["width"] < mon["height"]:
         VERTICAL_NAME = mon_name(mon["name"])
+
+ENVIRONMENT = "desktop" if ULTRAWIDE_NAME and VERTICAL_NAME else "laptop"

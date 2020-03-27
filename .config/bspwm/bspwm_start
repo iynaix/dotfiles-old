@@ -23,8 +23,8 @@ else
     feh --no-fehbg --bg-fill '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' '/home/iynaix/Pictures/Wallpapers/balloons_2560.png'
 fi
 
-# start compton
-compton -b &
+# (re)start compton
+pgrep compton && pkill compton || compton -b &
 
 # TODO: receptacles on web and downloads desktops
 

@@ -60,7 +60,6 @@ NEW_RULES = {}
 
 if __name__ == "__main__":
     [_, wid, window_class, instance_name, original_rules] = sys.argv
-    p("HERE")
 
     # if a preselection exists, use it
     # has_presel = bspc.query(("--nodes", "--node" ".!automatic"))
