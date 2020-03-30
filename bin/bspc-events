@@ -77,12 +77,16 @@ def get_leaves(node, *, path=""):
 
 
 def third_win_id(desk_id="focused"):
-    leaves = get_leaves(bspc.tree("-d", desk_id).get("root", {}))
+    root = bspc.tree("--desktop", desk_id).get("root", {})
+    if not root:
+        return None
+
+    leaves = get_leaves(root)
 
     # 3 leaf nodes total
     # handle both child of first node / child of second node
     if len(leaves) / 2 == 3:
-        return leaves.get("1/1") or leaves.get("2/2")
+        return leaves.get("1/1") or leaves.get("2/1")
 
 
 def balance_nodes(desk_id=""):
@@ -92,16 +96,16 @@ def balance_nodes(desk_id=""):
 
 
 def handle_node_add(ev, ev_args):
-    [mon_id, _, win_id] = ev_args[:3]
+    [mon_id, desk_id, win_id] = ev_args[:3]
     if mon_id == ULTRAWIDE_ID or mon_id == VERTICAL_ID:
-        if int(win_id, 16) == third_win_id():
+        if int(win_id, 16) == third_win_id(desk_id):
             balance_nodes()
 
 
 def handle_node_remove(ev, ev_args):
-    [mon_id, _, win_id] = ev_args[:3]
-    if mon_id == ULTRAWIDE_ID:
-        if not third_win_id():
+    [mon_id, desk_id, win_id] = ev_args[:3]
+    if mon_id == ULTRAWIDE_ID or mon_id == VERTICAL_ID:
+        if not third_win_id(desk_id):
             balance_nodes()
 
 

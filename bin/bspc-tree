@@ -27,7 +27,9 @@ def node_string(node, *, node_no=None, indent_level=0, coords=False):
     if node_no:
         node_no = f"{node_no}: "
 
-    ret = "  ".join(s for s in (indent, node_no, split_info, flags, dim, xy) if s)
+    ret = "  ".join(
+        s for s in (indent, node_no, split_info, flags, dim, xy, f"({node['id']})") if s
+    )
     # handle children
     if node["firstChild"]:
         ret += "\n" + node_string(

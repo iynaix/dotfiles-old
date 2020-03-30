@@ -21,8 +21,6 @@ class XRandR:
                 width = int(res["width"])
                 height = int(res["height"])
 
-                [height, width] = sorted((width, height))
-
                 self.displays.append(
                     {
                         **res,
@@ -75,12 +73,13 @@ class XRandR:
         primary=False,
         **kwargs,
     ):
+        [w, h] = sorted((kwargs["width"], kwargs["height"]), reverse=True)
         args = [
             "--output",
             kwargs["name"],
             "--primary" if primary else "",
             "--mode",
-            self.dim(kwargs["width"], kwargs["height"]),
+            self.dim(w, h),
             "--pos",
             self.dim(x_offset, y_offset),
             "--rotate",

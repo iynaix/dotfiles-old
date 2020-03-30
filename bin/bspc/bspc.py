@@ -130,7 +130,7 @@ def move_window_to_corner(loc=None, *, pad_x=0, pad_y=0):
 ### COMPUTE CONSTANTS ###
 
 for mon_id in query("-M"):
-    monitor = tree("-m", mon_id)["rectangle"]
+    monitor = tree("--monitor", mon_id)["rectangle"]
     MONITORS[mon_id] = monitor
 
     if monitor["width"] >= 3440:

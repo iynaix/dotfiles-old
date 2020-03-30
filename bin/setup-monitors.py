@@ -21,7 +21,7 @@ def xrandr_cmd(randr):
         x_offset += disp["height"] if disp.get("vertical") else disp["width"]
 
     print(disp_args)
-    # cmd(disp_args)
+    cmd(disp_args)
 
 
 def bspwm_desktops(randr, debug=False):
