@@ -2,8 +2,8 @@
 
 import subprocess
 import time
+import q
 
-from bspc import p
 import bspc
 
 
@@ -25,7 +25,7 @@ def sendkey(wid, key):
         key,
     ]
 
-    p(" ".join(cmd))
+    q(" ".join(cmd))
     subprocess.run(cmd, check=True)
 
 
