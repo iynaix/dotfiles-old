@@ -401,3 +401,5 @@ _fab_list() {
     _describe -t commands "fabric commands" target_list
 }
 compdef _fab_list fab
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

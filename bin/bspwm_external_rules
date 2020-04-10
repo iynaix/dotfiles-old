@@ -2,10 +2,10 @@
 
 from subprocess import check_output
 import sys
-from bspc import p, VERTICAL_ID
+import q
+from bspc import VERTICAL_ID
 import bspc
 
-DEBUG = False
 MIN_SIZE = 100
 WIDTH_RATIO = 16
 HEIGHT_RATIO = 9
@@ -67,15 +67,13 @@ if __name__ == "__main__":
     #     exit(0)
 
     # debugging information
-    # p()
-    # p(original_rules)
+    # q(original_rules)
 
     # try to open media files at 16:9
     if window_class.lower() in ("mpv", "vlc", "smplayer"):
         geometry = bspc.window_geometry()
 
         t = bspc.tree("--node", "focused")
-        p(t)
 
         # TODO: mpv gives aspect ratio hints
         # WM_HINT
@@ -94,6 +92,6 @@ if __name__ == "__main__":
     # echo out new rules if any
     if NEW_RULES:
         rules_str = " ".join(f"{k}={v}" for k, v in NEW_RULES.items())
-        p(rules_str)
+        # q(rules_str)
         # this is the return, don not delete!
         print(rules_str)

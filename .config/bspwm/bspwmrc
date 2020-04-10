@@ -16,8 +16,8 @@ else
     bspc monitor %DP-0.8 -d 6 7 8 9 10
     bspc monitor DP-2 -d 1 2 3 4 5
 
-    window_gap=15
-    padding=15
+    window_gap=8
+    padding=8
 fi
 
 normal="#30302f"

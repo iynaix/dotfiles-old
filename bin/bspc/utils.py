@@ -1,14 +1,5 @@
 from subprocess import run, check_output
-
-DEBUG = True
-
-
-# used for debugging, run: tail -f /tmp/bspwm_dump
-def p(*arg, **kwargs):
-    if not DEBUG:
-        return
-    fp = open("/tmp/bspwm_dump", "a")
-    print(*arg, **kwargs, file=fp)
+import q
 
 
 def rget(obj, name, default=None):
@@ -24,7 +15,7 @@ def rget(obj, name, default=None):
 
 def cmd(args, debug=False, output=False):
     if debug:
-        p(" ".join(str(a) for a in args))
+        q(" ".join(str(a) for a in args))
 
     if output:
         return check_output(args).decode("ascii")

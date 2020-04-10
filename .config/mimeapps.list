@@ -16,3 +16,5 @@ application/json=nvim.desktop
 [Added Associations]
 text/vnd.qt.linguist=nvim.desktop;
 application/json=nvim.desktop;
+application/pdf=org.pwmt.zathura-pdf-poppler.desktop;
+text/x-python=nvim.desktop;

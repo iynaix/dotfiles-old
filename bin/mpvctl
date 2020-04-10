@@ -1,81 +1,99 @@
-#!/usr/bin/bash
+#!/usr/bin/env python3
 
-# forces only a single instance of mpv to be opened
+from pathlib import Path
+import json
+import socket
+import subprocess
+import sys
+import time
 
-wid=$(xdotool search --class mpv)
+MPV_SOCKET = "/tmp/mpvsocket"
 
-# echo "1: $1, 2: $2"
 
-case "$1" in
-    open)
-        # replace current playing file
-        if [ $wid ]; then
-            cmd=$( jq -n \
-                --arg fname "$2" \
-                '{command: ["loadfile", $fname, "replace"]}' )
+def get_wid():
+    try:
+        wid = subprocess.check_output(("xdotool", "search", "--class", "mpv")).decode(
+            "ascii"
+        )
+        return int(wid)
+    except subprocess.CalledProcessError:
+        return None
 
-            echo $cmd | socat - /tmp/mpvsocket
 
-            cmd=$( jq -n \
-                '{command: ["set_property", "pause", false]}' )
+def socat(cmd, socket_file=MPV_SOCKET):
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
-            echo $cmd | socat - /tmp/mpvsocket
+    if not isinstance(cmd, str):
+        cmd = json.dumps({"command": cmd})
 
-            # focus existing mpv window
-            bspc node --focus $wid
-        else
-            # open new instance
-            mpv --no-terminal --no-pause -- "$2"
-        fi
-        ;;
+    if not cmd.endswith("\n"):
+        cmd = f"{cmd}\n"
 
-    play)
-        # always play
-        if [ $wid ]; then
-            cmd=$( jq -n \
-                '{command: ["set_property", "pause", false]}' )
+    try:
+        sock.connect(socket_file)
+        sock.sendall(cmd.encode())
+        return json.loads(sock.recv(1024).decode("utf8").strip())
+    finally:
+        sock.close()
 
-            echo $cmd | socat - /tmp/mpvsocket
-        fi
-        ;;
 
-    pause)
-        # always pause
-        if [ $wid ]; then
-            cmd=$( jq -n \
-                '{command: ["set_property", "pause", true]}' )
+def target_playback_speed(fname):
+    parts = Path(fname).parts
 
-            echo $cmd | socat - /tmp/mpvsocket
-        fi
-        ;;
+    if "pending" in parts:
+        return 1
+    if "TEMP" in parts:
+        return 1
+    if "TMP" in parts:
+        return 1
+    if "Courses" in parts:
+        return 1.5
+    if "Videos" in parts:
+        return 1
 
-    playpause)
-        # toggle pause
-        if [ $wid ]; then
-            cmd=$( jq -n \
-                '{command: ["cycle", "pause"]}' )
+    return 1.5
 
-            echo $cmd | socat - /tmp/mpvsocket
-        fi
-        ;;
 
-    smartpause)
-        # TODO: pause if mpv window is not visible
-        if [ $wid ]; then
-            cmd=$( jq -n \
-                '{command: ["set_property", "pause", true]}' )
+def set_target_playback_speed(fname):
+    # normal speed, speed it up if needed
+    if 0.95 <= socat(["get_property", "speed"])["data"] <= 1.05:
+        target_speed = target_playback_speed(fname)
 
-            echo $cmd | socat - /tmp/mpvsocket
-        fi
-        ;;
+        if target_speed != 1:
+            socat(["set_property", "speed", target_speed])
 
-    seek)
-        if [ $wid ]; then
-            cmd=$( jq -n \
-                --arg sk "$2"
-                '{command: ["seek", $2]}' )
 
-            echo $cmd | socat - /tmp/mpvsocket
-        fi
-        ;;
-esac
+if __name__ == "__main__":
+    op = sys.argv[1]
+    wid = get_wid()
+
+    if op == "open":
+        fname = sys.argv[2]
+
+        if wid:
+            socat(["loadfile", fname, "replace"])
+            socat(["set_property", "pause", False])
+
+            set_target_playback_speed(fname)
+        else:
+            subprocess.Popen(("mpv", "--no-terminal", "--no-pause", fname))
+
+            time.sleep(0.5)
+            set_target_playback_speed(fname)
+
+        # focus the window
+        subprocess.run(("bspc", "node", "--focus", wid))
+
+    elif op == "play":
+        socat(["set_property", "pause", False])
+
+    elif op == "pause":
+        socat(["set_property", "pause", True])
+
+    elif op == "playpause":
+        socat(["cycle", "pause"])
+
+    elif op == "seek":
+        if wid:
+            jump = sys.argv[2]
+            socat(["seek", jump])
