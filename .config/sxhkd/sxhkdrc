@@ -68,6 +68,13 @@ super + shift + p
 super + {_,shift + }{h,j,k,l}
 	bspc node -f {_,-s} {west,south,north,east}
 
+# focus the node in the given direction, handles wraparound for monitors
+# super + {h,l}
+#     {WINDOW=left;DESKTOP=prev;,WINDOW=right;DESKTOP=next;} \
+#     if ! bspc window -f $WINDOW; then \
+#         bspc desktop -f $DESKTOP; \
+#     fi
+
 # focus the node for the given path jump
 # super + {p,b,comma,period}
 # 	bspc node -f @{parent,brother,first,second}
@@ -87,10 +94,6 @@ super + bracket{left,right}
 # move to the previous / next monitor, retains node focus
 super + shift + bracket{left,right}
     bspc node -m {prev,next} --follow
-    # wid=$(bspc query -N -n); \
-    # othermondesktop=$(bspc query -D -m {prev,next} -d '.active' --names); \
-    # bspc node -d $othermondesktop; \
-    # bspc node -f ${wid}
 
 # focus the previous / next desktop in the current monitor (DE style)
 ctrl + alt + {Left,Right}

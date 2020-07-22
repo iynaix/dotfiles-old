@@ -89,9 +89,14 @@ if __name__ == "__main__":
             if not third_win_id:
                 NEW_RULES["split_dir"] = "south"
 
+    # handle android emulator
+    if not window_class and not instance_name:
+        win_title = check_output(["xtitle", wid]).decode("utf-8")
+        if "Emulator" in win_title:
+            NEW_RULES["state"] = "pseudo_tiled"
+
     # echo out new rules if any
     if NEW_RULES:
         rules_str = " ".join(f"{k}={v}" for k, v in NEW_RULES.items())
-        # q(rules_str)
         # this is the return, don not delete!
         print(rules_str)

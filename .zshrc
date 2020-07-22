@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.npm/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/iynaix/.oh-my-zsh"
@@ -202,12 +203,12 @@ bindkey -M menuselect 'down' vi-down-line-or-history
 bindkey -M menuselect 'up' vi-up-line-or-history
 bindkey -M menuselect 'right' vi-forward-char
 
-# don't nag about .env files
-ZSH_DOTENV_PROMPT=false
-
 ##################################################
 # PROMPT SETTINGS
 ##################################################
+
+# don't nag about .env files
+ZSH_DOTENV_PROMPT=false
 
 # Change cursor with support for inside/outside tmux
 function _set_cursor() {
@@ -403,3 +404,8 @@ _fab_list() {
 compdef _fab_list fab
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+##################################################
+# SETUP ENVIRONMENT
+##################################################
+ANDROID_HOME=$HOME/Android/Sdk

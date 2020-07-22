@@ -105,12 +105,14 @@ aur_packages=(
     "gitflow-avh"
     "google-chrome"
     "gotop-bin"
+    "gron-bin"
     # fix color emojis crashing st:
     # https://gitlab.freedesktop.org/xorg/lib/libxft/merge_requests/1
     "libxft-bgra"
     "mongodb-bin"
     "mongodb-compass"
     "nerd-fonts-fira-code"
+    "nerd-fonts-jetbrains-mono"
     "nerd-fonts-ubuntu-mono"
     "numix-icon-theme-git"
     "polybar"
@@ -125,6 +127,7 @@ aur_packages=(
     "vivaldi"
     "workflowy"
     "xst"
+    "xtitle"
 )
 
 echo "## Installing Base Packages..."

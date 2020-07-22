@@ -9,6 +9,7 @@ Xft.lcdfilter: lcddefault
 *.font: FuraCode Nerd Font Mono:Medium:size=11
 *.bold_font: FuraCode Nerd Font Mono:Bold:size=11
 
+st.borderpx: 8
 st.termname: st-256color
 
 *.background:     #011627

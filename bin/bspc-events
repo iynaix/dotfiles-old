@@ -150,7 +150,7 @@ def node_add_video_window(ev, ev_args):
         )
 
         # set the new ratio and direction
-        bspc.node(f"@parent", "--ratio", new_ratio["split_ratio"], debug=True)
+        bspc.node("@parent", "--ratio", new_ratio["split_ratio"], debug=True)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,6 @@ application/x-shellscript=nvim.desktop
 image/gif=sxiv.desktop
 image/jpeg=sxiv.desktop
 image/png=sxiv.desktop
-text/html=brave.desktop
 text/plain=my_nvim.desktop
 x-scheme-handler/about=brave.desktop
 x-scheme-handler/http=brave.desktop
@@ -12,9 +11,14 @@ x-scheme-handler/magnet=transmission-gtk.desktop
 x-scheme-handler/unknown=brave.desktop
 text/vnd.qt.linguist=nvim.desktop
 application/json=nvim.desktop
+application/javascript=nvim.desktop
+x-scheme-handler/webcal=brave-browser.desktop
+application/vnd.rar=org.gnome.FileRoller.desktop
 
 [Added Associations]
 text/vnd.qt.linguist=nvim.desktop;
 application/json=nvim.desktop;
 application/pdf=org.pwmt.zathura-pdf-poppler.desktop;
 text/x-python=nvim.desktop;
+application/javascript=nvim.desktop;
+application/vnd.rar=org.gnome.FileRoller.desktop;

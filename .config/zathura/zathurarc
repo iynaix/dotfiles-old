@@ -1,41 +1,49 @@
-# colors
-set notification-error-bg       "#ef5350" 
-set notification-error-fg       "#d6deeb" 
-set notification-warning-bg     "#f78c6c" 
-set notification-warning-fg     "#2d2c5d"
-set notification-bg             "#011627" 
-set notification-fg             "#d6deeb" 
+set completion-group-bg         "#282828"
+set completion-group-fg         "#ebdbb2"
+set completion-bg               "#282828"
+set completion-fg               "#ebdbb2"
+set completion-highlight-bg     "#458588"
+set completion-highlight-fg     "#ebdbb2"
 
-set completion-bg               "#011627" 
-set completion-fg               "#44596b"
-set completion-group-bg         "#011627" 
-set completion-group-fg         "#44596b"
-set completion-highlight-bg     "#2d2c5d"
-set completion-highlight-fg     "#d6deeb" 
+set notification-error-bg       "#3c3836"
+set notification-error-fg       "#ebdbb2"
+set notification-warning-bg     "#3c3836"
+set notification-warning-fg     "#ebdbb2"
+set notification-bg             "#3c3836"
+set notification-fg             "#ebdbb2"
 
-set index-bg                    "#011627" 
-set index-fg                    "#d6deeb" 
-set index-active-bg             "#2d2c5d"
-set index-active-fg             "#d6deeb" 
+set index-bg                    "#1d2021"
+set index-fg                    "#ebdbb2"
+set index-active-bg             "#282828"
+set index-active-fg             "#ebdbb2"
 
-set inputbar-bg                 "#011627" 
-set inputbar-fg                 "#d6deeb" 
-set statusbar-bg                "#011627" 
-set statusbar-fg                "#d6deeb" 
+set inputbar-bg                 "#3c3836"
+set inputbar-fg                 "#ebdbb2"
 
-set highlight-color             "#f78c6c" 
-set highlight-active-color      "#c792ea"
+set statusbar-bg                "#282828"
+set statusbar-fg                "#ebdbb2"
 
-set default-bg                  "#011627" 
-set default-fg                  "#d6deeb" 
+set highlight-color             "#458588"
+set highlight-active-color      "#458588"
 
-set render-loading              true
-set render-loading-fg           "#011627" 
-set render-loading-bg           "#d6deeb" 
+set default-bg                  "#1d2021"
+set default-fg                  "#001512"
+set recolor-lightcolor          "#282828"
+set recolor-darkcolor           "#ebdbb2"
 
-set recolor-lightcolor          "#011627" 
-set recolor-darkcolor           "#d6deeb" 
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-padding 1
+map u scroll half-up
+map d scroll half-down
+map D toggle_page_mode
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map p print
+map i recolor
 
 # startup options
 set adjust-open best-fit
-set recolor true
+set recolor                     true
