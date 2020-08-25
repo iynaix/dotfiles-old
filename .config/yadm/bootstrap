@@ -82,6 +82,7 @@ base_packages=(
     "ttf-hack"
     "udiskie"
     "vifm"
+    "vit"
     "vlc"
     "x11-ssh-askpass"
     "xcape"
@@ -99,7 +100,6 @@ base_packages=(
 aur_packages=(
     "betterlockscreen"
     "brave-bin"
-    "compton-tryone-git"
     "dragon-drag-and-drop-git"
     "dust"
     "gitflow-avh"
@@ -115,6 +115,7 @@ aur_packages=(
     "nerd-fonts-jetbrains-mono"
     "nerd-fonts-ubuntu-mono"
     "numix-icon-theme-git"
+    "picom-tryone-git"
     "polybar"
     "lf"
     "rar"

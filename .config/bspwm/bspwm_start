@@ -23,8 +23,8 @@ else
     xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png'
 fi
 
-# (re)start compton
-pgrep compton && pkill compton || compton -b &
+# (re)start picom
+pgrep picom && pkill picom || picom -b --experimental-backends &
 
 # TODO: receptacles on web and downloads desktops
 

@@ -8,7 +8,6 @@ import bspc
 
 
 def is_browser(node_info):
-    return True  # TODO: REMOVE ME
     clsname = node_info["client"]["className"].lower()
     return any(w in clsname for w in ("brave", "chrome", "firefox"))
 
@@ -30,6 +29,8 @@ def sendkey(wid, key):
 
 
 node_info = bspc.tree("--node", "focused")
+
+bspc.node("--state", "~floating", "--flag", "sticky=off", "--layer", "normal")
 
 # reset window back to normal tiling status
 if node_info["client"]["state"] == "floating" and node_info["sticky"]:

@@ -79,4 +79,10 @@ xrdb ~/.Xresources
 # mpd
 # [ ! -s ~/.config/mpd/pid ] && mpd
 
+# ping -c1
+
 [[ ! $(pidof -x brave) ]] && ~/.config/bspwm/bspwm_start &
+# until ping -c1 www.google.com >/dev/null 2>&1
+# do
+# done
+

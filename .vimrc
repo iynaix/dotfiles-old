@@ -27,6 +27,7 @@ Plug 'haishanh/night-owl.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'leafgarland/typescript-vim'
 Plug 'mattn/emmet-vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -41,7 +42,6 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/IndexedSearch'
 Plug 'vim-scripts/matchit.zip'
-Plug 'w0rp/ale'
 
 " Initialize plugin system
 call plug#end()
@@ -388,6 +388,12 @@ let g:SuperTabDefaultCompletionType = "context"
 set updatetime=300
 set shortmess+=c
 set signcolumn=yes
+
+" from primeagen
+nnoremap <leader>gc :GCheckout<CR>
+nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 
 " " Use tab for trigger completion with characters ahead and navigate.
 " " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
