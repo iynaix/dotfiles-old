@@ -126,7 +126,6 @@ aur_packages=(
     "ttf-font-awesome-4"
     "ttf-ubuntu-font-family"
     "vivaldi"
-    "workflowy"
     "xst"
     "xtitle"
 )

@@ -35,10 +35,6 @@ brave --incognito &
 bspc rule -a $chromeclass -o desktop=$webdesktop &
 brave &
 
-# workflowy
-bspc rule -a WorkFlowy -o desktop=$listdesktop &
-env DESKTOPINTEGRATION=0 /opt/WorkFlowy-x86_64.AppImage &
-
 # downloads desktop
 if ! xrandr | grep -q "eDP1 connected"; then
     transmission-gtk &

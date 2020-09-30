@@ -5,7 +5,7 @@ from os.path import expanduser
 SHORTCUTS = expanduser("~/bin/shortcuts.txt")
 SHELL_SHORTCUTS_PATH = "~/.shortcutrc"
 RANGER_SHORTCUTS_PATH = "~/.config/ranger/shortcuts.conf"
-LF_SHORTCUTS_PATH = "~/.config/ranger/shortcutsrc"
+LF_SHORTCUTS_PATH = "~/.config/lf/shortcutrc"
 
 
 def load_shortcuts():
@@ -52,6 +52,7 @@ def lf_shortcuts(shortcuts):
         ret.append(f"map m{name} mv -v {dest}")
         ret.append(f"map Y{name} cp -rv {dest}")
     return comment_block(ret)
+
 
 def vifm_shortcuts(shortcuts):
     ret = []
