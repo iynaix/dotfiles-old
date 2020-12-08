@@ -9,7 +9,7 @@ from .utils import rget
 # capture and print all errors for easier debugging
 def log_exception(exctype, value, tb):
     if exctype == KeyboardInterrupt:
-        pass
+        return
 
     q("=======ERROR=======")
     q("Type:", exctype)

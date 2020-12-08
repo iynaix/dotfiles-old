@@ -115,7 +115,7 @@ aur_packages=(
     "nerd-fonts-jetbrains-mono"
     "nerd-fonts-ubuntu-mono"
     "numix-icon-theme-git"
-    "picom-tryone-git"
+    "picom-jonaburg-git"
     "polybar"
     "lf"
     "rar"

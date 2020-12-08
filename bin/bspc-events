@@ -58,55 +58,45 @@ def handle_border_color(ev, ev_args):
     _set_focus_color(DEFAULT_FOCUS_COLOR)
 
 
-def get_leaves(node, *, path=""):
-    ret = {}
-    if node["firstChild"]:
-        ret.update(get_leaves(node["firstChild"], path=f"{path}1"))
+def get_leaves(*, desktop=None, node=""):
+    if desktop is None:
+        desktop = "focused"
 
-    if node["secondChild"]:
-        ret.update(get_leaves(node["secondChild"], path=f"{path}2"))
-
-    # found a leaf node!
-    if not node["firstChild"] and not node["secondChild"]:
-        node_id = node["id"]
-        nice_path = "/".join(list(path))
-        # key by both path and node id, so actual len is half
-        ret[nice_path] = node_id
-        ret[node_id] = nice_path
-
-    return ret
+    return bspc.query(
+        "--nodes",
+        "--desktop",
+        desktop,
+        "--node",
+        f".leaf.window.!hidden.!floating{node}",
+    )
 
 
-def third_win_id(desk_id="focused"):
-    root = bspc.tree("--desktop", desk_id).get("root", {})
-    if not root:
-        return None
+def balance_nodes(desk_id=None, *, equalize=False):
+    desk_id = "@/" if desk_id is None else f"{desk_id}:"
+    cmd = [desk_id, "--balance"]
+    if equalize:
+        cmd.append("--equalize")
 
-    leaves = get_leaves(root)
-
-    # 3 leaf nodes total
-    # handle both child of first node / child of second node
-    if len(leaves) / 2 == 3:
-        return leaves.get("1/1") or leaves.get("2/1")
-
-
-def balance_nodes(desk_id=""):
-    if desk_id:
-        desk_id = f"{desk_id}:"
-    bspc.node(f"@{desk_id}/", "--equalize", "--balance")
+    bspc.node(*cmd)
 
 
 def node_add_third_window(ev, ev_args):
     [mon_id, desk_id, win_id] = ev_args[:3]
+
+    desktop_nodes = get_leaves()
+
     if mon_id == ULTRAWIDE_ID or mon_id == VERTICAL_ID:
-        if int(win_id, 16) == third_win_id(desk_id):
+        if len(desktop_nodes) == 3:
             balance_nodes()
 
 
 def node_remove_third_window(ev, ev_args):
     [mon_id, desk_id, win_id] = ev_args[:3]
+
+    desktop_nodes = get_leaves()
+
     if mon_id == ULTRAWIDE_ID or mon_id == VERTICAL_ID:
-        if not third_win_id(desk_id):
+        if len(desktop_nodes) == 3 or len(desktop_nodes) == 2:
             balance_nodes()
 
 
@@ -121,13 +111,17 @@ def node_transfer_third_window(ev, ev_args):
     ] = ev_args
 
     if src_mon_id == ULTRAWIDE_ID or src_mon_id == VERTICAL_ID:
-        # same as node_remove, balance remaining 2 nodes
-        if not third_win_id(src_desk_id):
+        src_nodes = get_leaves(desktop=src_desk_id)
+
+        # same as node add
+        if len(src_nodes) == 3 or len(src_nodes) == 2:
             balance_nodes(src_desk_id)
 
     if dest_mon_id == ULTRAWIDE_ID or dest_mon_id == VERTICAL_ID:
-        # same as node_add, balance 3 nodes
-        if int(dest_node_id) == third_win_id(dest_desk_id):
+        dest_nodes = get_leaves(desktop=dest_desk_id)
+
+        # same as node remove
+        if len(dest_nodes) == 3:
             balance_nodes(dest_desk_id)
 
 
@@ -166,7 +160,7 @@ if __name__ == "__main__":
         #     if node_add_video_window(ev, ev_args):
         #         continue
 
-        # auto balancing for 3 windows
+        # setup auto balancing for 3 windows if ultrawide or vertical
         if ULTRAWIDE_ID or VERTICAL_ID:
             if ev == "node_add":
                 node_add_third_window(ev, ev_args)

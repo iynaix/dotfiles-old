@@ -410,6 +410,10 @@ compdef _fab_list fab
 ##################################################
 ANDROID_HOME=$HOME/Android/Sdk
 
+export npm_config_prefix=~/.node_modules
+
+export DJANGO_READ_DOT_ENV_FILE=True
+
 export LF_ICONS="\
 tw=:\
 st=:\
