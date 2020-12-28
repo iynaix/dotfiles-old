@@ -69,6 +69,7 @@ bspc rule -a Amule desktop=10
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 bspc rule -a Peek state=floating
+bspc rule -a streamdeck state=floating
 
 xrdb ~/.Xresources
 # pidof bspswallow || bspswallow &

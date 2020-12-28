@@ -51,7 +51,7 @@ bspc rule -a Nemo:nemo -o desktop=$nemodesktop &
 nemo &
 
 # chat desktop
-firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com &
+firefox-developer-edition -n=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com &
 
 # terminal desktops
 bspc rule -a $termclass:ranger -o desktop=$filedesktop &

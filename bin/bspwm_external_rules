@@ -2,7 +2,7 @@
 
 from subprocess import check_output
 import sys
-import q
+# import q
 from bspc import VERTICAL_ID
 import bspc
 

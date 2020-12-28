@@ -7,7 +7,7 @@ super + Return
 	$TERMINAL
 
 # program launcher
-super + d
+super + shift + Return
 	rofi -combi-modi drun,run -show combi -modi combi
 
 # reload bspwm
