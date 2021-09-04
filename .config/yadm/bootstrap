@@ -37,6 +37,7 @@ base_packages=(
     "highlight"
     "htop"
     "ipython"
+    "lazygit"
     "libreoffice-fresh"
     "maim"
     "mpd"
@@ -98,6 +99,7 @@ base_packages=(
 )
 
 aur_packages=(
+    "bazarr",
     "betterlockscreen"
     "brave-bin"
     "dragon-drag-and-drop-git"
@@ -109,6 +111,7 @@ aur_packages=(
     # fix color emojis crashing st:
     # https://gitlab.freedesktop.org/xorg/lib/libxft/merge_requests/1
     "libxft-bgra"
+    "lf"
     "mongodb-bin"
     "mongodb-compass"
     "nerd-fonts-fira-code"
@@ -117,8 +120,8 @@ aur_packages=(
     "numix-icon-theme-git"
     "picom-jonaburg-git"
     "polybar"
-    "lf"
     "rar"
+    "sonarr",
     "subliminal"
     "tdrop-git"
     "tremc"

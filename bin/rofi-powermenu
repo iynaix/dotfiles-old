@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
 _rofi() {
-    rofi -sep '|' -columns 6 -lines 1 -disable-history true -cycle true \
-        -theme ~/.config/rofi/theme/rofi-simplemenu.rasi -width -30 \
+    rofi -sep '|' -columns 4 -lines 2 -disable-history true -cycle true \
+        -theme ~/.config/rofi/theme/rofi-simplemenu.rasi -width -35 \
         -dmenu -font "FuraCode Nerd Font 30" "$@"
     }
 
-choice=$(echo "||||" | _rofi)
+# choice=$(echo "||||||" | _rofi)
+
+choice=$(echo "|||||" | _rofi)
 
 case "$choice" in
     )
@@ -16,6 +18,7 @@ case "$choice" in
         ;;
 
     )
+        # suspend
         xset dpms force off
         ;;
 
@@ -34,9 +37,23 @@ case "$choice" in
         ;;
 
     )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Powering off. Are you sure?</span>")
+        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Shutting Down. Are you sure?</span>")
         if [ "$choice" = "Yes" ]; then
             systemctl poweroff
+        fi
+        ;;
+
+    )
+        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Powering Off. Are you sure?</span>")
+        if [ "$choice" = "Yes" ]; then
+            curl http://192.168.1.103:1880/endpoint/toggle_power
+        fi
+        ;;
+
+    )
+        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Bedtime. Are you sure?</span>")
+        if [ "$choice" = "Yes" ]; then
+            curl http://192.168.1.103:1880/endpoint/toggle_power
         fi
         ;;
 esac

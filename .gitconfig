@@ -35,3 +35,6 @@
 
 [push]
     default = simple
+
+[alias]
+	reword = !sh ~/bin/git-reword.sh

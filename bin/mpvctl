@@ -1,13 +1,26 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
+import argparse
 import json
 import socket
 import subprocess
 import sys
 import time
+import urllib.request
 
 MPV_SOCKET = "/tmp/mpvsocket"
+FORCE_DAC_URL = "http://192.168.1.103:1880/endpoint/force_dac"
+
+# create arg parser
+parser = argparse.ArgumentParser(description="Controls MPV")
+parser.add_argument(
+    "Operation",
+    metavar="OPERATION",
+    type=str,
+    help="Operation: open / play / pause / playpause / seek",
+)
+parser.add_argument("Path", metavar="PATH", type=str)
 
 
 def get_wid():
@@ -42,6 +55,8 @@ def target_playback_speed(fname):
 
     if "pending" in parts:
         return 1
+    if "Unsorted" in parts:
+        return 1
     if "TEMP" in parts:
         return 1
     if "TMP" in parts:
@@ -63,12 +78,33 @@ def set_target_playback_speed(fname):
             socat(["set_property", "speed", target_speed])
 
 
+def should_use_dac(fname):
+    parts = Path(fname).parts
+
+    if "pending" in parts:
+        return True
+    if "Unsorted" in parts:
+        return True
+    if "TEMP" in parts:
+        return True
+    if "TMP" in parts:
+        return True
+
+    return False
+
+
 if __name__ == "__main__":
+    # args = parser.parse_args()
+
     op = sys.argv[1]
     wid = get_wid()
 
     if op == "open":
         fname = sys.argv[2]
+
+        # switch to using the dac if necessary
+        if should_use_dac(fname):
+            urllib.request.urlopen(FORCE_DAC_URL)
 
         if wid:
             socat(["loadfile", fname, "replace"])
@@ -82,7 +118,8 @@ if __name__ == "__main__":
             set_target_playback_speed(fname)
 
         # focus the window
-        subprocess.run(("bspc", "node", "--focus", wid))
+        if wid:
+            subprocess.run(("bspc", "node", "--focus", wid))
 
     elif op == "play":
         socat(["set_property", "pause", False])

@@ -26,19 +26,12 @@ fi
 # (re)start picom
 pgrep picom && pkill picom || picom -b --experimental-backends &
 
-# TODO: receptacles on web and downloads desktops
-
 # web browsers
 bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
 brave --incognito &
 
 bspc rule -a $chromeclass -o desktop=$webdesktop &
 brave &
-
-# downloads desktop
-if ! xrandr | grep -q "eDP1 connected"; then
-    transmission-gtk &
-fi
 
 bspc rule -a $termclass:dltxt -o desktop=$dldesktop &
 $TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
@@ -51,7 +44,7 @@ bspc rule -a Nemo:nemo -o desktop=$nemodesktop &
 nemo &
 
 # chat desktop
-firefox-developer-edition -n=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com &
+firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com http://localhost:9091 &
 
 # terminal desktops
 bspc rule -a $termclass:ranger -o desktop=$filedesktop &

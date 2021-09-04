@@ -5,58 +5,6 @@ from bspc import ULTRAWIDE_ID, VERTICAL_ID, rget
 import bspc
 from bspc.event_utils import split_ratio
 
-DEFAULT_FOCUS_COLOR = "#4491ed"
-MONOCLE_FOCUS_COLOR = "#c792ea"
-STICKY_FOCUS_COLOR = "#f78c6c"
-FLOATING_FOCUS_COLOR = "#22da6e"
-
-
-def _set_focus_color(color):
-    bspc.config("focused_border_color", color)
-
-
-def _set_monocle_focus(desk_id):
-    desk_info = bspc.tree("--desktop", desk_id)
-    layout = desk_info["userLayout"]
-
-    # set color if monocle with other windows
-    if layout == "monocle":
-        # any other windows?
-        nodes = bspc.query("--nodes", "--desktop", desk_id, "--node", ".leaf")
-        if len(nodes) > 1:
-            _set_focus_color(MONOCLE_FOCUS_COLOR)
-            return True
-
-    return False
-
-
-def handle_border_color(ev, ev_args):
-    # as long as color is changed from default, bail early
-    mon_id, desk_id = ev_args[:2]
-
-    # bail for node state first
-    if ev == "desktop_layout":
-        if _set_monocle_focus(desk_id):
-            return
-
-    else:
-        node_id = ev_args[2]
-        node_info = bspc.tree("--node", node_id)
-
-        if node_info["sticky"]:
-            _set_focus_color(STICKY_FOCUS_COLOR)
-            return
-        if node_info["client"]["state"] == "floating":
-            _set_focus_color(FLOATING_FOCUS_COLOR)
-            return
-
-        # finally check monocle once again
-        if _set_monocle_focus(desk_id):
-            return
-
-    # no special settings, use default
-    _set_focus_color(DEFAULT_FOCUS_COLOR)
-
 
 def get_leaves(*, desktop=None, node=""):
     if desktop is None:
@@ -152,9 +100,6 @@ if __name__ == "__main__":
     while 1:
         line = sys.stdin.readline()
         [ev, *ev_args] = line.split()
-
-        if ev in ("desktop_layout", "node_focus", "node_state", "node_flag"):
-            handle_border_color(ev, ev_args)
 
         # if ev == "node_add":
         #     if node_add_video_window(ev, ev_args):

@@ -10,4 +10,7 @@ xsetroot -cursor_name left_ptr &
 # start clipboard manager
 clipmenud &
 
+# start torrents
+transmission-daemon &
+
 exec bspwm
