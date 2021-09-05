@@ -1,49 +1,58 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""Global Settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 "modern vim, forget about vi compatibility
 set nocompatible
-
-" run the following in the shell for initial installation of plugins
-" vim +PlugInstall +qall
-
-" automatic instllation of vim-plug
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
 
 " initialize plugins
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
-" Must use single quotes
-
-Plug 'ap/vim-css-color'
-Plug 'bling/vim-airline'
+Plug 'akinsho/nvim-bufferline.lua'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'haishanh/night-owl.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'leafgarland/typescript-vim'
+Plug 'hoob3rt/lualine.nvim'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'jremmen/vim-ripgrep'
+Plug 'karb94/neoscroll.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'mattn/emmet-vim'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jremmen/vim-ripgrep'
-Plug 'sheerun/vim-polyglot'
-Plug 'sjl/splice.vim'
-Plug 'terryma/vim-expand-region'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'ojroques/nvim-bufdel'
+Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
+Plug 'tpope/vim-abolish' " :%S
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
 Plug 'vim-scripts/IndexedSearch'
 Plug 'vim-scripts/matchit.zip'
+Plug 'windwp/nvim-autopairs'
 
-" Initialize plugin system
+" Language Server Protocol
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'folke/trouble.nvim'
+
+" File Management
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-tree.lua'
+
+" Syntax Highlighting
+" https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
+
+" tmux plugins
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'preservim/vimux'
+
 call plug#end()
 
 " enable 24bit true color
@@ -150,10 +159,17 @@ set guifont=Fura\ Code\ Nerd\ Font\ Medium\ 11
 "more natural splits
 set splitright splitbelow
 
+" easier navigation of windows
 nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 nnoremap <c-h> <c-w><c-h>
+
+" easier resizing of windows
+nnoremap <M-j> :resize -2<CR>
+nnoremap <M-k> :resize +2<CR>
+nnoremap <M-l> :vertical resize -2<CR>
+nnoremap <M-h> :vertical resize +2<CR>
 
 "swap exists warning, edit anyway
 :au SwapExists * let v:swapchoice = 'e'
@@ -168,7 +184,7 @@ else
 	let &t_EI = "\<Esc>[2 q"
 endif
 
-" Remove trailing whitespace from end of file
+" Remove trailing whitespace from end of line
 autocmd BufWritePre * :%s/\s\+$//e
 
 " automatically give executable permissions if file begins with #! and contains
@@ -236,9 +252,6 @@ vnoremap <silent> <expr> p <sid>Repl()
 
 nnoremap <leader>/ :noh<cr>
 
-" easier searching
-nnoremap S :%s///<Left><Left>
-
 "prevent the f1 key from triggering
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
@@ -254,23 +267,38 @@ nnoremap K <nop>
 "do not save if buffer is untitled
 au FocusLost ^(\[No Name\]) :wa
 
-"jk now exits insert mode
+"jk / kj exits insert mode
 inoremap jk <ESC>
+inoremap kj <ESC>
 
 " absolute line numbers in insert mode, relative otherwise for easy movement
 au InsertEnter * :set nu nornu
 au InsertLeave * :set nu rnu
 
 "center display after searches
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+nnoremap * *zzzv
+nnoremap # #zzzvv
+nnoremap g* g*zzzv
+nnoremap g# g#zzzv
 
-" Unfuck my screen
-" nnoremap <c-l> :syntax sync fromstart<cr>:redraw!<cr>
+" undo breakpoints after punctuation
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+
+" only jumps of more than 5 lines make it into the jumplist
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
+
+" moving text by lines
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '>-2<CR>gv=gv
+" nnoremap <leader>k :m .-2<CR>==
+" nnoremap <leader>j :m .+1<CR>==
 
 "easily enter visual block mode
 nnoremap vv <C-v>
@@ -284,44 +312,17 @@ cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>"
 
-" closes the buffer without closing the window
-function! BufferDelete()
-    if &modified
-        echohl ErrorMsg
-        echomsg "No write since last change. Not closing buffer."
-        echohl NONE
-    else
-        let s:total_nr_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-
-        if s:total_nr_buffers == 1
-            bdelete
-            echo "Buffer deleted. Created new buffer."
-        else
-            bprevious
-            bdelete #
-            echo "Buffer deleted."
-        endif
-    endif
-endfunction
-cnoremap BD :call BufferDelete()<CR>
-
-" inserts the super(<class_name>, self).<method_name>(<method_args>) for
-" python
-nnoremap <leader>s mz?^class<CR>w"cyiw'zasuper(<C-R>c, self).<C-C>?def <CR>w"cy$gi<C-R>c<C-C>x%ldW:s/=.\{-\},/,/e<CR>:noh<CR>$
-
 " for when we forget to use sudo to open/edit a file
 cnoremap w!! w !sudo tee % >/dev/null
 
 "easier buffer navigation
-nnoremap <C-Tab> :bnext<cr>
-nnoremap <C-S-Tab> :bprevious<cr>
+nnoremap <Tab> :bnext<cr>
+nnoremap <S-Tab> :bprevious<cr>
 
 "open help in a vertical split
 cnoremap vh :vert help
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"REMAPS TO PREVENT BAD HABITS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" prevent bad habits
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
@@ -335,211 +336,13 @@ nnoremap gj j
 nnoremap k gk
 nnoremap gk k
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-ripgrep
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rg_command = "rg --smart-case"
 let g:rg_derive_root = 1
 " Ag opens the first match in a buffer as the default, super annoying
 nnoremap <leader>/ :Rg<Space>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" FZF
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" search project directory
-noremap <leader>pf :GFiles<cr>
-"search buffer
-noremap <leader>bb :Buffers<cr>
-"search MRU
-noremap <leader>fr :History<cr>
-"search lines in current file
-noremap <leader>ss :BLines<cr>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Splice
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let splice_initial_layout_grid = 1
-let splice_initial_mode = "grid"
-let splice_initial_scrollbind_grid = 1
-let splice_initial_scrollbind_loupe = 1
-let splice_initial_scrollbind_compare = 1
-let splice_initial_scrollbind_path = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Airline (Statusbar)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:powerline_loaded = 1
-let g:airline_powerline_fonts = 0
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#buffer_min_count = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Supertab
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:SuperTabDefaultCompletionType = "context"
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Coc.vim
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set updatetime=300
-set shortmess+=c
-set signcolumn=yes
-
-" from primeagen
-nnoremap <leader>gc :GCheckout<CR>
-nnoremap <leader>ghw :h <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
-
-" " Use tab for trigger completion with characters ahead and navigate.
-" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-
-" " Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
-
-" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" " position. Coc only does snippet and additional edit on confirm.
-" if exists('*complete_info')
-"   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-" else
-"   imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" endif
-
-" " Use `[g` and `]g` to navigate diagnostics
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" " GoTo code navigation.
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-" " Use K to show documentation in preview window.
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
-
-" " Highlight the symbol and its references when holding the cursor.
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" " Symbol renaming.
-" nmap <leader>rn <Plug>(coc-rename)
-
-" " Formatting selected code.
-" xmap <leader>f  <Plug>(coc-format-selected)
-" nmap <leader>f  <Plug>(coc-format-selected)
-
-" augroup mygroup
-"   autocmd!
-"   " Setup formatexpr specified filetype(s).
-"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-"   " Update signature help on jump placeholder.
-"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-" augroup end
-
-" " Applying codeAction to the selected region.
-" " Example: `<leader>aap` for current paragraph
-" xmap <leader>a  <Plug>(coc-codeaction-selected)
-" nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" " Remap keys for applying codeAction to the current line.
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" " Apply AutoFix to problem on the current line.
-" nmap <leader>qf  <Plug>(coc-fix-current)
-
-" " Introduce function text object
-" " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-" xmap if <Plug>(coc-funcobj-i)
-" xmap af <Plug>(coc-funcobj-a)
-" omap if <Plug>(coc-funcobj-i)
-" omap af <Plug>(coc-funcobj-a)
-
-" " Use <TAB> for selections ranges.
-" " NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" " coc-tsserver, coc-python are the examples of servers that support it.
-" nmap <silent> <TAB> <Plug>(coc-range-select)
-" xmap <silent> <TAB> <Plug>(coc-range-select)
-
-" " Add `:Format` command to format current buffer.
-" command! -nargs=0 Format :call CocAction('format')
-
-" " Add `:Fold` command to fold current buffer.
-" command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" " Add `:OR` command for organize imports of the current buffer.
-" command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" " Add (Neo)Vim's native statusline support.
-" " NOTE: Please see `:h coc-status` for integrations with external plugins that
-" " provide custom statusline: lightline.vim, vim-airline.
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" " Mappings using CoCList:
-" " Show all diagnostics.
-" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" " Manage extensions.
-" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" " Show commands.
-" nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" " Find symbol of current document.
-" nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" " Search workspace symbols.
-" nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" " Do default action for next item.
-" nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" " Do default action for previous item.
-" nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" " Resume latest coc list.
-" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntastic
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_enable_signs = 0
-let g:syntastic_enable_balloons  =  1
-let g:syntastic_enable_highlighting  =  0
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_python_checkers = ['flake8']
-if executable('flake8-python2')
-    let g:syntastic_python_flake8_exec = 'flake8-python2'
-endif
-let g:syntastic_python_flake8_args = '--max-complexity 10 --ignore="E122,E124,E126,E127,E128"'
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ALE (Asynchronous Lint Engine)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ale_fixers = {}
-let g:ale_javascript_prettier_options = '--print-width 1000 --no-semi --tab-width 4 --trailing-comma es5'
-let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers['python'] = ['yapf']
-let g:ale_fix_on_save = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Incsearch
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" incsearch
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -547,33 +350,210 @@ let g:incsearch#consistent_n_direction = 1
 let g:incsearch#do_not_save_error_message_history = 1
 let g:incsearch#magic = '\v' " very magic (sane use of regexes for searching)
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Expand Region
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" hitting v multiple times expands the selection
-vmap v <Plug>(expand_region_expand)
+" nvm-bufdel
+nnoremap <silent> <leader>db :BufDel<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Javascript
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jsx_ext_required = 0
+" windwp/nvim-autopairs
+lua << EOF
+require('nvim-autopairs').setup()
+EOF
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Python
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let python_highlight_all=1
-au FileType python setlocal colorcolumn=80 commentstring=#%s
+" akinsho/nvim-bufferline.lua
+lua << EOF
+require("bufferline").setup {
+    highlights = {
+        fill = {
+            guifg = "#011627",
+        },
+        -- separator = {
+        --     guifg = "#ffffff",
+        -- },
+    },
+    options = {
+        -- separator_style = {"|", "|"},
+        separator_style = "slant"
+    }
+}
+EOF
+nnoremap <silent> gb :BufferLinePick<CR>
 
-" Automatic syntax highlighting for django template files
-au BufRead,BufNewFile *.html set filetype=htmldjango
+" norcalli/nvim-colorizer.lua
+lua << EOF
+require'colorizer'.setup()
+EOF
 
-" disable the linting from python-mode
-let g:pymode_lint = 0
+" lewis6991/gitsigns.nvim
+lua << EOF
+  require('gitsigns').setup({})
+EOF
 
-" disable rope
-let g:pymode_rope = 0
+" tpope/vim-fugitive
+nnoremap <leader>gg :G<cr>
 
-" jedi related
-let g:jedi#auto_initialization = 1
-let g:jedi#documentation_command = '<leader>k'
-let g:jedi#popup_on_dot = 0
+" karb94/neoscroll.nvim
+lua << EOF
+require('neoscroll').setup()
+EOF
+
+" neovim/nvim-lspconfig
+" npm i -g typescript typescript-language-server
+lua << EOF
+local util = require "lspconfig/util"
+require 'lspconfig'.tsserver.setup{
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+    end,
+    root_dir = util.root_pattern(".git", "tsconfig.json", "jsconfig.json")
+}
+EOF
+lua << EOF
+-- npm install -g eslint_d
+local eslint = {
+    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+    lintIgnoreExitCode = true,
+    lintStdin = true,
+    lintFormats = {"%f:%l:%c: %m"},
+    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatStdin = true
+}
+-- brew install efm-langserver
+require "lspconfig".efm.setup {
+    init_options = {documentFormatting = true, codeAction = true},
+    filetypes = {"javascriptreact", "javascript", "typescript", "typescriptreact"},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            javascript = {eslint},
+            javascriptreact = {eslint},
+        }
+    }
+}
+EOF
+
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+
+lua require 'lspsaga'.init_lsp_saga()
+nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
+nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+" nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
+nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
+nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
+tnoremap <silent><M-g> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
+nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
+nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
+lua << EOF
+require 'trouble'.setup {}
+EOF
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle lsp_workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+
+" nvim-telescope/telescope.nvim
+lua << EOF
+require('telescope').setup {
+  defaults = {
+    file_ignore_patterns = { "yarn.lock" }
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      case_mode = "smart_case"
+    }
+  },
+  pickers = {
+    buffers = {
+      show_all_buffers = true,
+      sort_lastused = true,
+      theme = "dropdown",
+      previewer = false,
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer",
+        }
+      }
+    }
+  }
+}
+require('telescope').load_extension('fzf')
+EOF
+nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
+nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
+nnoremap <Leader>fr :lua require'telescope.builtin'.oldfiles{}<cr>
+nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
+nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
+" nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" 'hrsh7th/nvim-compe'
+lua << EOF
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  source = {
+    path = true;
+    buffer = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    -- treesitter = true;
+  };
+}
+EOF
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+
+" nvim-treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    'html', 'javascript', 'typescript', 'tsx', 'css', 'json'
+  },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = true
+  },
+  indent = {
+    enable = false
+  }
+}
+EOF
+
+" hoob3rt/lualine.nvim
+lua << EOF
+require('plenary.reload').reload_module('lualine', true)
+require('lualine').setup({
+  options = {
+    theme = 'dracula',
+    disabled_types = { 'NvimTree' }
+  },
+  sections = {
+    lualine_x = {},
+    -- lualine_y = {},
+    -- lualine_z = {},
+  }
+})
+EOF
