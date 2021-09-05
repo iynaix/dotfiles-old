@@ -18,6 +18,7 @@ ctrl + shift + Escape
 # bspwm hotkeys
 #
 
+
 # rofi shutdown actions menu
 ctrl + alt + Delete
 	rofi-powermenu

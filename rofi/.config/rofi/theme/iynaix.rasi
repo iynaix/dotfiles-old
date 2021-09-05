@@ -37,9 +37,19 @@
     active-background:           rgba ( 29, 31, 33, 17 % );
     selected-active-background:  rgba ( 68, 145, 237, 100 % );
 }
+
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+}
+element-icon {
+    vertical-align: 0.5;
+    padding: 0 8px 0 0;
+}
 #window {
     background-color: @background;
     border:           0;
+    width: 800;
 }
 #mainbox {
     border:  0;
@@ -60,6 +70,7 @@
     spacing:      2px ;
     scrollbar:    false;
     padding:      2px 0px 0px ;
+    lines: 10;
 }
 #element {
     border:  0;
@@ -77,7 +88,7 @@
 }
 #element.normal.active {
     background-color: @active-background;
-    text-color:       @active-foreground;
+    text-color:       @actilive-foreground;
 }
 */
 #element.selected.normal {

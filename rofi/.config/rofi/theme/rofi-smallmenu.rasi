@@ -1,6 +1,8 @@
 /* vim: set ft=css: */
 
 * {
+    font: "FuraCode Nerd Font 10";
+
     background: rgba ( 45, 48, 59, 100 % );
     background-color: @background;
     foreground: rgba ( 196, 203, 212, 100 % );
@@ -29,10 +31,27 @@
     selected-urgent-foreground: rgba ( 249, 249, 249, 100 % );
 }
 
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+    horizontal-align: 0.5;
+}
+
+element-icon {
+    background-color: inherit;
+    width: 0;
+    padding: 0;
+    margin: 0;
+}
+
 window {
     background-color: @background;
     border: 0;
     padding: 10px;
+    width: 320;
+    height: 80;
+    x-offset: -10;
+    y-offset: -10;
 }
 
 #mainbox {
@@ -68,6 +87,8 @@ textbox-prompt-colon {
     spacing: 2px;
     scrollbar: true;
     padding: 2px 0px 0px;
+    columns: 4;
+    lines: 1;
 }
 
 #element {

@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 _rofi() {
-  rofi -sep '|' -columns 4 -lines 1 -disable-history true -cycle true \
-    -theme ~/.config/rofi/theme/rofi-smallmenu.rasi -location 5 -width 320 -height 20 \
-    -dmenu -font "FuraCode Nerd Font 10" "@$"
+  rofi -sep '|' -disable-history true -cycle true \
+    -theme ~/.config/rofi/theme/rofi-smallmenu.rasi -location 5  -dmenu "@$"
 }
 
 preview_and_copy() {
