@@ -1,1 +1,0 @@
-/home/iynaix/.profile
