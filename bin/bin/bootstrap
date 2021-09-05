@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# this script is meant to be run by yadm, assumes yay is already installed on the system
+# this script is meant to be run after an OS install, assumes yay is already installed on the system
 # portions of this script have been adapted from Luke Smith's LARBS:
 # https://github.com/LukeSmithxyz/LARBS
 
