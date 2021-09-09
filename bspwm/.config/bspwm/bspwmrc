@@ -48,6 +48,10 @@ bspc config pointer_follows_monitor true
 bspc config single_monocle          true
 bspc config borderless_monocle      false
 bspc config gapless_monocle         true
+bspc config top_monocle_padding     0
+bspc config right_monocle_padding   0
+bspc config bottom_monocle_padding  0
+bspc config left_monocle_padding    0
 
 # handle the mouse
 bspc config pointer_modifier mod4
@@ -86,4 +90,3 @@ xrdb ~/.Xresources
 # until ping -c1 www.google.com >/dev/null 2>&1
 # do
 # done
-

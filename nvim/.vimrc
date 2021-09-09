@@ -82,7 +82,7 @@ set report=0
 
 set showmatch
 set matchtime=2 "briefly jump to a matching bracket for 0.2s
-set scrolljump=5 "jump 5 lines when running out of the screen
+set scrolloff=8 "jump 5 lines when running out of the screen
 
 "Use 4 spaces for <Tab> and :retab
 set tabstop=4
@@ -119,8 +119,9 @@ set viewdir=/tmp
 set undodir=/tmp
 " always change to same directory as current file
 set autochdir
-"do not use backups
-set nobackup
+
+set noswapfile
+set nobackup "do not use backups
 set nowritebackup
 " use system clipboard
 set clipboard=unnamed
@@ -129,6 +130,8 @@ set clipboard=unnamed
 set mouse=a
 set mousemodel=popup
 set mousehide "hides the mouse while typing
+
+set exrc " use project specific vimrc
 
 "Show 3 lines between a change and a fold that contains unchanged lines
 set diffopt+=context:3
@@ -231,10 +234,14 @@ vnoremap <C-c> "+y
 map <C-v> "+P
 inoremap <C-v> <Esc>"+P
 
+" replace highlighted text when pasting
+vnoremap <leader>p "_dP
+
 " Automatically jump to end of text you pasted:
 vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
+
 
 " Quickly select text you just pasted:
 noremap gV `[v`]
@@ -371,7 +378,7 @@ require("bufferline").setup {
     },
     options = {
         -- separator_style = {"|", "|"},
-        separator_style = "slant"
+        separator_style = "thin"
     }
 }
 EOF
@@ -431,30 +438,28 @@ require "lspconfig".efm.setup {
 EOF
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
+" nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" noremap <silent> gR    <cmd>lua vim.lsp.buf.references()<CR>
 
 lua require 'lspsaga'.init_lsp_saga()
-nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent> gH <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
-nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> gh <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
 nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-" nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
-nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
+nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent> gr <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
-nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
-nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
-tnoremap <silent><M-g> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
-nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
-nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
+nnoremap <silent> <M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
+nnoremap <silent> <M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
+tnoremap <silent> <M-g> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+tnoremap <silent> <M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+nnoremap <silent> <leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
 nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
 
@@ -506,7 +511,7 @@ nnoremap <Leader>fr :lua require'telescope.builtin'.oldfiles{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
 " nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
-" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " 'hrsh7th/nvim-compe'
