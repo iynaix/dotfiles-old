@@ -37,6 +37,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
+Plug 'mhartington/formatter.nvim'
 
 " File Management
 Plug 'nvim-telescope/telescope.nvim'
@@ -169,10 +170,10 @@ nnoremap <c-l> <c-w><c-l>
 nnoremap <c-h> <c-w><c-h>
 
 " easier resizing of windows
-nnoremap <M-j> :resize -2<CR>
-nnoremap <M-k> :resize +2<CR>
-nnoremap <M-l> :vertical resize -2<CR>
-nnoremap <M-h> :vertical resize +2<CR>
+nnoremap <M-Down> :resize -2<CR>
+nnoremap <M-Up> :resize +2<CR>
+nnoremap <M-Right> :vertical resize -2<CR>
+nnoremap <M-Left> :vertical resize +2<CR>
 
 "swap exists warning, edit anyway
 :au SwapExists * let v:swapchoice = 'e'
@@ -189,10 +190,6 @@ endif
 
 " Remove trailing whitespace from end of line
 autocmd BufWritePre * :%s/\s\+$//e
-
-" automatically give executable permissions if file begins with #! and contains
-" '/bin/' in the path
-au BufWritePost * if getline(1) =~ "^#!" | if getline(1) =~ "/bin/" | silent !chmod a+x <afile> | endif | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Mappings
@@ -223,8 +220,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 "Edit the vimrc file
-nnoremap <silent> <leader>ev :e $HOME/.vimrc<CR>
-nnoremap <silent> <leader>ez :e $HOME/.zshrc<CR>
+nnoremap <silent> <leader>ev :e $HOME/.dotfiles/nvim/.vimrc<CR>
+nnoremap <silent> <leader>ez :e $HOME/.dotfiles/zsh/.zshrc<CR>
 au BufWritePost .vimrc source %
 
 set pastetoggle=<F12>
@@ -413,29 +410,6 @@ require 'lspconfig'.tsserver.setup{
     root_dir = util.root_pattern(".git", "tsconfig.json", "jsconfig.json")
 }
 EOF
-lua << EOF
--- npm install -g eslint_d
-local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintIgnoreExitCode = true,
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-    formatStdin = true
-}
--- brew install efm-langserver
-require "lspconfig".efm.setup {
-    init_options = {documentFormatting = true, codeAction = true},
-    filetypes = {"javascriptreact", "javascript", "typescript", "typescriptreact"},
-    settings = {
-        rootMarkers = {".git/"},
-        languages = {
-            javascript = {eslint},
-            javascriptreact = {eslint},
-        }
-    }
-}
-EOF
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
 " nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
@@ -552,7 +526,7 @@ lua << EOF
 require('plenary.reload').reload_module('lualine', true)
 require('lualine').setup({
   options = {
-    theme = 'dracula',
+    theme = 'auto',
     disabled_types = { 'NvimTree' }
   },
   sections = {
@@ -561,4 +535,45 @@ require('lualine').setup({
     -- lualine_z = {},
   }
 })
+EOF
+
+" mhartington/formatter.nvim
+lua << EOF
+-- Prettier function for formatter
+local prettier = function()
+  return {
+    exe = "prettier",
+    args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0), "--double-quote" },
+    stdin = true,
+  }
+end
+
+require("formatter").setup({
+  logging = false,
+  filetype = {
+    javascript = { prettier },
+    typescript = { prettier },
+    typescriptreact = { prettier },
+    html = { prettier },
+    markdown = { prettier },
+    lua = {
+      -- Stylua
+      function()
+        return {
+          exe = "stylua",
+          args = { "--indent-width", 2, "--indent-type", "Spaces" },
+          stdin = false,
+        }
+      end,
+    },
+  },
+})
+
+-- Runs Formatter on save
+vim.api.nvim_exec([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost *.js,*.ts,*.tsx,*.css,*.scss,*.md,*.html,*.lua FormatWrite
+augroup END
+]], true)
 EOF

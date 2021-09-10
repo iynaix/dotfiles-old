@@ -23,7 +23,6 @@ base_packages=(
     "docker-compose"
     "docker-machine"
     "dunst"
-    "efm-langserver"
     "exa"
     "feh"
     "filezilla"
@@ -124,9 +123,9 @@ aur_packages=(
     "polybar"
     "rar"
     "sonarr",
+    "stylua"
     "subliminal"
     "tdrop-git"
-    "tremc"
     "ttf-clear-sans"
     "ttf-font-awesome-4"
     "ttf-ubuntu-font-family"
@@ -174,5 +173,5 @@ fi
 #     echo "ExecStart=-/usr/bin/agetty --autologin username --noclear %I $TERM" >> tee -a /etc/systemd/system/getty@tty1.service.d/override.conf
 # fi
 
-# TODO: bootstrap emacs, vscode?
+# TODO: bootstrap vscode?
 # TODO: reminder about .ssh folder
