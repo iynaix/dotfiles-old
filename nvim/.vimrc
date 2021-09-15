@@ -11,7 +11,6 @@ Plug 'haishanh/night-owl.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'jremmen/vim-ripgrep'
 Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
@@ -111,7 +110,8 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute("norma
 "   - on second <Tab>, complete the next full match and show menu
 
 set wildmode=list:longest,list:full
-set completeopt=menu,longest
+" set completeopt=menu,longest
+set completeopt=menuone,noselect
 set pumheight=15 "menu contains a max of 15 items
 
 "change to a centralised swap directory
@@ -340,12 +340,6 @@ nnoremap gj j
 nnoremap k gk
 nnoremap gk k
 
-" vim-ripgrep
-let g:rg_command = "rg --smart-case"
-let g:rg_derive_root = 1
-" Ag opens the first match in a buffer as the default, super annoying
-nnoremap <leader>/ :Rg<Space>
-
 " incsearch
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -353,6 +347,10 @@ map g/ <Plug>(incsearch-stay)
 let g:incsearch#consistent_n_direction = 1
 let g:incsearch#do_not_save_error_message_history = 1
 let g:incsearch#magic = '\v' " very magic (sane use of regexes for searching)
+
+" better quickfix navigation
+nnoremap ]q :cnext<cr>
+nnoremap [q :cprev<cr>
 
 " nvm-bufdel
 nnoremap <silent> <leader>db :BufDel<CR>
@@ -364,6 +362,8 @@ EOF
 
 " akinsho/nvim-bufferline.lua
 lua << EOF
+local symbols = {error = " ", warning = " ", info = " "}
+
 require("bufferline").setup {
     highlights = {
         fill = {
@@ -375,7 +375,18 @@ require("bufferline").setup {
     },
     options = {
         -- separator_style = {"|", "|"},
-        separator_style = "thin"
+        separator_style = "thin",
+        diagnostics = "nvim_lsp",
+        diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            local s = " "
+            for e, n in pairs(diagnostics_dict) do
+                local sym = e == "error" and " "
+                or (e == "warning" and " " or "" )
+                s = s .. n .. sym
+            end
+            return s
+        end
+
     }
 }
 EOF
@@ -477,15 +488,17 @@ require('telescope').setup {
 }
 require('telescope').load_extension('fzf')
 EOF
-nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
+nnoremap <leader>pf :lua require'telescope.builtin'.git_files{ hidden = true }<cr>
+" nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>fr :lua require'telescope.builtin'.oldfiles{}<cr>
+nnoremap <Leader>fq :lua require'telescope.builtin'.quickfix{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
 " nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>/ <cmd>lua require('telescope.builtin').live_grep()<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " 'hrsh7th/nvim-compe'

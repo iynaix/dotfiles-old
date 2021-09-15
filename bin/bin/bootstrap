@@ -92,7 +92,6 @@ base_packages=(
     "xorg-xsetroot"
     "xwallpaper"
     "yarn"
-    "youtube-dl"
     "zathura"
     "zathura-pdf-poppler"
     "zsh"
@@ -130,9 +129,11 @@ aur_packages=(
     "ttf-font-awesome-4"
     "ttf-ubuntu-font-family"
     "typescript-language-server"
+    "visual-studio-code-bin"
     "vivaldi"
     "xst"
     "xtitle"
+    "yt-dlp"
 )
 
 echo "## Installing Base Packages..."
