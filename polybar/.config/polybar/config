@@ -55,6 +55,14 @@ modules-left = bspwm_mode
 modules-center = bspwm
 modules-right = date
 
+[bar/tertiary]
+inherit = bar/base
+monitor = HDMI-0
+
+modules-left = bspwm_mode
+modules-center = bspwm
+modules-right = date
+
 [bar/laptop]
 inherit = bar/base
 monitor = eDP1

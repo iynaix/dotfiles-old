@@ -299,8 +299,8 @@ nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
 
 " moving text by lines
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '>-2<CR>gv=gv
+" vnoremap J :m '>+1<CR>gv=gv
+" vnoremap K :m '>-2<CR>gv=gv
 " nnoremap <leader>k :m .-2<CR>==
 " nnoremap <leader>j :m .+1<CR>==
 

@@ -20,7 +20,11 @@ if xrandr | grep "eDP1 connected"; then
     xmodmap ~/.xmodmap
     xcape -e 'Super_R=Escape' -t 200
 else
-    xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png'
+    if xrandr | grep "HDMI-0 connected"; then
+        xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png' --output 'HDMI-0' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_1920.png'
+    else
+        xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png'
+    fi
 fi
 
 # (re)start picom

@@ -12,4 +12,8 @@ if xrandr | grep "eDP1 connected"; then
 else
     polybar primary &
     polybar secondary &
+
+    if xrandr | grep "HDMI-0 connected"; then
+        polybar tertiary &
+    fi
 fi
