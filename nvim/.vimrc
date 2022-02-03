@@ -423,6 +423,7 @@ require 'lspconfig'.tsserver.setup{
 EOF
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <C-LeftMouse>    <cmd>lua vim.lsp.buf.definition()<CR>
 " nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
 " nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>

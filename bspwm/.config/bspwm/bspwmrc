@@ -11,17 +11,17 @@ if xrandr | grep "eDP1 connected"; then
     padding=4
 # desktop specific setup
 else
-    # with packed pixel triple screen
+    # triple screen
     if xrandr | grep "HDMI-0 connected"; then
-        xrandr --output DP-0.8 --mode 2560x1440 --pos 0x728 --rotate left --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1754x0 --rotate inverted --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3840x1600 --pos 1440x1080 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
+        xrandr --output DP-0.8 --mode 2560x1440 --pos 0x728 --rotate left --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1754x0 --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3840x1600 --rate 144 --pos 1440x1080 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
-        bspc monitor %DP-0.8 -d 6 7 8 10
+        bspc monitor HDMI-0 -d 9 10
+        bspc monitor %DP-0.8 -d 6 7 8
         bspc monitor DP-2 -d 1 2 3 4 5
-        bspc monitor HDMI-0 -d 9
 
         window_gap=8
         padding=8
-    # without packed pixel dual screen
+    # dual screen
     else
         xrandr --output DP-0.8 --mode 2560x1440 --pos 0x0 --rotate left --output DVI-D-0 --off --output HDMI-0 --off --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3440x1440 --pos 1440x258 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 

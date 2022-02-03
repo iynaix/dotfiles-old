@@ -91,6 +91,10 @@ textbox-prompt-colon {
     lines: 1;
 }
 
+#inputbar {
+    enabled: false;
+}
+
 #element {
     border: 0;
     padding: 15px 7px;
