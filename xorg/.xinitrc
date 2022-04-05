@@ -1,3 +1,4 @@
+# sxhkd -c ~/.config/sxhkd/bspwm-sxhkdrc &
 sxhkd &
 dunst &
 udiskie &
@@ -13,4 +14,5 @@ clipmenud &
 # start torrents
 transmission-daemon &
 
-exec bspwm
+# exec bspwm
+exec awesome
