@@ -113,51 +113,6 @@ fi
 # load shortcut aliases
 [ -f "$HOME/.shortcutrc" ] && source "$HOME/.shortcutrc"
 
-##################################################
-# ALIASES
-##################################################
-alias :e="nvim"
-alias :q="exit"
-alias :sp="bspc node -p south; $TERMINAL & disown"
-alias :vs="bspc node -p east; $TERMINAL & disown"
-alias c="clear"
-alias cal="cal -3"
-alias calc='ipy -i -c "from math import *"'
-alias clearq="rm -rf /tmp/q"
-alias du="dust"
-alias f="fab"
-alias gotop="gotop -p"
-alias nvim=nvim
-alias nvimdiff=nvim -d
-alias ipy="ipython3"
-alias ifconfig-ext='curl ifconfig.me/all'
-alias ipynb="ipy notebook"
-alias isodate='date -u +"%Y-%m-%dT%H:%M:%SZ"'
-alias ll="ls -al"
-alias lns="ln -s"
-alias ls="exa --group-directories-first --color-scale --icons"
-alias mergeclean="find . -type f -name '*.orig' -exec rm -f {} \;"
-alias open='xdg-open'
-alias pj="openproj"
-alias py='python'
-alias r="ranger"
-alias showq="touch /tmp/q && tail -f /tmp/q"
-alias stopemacs="pkill -SIGUSR2 emacs"
-alias subs="subliminal download -l 'en' -l 'eng' -s"
-alias todo="rg TODO"
-alias tree="exa --group-directories-first --color-scale --icons --tree"
-alias v=nvim
-alias vi=nvim
-alias vim=nvim
-alias wget='wget --content-disposition'
-alias whereami='echo "$( hostname --fqdn ) ($(hostname -i)):$( pwd )"'
-alias xclip="xclip -selection c"
-alias y="yay"
-alias yn="yarn"
-alias yt="yt-dlp"
-alias ytaudio="yt --audio-format mp3 --extract-audio"
-alias ytsub="yt --write-auto-sub --sub-lang='en,eng' --convert-subs srt --embed-subs"
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.npm/bin:$PATH
@@ -317,7 +272,7 @@ alias yay="paru"
 alias yn="yarn"
 alias yt="yt-dlp"
 alias ytaudio="yt --audio-format mp3 --extract-audio"
-alias ytsub="yt --write-auto-sub --sub-lang='en,eng' --convert-subs srt --embed-subs"
+alias ytsub="yt --write-auto-sub --sub-lang='en,eng' --convert-subs srt"
 alias ytplaylist="yt --output '%(playlist_index)d - %(title)s.%(ext)s'"
 alias coinfc="openproj coinfc"
 alias coinfc-backend="openproj coinfc-backend"
