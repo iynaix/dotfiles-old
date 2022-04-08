@@ -1,5 +1,3 @@
-# sxhkd -c ~/.config/sxhkd/bspwm-sxhkdrc &
-sxhkd &
 dunst &
 udiskie &
 
@@ -14,5 +12,11 @@ clipmenud &
 # start torrents
 transmission-daemon &
 
-# exec bspwm
-exec awesome
+wm_=awesome
+if [ wm_ == "awesome" ]; then
+    sxhkd -c common.conf &
+    exec awesome >> /tmp/awesome_stdout 2>> /tmp/awesome_stderr
+else
+    sxhkd -c common.conf bspwm.conf &
+    exec bspwm
+fi
