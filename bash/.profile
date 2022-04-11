@@ -11,5 +11,3 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/projects
 export VIRTUALENVWRAPPER_SCRIPT=$(which virtualenvwrapper.sh)
 source $(which virtualenvwrapper_lazy.sh)
-
-# source /home/iynaix/.config/broot/launcher/bash/br

@@ -28,7 +28,7 @@ else
 fi
 
 # (re)start picom
-pgrep picom && pkill picom || picom -b --experimental-backends &
+pgrep picom && pkill picom || picom -b --experimental-backends
 
 # web browsers
 bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
