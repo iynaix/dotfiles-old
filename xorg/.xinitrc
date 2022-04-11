@@ -12,11 +12,11 @@ clipmenud &
 # start torrents
 transmission-daemon &
 
-wm_=awesome
-if [ wm_ == "awesome" ]; then
-    sxhkd -c common.conf &
+wm_=bspwm
+if [ $wm_ == awesome ]; then
+    sxhkd -c ~/.config/sxhkd/common.conf &
     exec awesome >> /tmp/awesome_stdout 2>> /tmp/awesome_stderr
 else
-    sxhkd -c common.conf bspwm.conf &
+    sxhkd -c ~/.config/sxhkd/common.conf ~/.config/sxhkd/bspwm.conf &
     exec bspwm
 fi

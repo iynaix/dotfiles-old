@@ -59,6 +59,7 @@ base_packages=(
     "nvidia-settings"
     "openssh"
     "peek"
+    "picom"
     "postgresql"
     "python-black"
     "python-pip"
@@ -118,7 +119,6 @@ aur_packages=(
     "nerd-fonts-jetbrains-mono"
     "nerd-fonts-ubuntu-mono"
     "numix-icon-theme-git"
-    "picom-jonaburg-git"
     "polybar"
     "rar"
     "sonarr",

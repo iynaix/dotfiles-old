@@ -79,16 +79,6 @@ awful.layout.layouts = {
 }
 -- }}}
 
--- spawn new window in last position
-client.connect_signal(
-    "manage",
-    function(c)
-        if not awesome.startup then
-            awful.client.setslave(c)
-        end
-    end
-)
-
 -- {{{ Menu
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -153,15 +143,14 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
--- naughty.notify({text=tostring(s.outputs.name)})
-
 awful.screen.connect_for_each_screen(function(s)
+    print(s.geometry.width, s.geometry.height)
 
     -- Each screen has its own tag table.
     for i = 1, 9 do
         -- local use_single_master = s.geometry.width > s.geometry.height and s.geometry.width <= 1920
 
-        awful.tag.add(i, {
+        awful.tag.add(tostring(i), {
             screen = s,
             -- master_count = use_single_master and 1 or 2,
             -- Vertical tile layout as default for vertical monitor
@@ -457,7 +446,15 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
+                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+                     -- spawn new window in last position
+                     callback = awful.client.setslave,
+     }
+    },
+
+    { rule = { class = "initialbrave" },
+      properties = { screen = 1,
+                     tag = "1",
      }
     },
 
@@ -523,6 +520,20 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+
+-- client.connect_signal("manage", function (c)
+--     -- Some applications (like Spotify) does not respect ICCCM rules correctly -- and redefine the window class property.
+--     -- This leads to having window which does *NOT* follow the user rules
+--     -- defined in the tableawful.rules.rules`. c:connect_signal("property::class", rules.apply)
+--     rules.apply(c)
+-- end)
+
+-- client.connect_signal("unmanage", function (c)
+--     c:disconnect_signal("property::class", rules.apply)
+-- end)
+
+
+
 -- TODO: detect laptop or dual / triple monitors
 -- Add gaps
 beautiful.useless_gap = 8
@@ -534,3 +545,29 @@ beautiful.border_focus = "#4491ed"
 awful.spawn.with_shell("~/bin/wallpaper")
 awful.spawn.with_shell("xrdb ~/.Xresources")
 awful.spawn.with_shell("pgrep picom && pkill picom || picom -b --experimental-backends &")
+
+screen1 = 1
+screen2 = 2
+screen3 = 3
+
+awful.spawn("brave --class=initialbrave", {
+    placement = awful.placement.left,
+    urgent = false,
+})
+
+awful.spawn("brave --incognito --class=initialbrave", {
+    placement = awful.placement.right,
+    urgent = false,
+})
+
+awful.spawn("nemo", {
+    tag = "4",
+    screen = screen1,
+    urgent = false,
+})
+
+awful.spawn("firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com http://localhost:9091", {
+    tag = "1",
+    screen = screen3,
+    urgent = false,
+})
