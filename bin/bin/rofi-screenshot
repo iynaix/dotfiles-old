@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 _rofi() {
-  rofi -sep '|' -disable-history true -cycle true \
-    -theme ~/.config/rofi/theme/rofi-smallmenu.rasi -location 5  -dmenu "@$"
+    rofi -dmenu -sep '|' -disable-history true -cycle true -lines 4 -theme-str "mainbox { children: [listview]; }" "$@"
 }
 
 preview_and_copy() {
@@ -10,7 +9,7 @@ preview_and_copy() {
     sxiv $1
 }
 
-choice=$(echo "||濾|类" | _rofi)
+choice=$(echo "Window|Selection|Monitor|All" | _rofi)
 
 screenshots=~/Pictures/Screenshots
 mkdir -p $screenshots
@@ -20,13 +19,13 @@ MAIM="maim --hidecursor --quiet"
 
 # small sleep delay is required so rofi menu doesnt appear in the screenshot
 case "$choice" in
-   )
+  "All")
     delay=$(echo "0|3|5" | _rofi)
     sleep 0.5
     $MAIM $img
     preview_and_copy $img
     ;;
-   )
+  "Monitor")
     monitor=$(bspc query -M -m --names)
     geometry=$(xrandr --nograb | grep $monitor | sed 's/primary//g' | awk '{print $3}')
     delay=$(echo "0|3|5" | _rofi)
@@ -34,12 +33,12 @@ case "$choice" in
     $MAIM --geometry $geometry $img
     preview_and_copy $img
     ;;
-  濾)
+  "Selection")
     sleep 0.5
     $MAIM --select --bordersize 5 --color=0.266,0.568,0.926,0.8 $img
     preview_and_copy $img
     ;;
-  类)
+  "Window")
     delay=$(echo "0|3|5" | _rofi)
     sleep 0.5
     $MAIM --delay $delay --window $(xdotool getactivewindow) $img

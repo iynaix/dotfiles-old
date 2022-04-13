@@ -1,59 +1,36 @@
 #!/usr/bin/env bash
 
 _rofi() {
-    rofi -sep '|' -disable-history true -cycle true \
-        -theme ~/.config/rofi/theme/rofi-simplemenu.rasi \
-        -dmenu -font "FuraCode Nerd Font 30" "$@"
-    }
+    rofi -dmenu -sep '|' -disable-history true -cycle true -lines 4 -theme-str "mainbox { children: [listview]; }" "$@"
+}
 
-# choice=$(echo "||||||" | _rofi)
-
-choice=$(echo "|||||" | _rofi)
+choice=$(printf "Restart|Shutdown|Logout|Lock" | _rofi)
 
 case "$choice" in
-    )
+    "Lock")
         betterlockscreen -l dimblur
         mpvctl pause
         # TODO: mute music
         ;;
 
-    )
-        # suspend
-        xset dpms force off
-        ;;
-
-    )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Logging out. Are you sure?</span>")
+    "Logout")
+        choice=$(echo "No|Yes" | _rofi -mesg "Logging out. Are you sure?")
         if [ "$choice" = "Yes" ]; then
             bspc quit
         fi
         ;;
 
-    )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Rebooting. Are you sure?</span>")
+    "Restart")
+        choice=$(echo "No|Yes" | _rofi -mesg "Rebooting. Are you sure?")
         if [ "$choice" = "Yes" ]; then
             systemctl reboot
         fi
         ;;
 
-    )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Shutting Down. Are you sure?</span>")
+    "Shutdown")
+        choice=$(echo "No|Yes" | _rofi -mesg "Shutting Down. Are you sure?")
         if [ "$choice" = "Yes" ]; then
             systemctl poweroff
-        fi
-        ;;
-
-    )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Powering Off. Are you sure?</span>")
-        if [ "$choice" = "Yes" ]; then
-            curl http://192.168.1.103:1880/endpoint/toggle_power
-        fi
-        ;;
-
-    )
-        choice=$(echo "No|Yes" | _rofi -mesg "<span face='Clear Sans' font='20' weight='bold'>Bedtime. Are you sure?</span>")
-        if [ "$choice" = "Yes" ]; then
-            curl http://192.168.1.103:1880/endpoint/toggle_power
         fi
         ;;
 esac

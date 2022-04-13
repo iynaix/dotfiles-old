@@ -18,7 +18,7 @@ configuration {
 /*	drun-match-fields: "name,generic,exec,categories,keywords";*/
 /*	drun-categories: ;*/
 	drun-show-actions: false;
-    drun-display-format: "{name}";
+    drun-display-format: "{icon} {name}";
 /*	drun-url-launcher: "xdg-open";*/
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
@@ -53,14 +53,14 @@ configuration {
 /*	steal-focus: false;*/
 /*	application-fallback-icon: ;*/
 /*	pid: "/run/user/1000/rofi.pid";*/
-/*	display-window: ;*/
-/*	display-windowcd: ;*/
-/*	display-run: ;*/
-/*	display-ssh: ;*/
-/*	display-drun: ;*/
-/*	display-combi: ;*/
-/*	display-keys: ;*/
-/*	display-filebrowser: ;*/
+	display-window: "";
+	display-windowcd: "";
+	display-run: "";
+	display-ssh: "";
+    display-drun: "";
+	display-combi: "";
+	display-keys: "";
+	display-filebrowser: "";
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
 /*	kb-clear-line: "Control+w";*/
@@ -144,4 +144,4 @@ configuration {
       sorting-method:    "name";
   }
 }
-@theme "./theme/iynaix.rasi"
+@theme "./iynaix.rasi"
