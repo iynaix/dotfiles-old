@@ -14,21 +14,21 @@ case "$choice" in
         ;;
 
     "Logout")
-        choice=$(echo "No|Yes" | _rofi -mesg "Logging out. Are you sure?")
+        choice=$(echo "Yes|No" | _rofi -mesg "Logging out. Are you sure?")
         if [ "$choice" = "Yes" ]; then
             bspc quit
         fi
         ;;
 
     "Restart")
-        choice=$(echo "No|Yes" | _rofi -mesg "Rebooting. Are you sure?")
+        choice=$(echo "Yes|No" | _rofi -mesg "Rebooting. Are you sure?")
         if [ "$choice" = "Yes" ]; then
             systemctl reboot
         fi
         ;;
 
     "Shutdown")
-        choice=$(echo "No|Yes" | _rofi -mesg "Shutting Down. Are you sure?")
+        choice=$(echo "Yes|No" | _rofi -mesg "Shutting Down. Are you sure?")
         if [ "$choice" = "Yes" ]; then
             systemctl poweroff
         fi

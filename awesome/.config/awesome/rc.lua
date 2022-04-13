@@ -546,17 +546,27 @@ awful.spawn.with_shell("~/bin/wallpaper")
 awful.spawn.with_shell("xrdb ~/.Xresources")
 awful.spawn.with_shell("pgrep picom && pkill picom || picom -b --experimental-backends")
 
-screen1 = 1
-screen2 = 2
-screen3 = 3
+local screen1 = 1
+local screen2 = 2
+local screen3 = 3
 
+-- web
 awful.spawn("brave --class=initialbrave", {
     placement = awful.placement.left,
+    screen = screen1,
     urgent = false,
 })
 
 awful.spawn("brave --incognito --class=initialbrave", {
     placement = awful.placement.right,
+    screen = screen1,
+    urgent = false,
+})
+
+-- file browsers
+awful.spawn(terminal .. "-e ranger ~/Downloads", {
+    tag = "3",
+    screen = screen1,
     urgent = false,
 })
 
@@ -566,8 +576,31 @@ awful.spawn("nemo", {
     urgent = false,
 })
 
+-- misc terminal
+awful.spawn(terminal, {
+    tag = "2",
+    screen = screen2,
+    urgent = false,
+})
+
+-- chats
 awful.spawn("firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com http://localhost:9091", {
     tag = "1",
+    screen = screen3,
+    urgent = false,
+})
+
+--downloads
+awful.spawn(terminal, {
+    placement = awful.placement.right,
+    tag = "2",
+    screen = screen3,
+    urgent = false,
+})
+
+awful.spawn(editor_cmd .. " ~/Desktop/yt.txt", {
+    placement = awful.placement.left,
+    tag = "2",
     screen = screen3,
     urgent = false,
 })

@@ -31,11 +31,11 @@ fi
 pgrep picom && pkill picom || picom -b --experimental-backends
 
 # web browsers
-bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
-brave --incognito &
-
 bspc rule -a $chromeclass -o desktop=$webdesktop &
 brave &
+
+bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
+brave --incognito &
 
 bspc rule -a $termclass:dltxt -o desktop=$dldesktop &
 $TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &

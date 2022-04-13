@@ -122,6 +122,7 @@ aur_packages=(
     "polybar"
     "rar"
     "sonarr",
+    "stacer",
     "stylua"
     "subliminal"
     "tdrop-git"
