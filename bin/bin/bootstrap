@@ -93,6 +93,7 @@ base_packages=(
     "xorg-xsetroot"
     "xwallpaper"
     "yarn"
+    "yt-dlp"
     "zathura"
     "zathura-pdf-poppler"
     "zsh"
@@ -121,6 +122,7 @@ aur_packages=(
     "numix-icon-theme-git"
     "polybar"
     "rar"
+    "rofi-power-menu"
     "sonarr",
     "stacer",
     "stylua"
@@ -134,7 +136,6 @@ aur_packages=(
     "vivaldi"
     "xst"
     "xtitle"
-    "yt-dlp"
 )
 
 echo "## Installing Base Packages..."

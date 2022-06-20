@@ -47,7 +47,7 @@ zstyle ':z4h:ssh:*' send-extra-files '~/.nanorc' '~/.env.zsh'
 # This doesn't do anything apart from cloning the repository and keeping it
 # up-to-date. Cloned files can be used after `z4h init`. This is just an
 # example. If you don't plan to use Oh My Zsh, delete this line.
-# z4h install ohmyzsh/ohmyzsh || return
+z4h install ohmyzsh/ohmyzsh || return
 
 # Install or update core components (fzf, zsh-autosuggestions, etc.) and
 # initialize Zsh. After this point console I/O is unavailable until Zsh
@@ -70,6 +70,8 @@ z4h source ~/.profile
 # This is just an example that you should delete. It does nothing useful.
 # z4h source ohmyzsh/ohmyzsh/lib/diagnostics.zsh  # source an individual file
 # z4h load   ohmyzsh/ohmyzsh/plugins/emoji-clock  # load a plugin
+z4h load ohmyzsh/ohmyzsh/plugins/git
+z4h load ohmyzsh/ohmyzsh/plugins/git-flow
 
 # Define key bindings.
 z4h bindkey z4h-backward-kill-word  Ctrl+Backspace     Ctrl+H
@@ -138,9 +140,18 @@ alias ytaudio="yt --audio-format mp3 --extract-audio"
 alias ytsub="yt --write-auto-sub --sub-lang='en,eng' --convert-subs srt"
 alias ytplaylist="yt --output '%(playlist_index)d - %(title)s.%(ext)s'"
 alias coinfc="openproj coinfc"
-alias coinfc-backend="openproj coinfc-backend"
+alias coinfc-backend="openproj coinfc-backend && workon coinfc-backend"
 alias coinfcweb="tmuxp load ~/.tmuxp/coinfcweb.yml"
 alias coinfcnative="tmuxp load ~/.tmuxp/coinfcnative.yml"
+
+# cd aliases
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .2='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
 
 #shut zsh up
 alias eslint="nocorrect eslint"
@@ -316,7 +327,9 @@ compdef _fab_list fab
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$HOME/.node_modules/bin:$HOME/.npm/bin:$PATH
+export ANDROID_HOME=~/Android/Sdk
+export ANDROID_SDK_ROOT=~/Android/Sdk
+export PATH=$HOME/.node_modules/bin:$HOME/.npm/bin:${ANDROID_HOME}/emulator:$PATH
 export npm_config_prefix=~/.node_modules
 
 export DJANGO_READ_DOT_ENV_FILE=True

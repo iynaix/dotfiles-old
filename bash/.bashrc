@@ -117,7 +117,7 @@ export HISTIGNORE="&:ls:[bf]g:exit"
 shopt -s cdspell
 
 # 256 color terminal
-export TERM=st-256color
+export TERM=alacritty
 
 # virtualenvwrapper related settings
 export WORKON_HOME=$HOME/.virtualenvs

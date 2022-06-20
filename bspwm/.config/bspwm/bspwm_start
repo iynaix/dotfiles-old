@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# termclass="St"
-termclass="st-256color"
+termclass="Alacritty"
 chromeclass="Brave-browser"
 
 webdesktop=1
@@ -11,6 +10,14 @@ sectermdesktop=7
 listdesktop=8
 chatdesktop=9
 dldesktop=10
+
+openterm() {
+    # xst
+    # $TERMINAL -n $@
+
+    # alacritty
+    $TERMINAL --class $@
+}
 
 # setups for different machines
 if xrandr | grep "eDP1 connected"; then
@@ -38,10 +45,10 @@ bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
 brave --incognito &
 
 bspc rule -a $termclass:dltxt -o desktop=$dldesktop &
-$TERMINAL -n dltxt -e nvim ~/Desktop/yt.txt &
+openterm dltxt -e nvim ~/Desktop/yt.txt &
 
 bspc rule -a $termclass:dlterm -o desktop=$dldesktop &
-$TERMINAL -n dlterm &
+openterm dlterm &
 
 # nemo desktop
 bspc rule -a Nemo:nemo -o desktop=$nemodesktop &
@@ -52,10 +59,10 @@ firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me htt
 
 # terminal desktops
 bspc rule -a $termclass:ranger -o desktop=$filedesktop &
-$TERMINAL -n ranger -e ranger ~/Downloads &
+openterm ranger -e ranger ~/Downloads &
 
 bspc rule -a $termclass:initialterm -o desktop=$sectermdesktop follow=on &
-$TERMINAL -n initialterm &
+openterm initialterm &
 
 # subscribe to bspc events
 # note: this must be the last line in the file!

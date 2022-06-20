@@ -79,7 +79,6 @@ bspc config remove_unplugged_monitors true
 bspc config external_rules_command ~/bin/bspwm_external_rules
 
 bspc rule -a ffchat desktop=9
-bspc rule -a Filezilla desktop=10
 bspc rule -a Transmission-gtk desktop=10
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
