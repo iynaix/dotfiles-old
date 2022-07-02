@@ -12,6 +12,9 @@ clipmenud &
 # start torrents
 transmission-daemon &
 
+# setup displays and wallpaper
+source ~/bin/wallpaper
+
 wm_=bspwm
 if [ $wm_ == awesome ]; then
     sxhkd -c ~/.config/sxhkd/common.conf &

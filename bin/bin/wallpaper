@@ -14,7 +14,7 @@ if xrandr | grep "eDP1 connected"; then
 else
     # triple screen
     if xrandr | grep "HDMI-0 connected"; then
-        xrandr --output DP-0.8 --mode 2560x1440 --pos 0x728 --rotate left --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1754x0 --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3840x1600 --rate 144 --pos --pos 1440x1080 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
+        xrandr --output DP-0.8 --mode 2560x1440 --pos 0x728 --rotate left --output DVI-D-0 --off --output HDMI-0 --mode 1920x1080 --pos 1754x0 --output DP-0 --off --output DP-1 --off --output DP-2 --primary --mode 3840x1600 --rate 144 --pos 1440x1080 --rotate normal --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
         xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png' --output 'HDMI-0' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_1920.png'
     # dual screen

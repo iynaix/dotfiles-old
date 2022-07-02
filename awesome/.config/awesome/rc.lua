@@ -17,6 +17,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+-- Extra layouts
+-- local bling = require("bling")
+local OCS = require("OrderedClientStartup")
+local tilewide = require("tilewide")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -43,12 +47,19 @@ do
 end
 -- }}}
 
+-- awful spawn doesn't seem to spawn programs
+local function spawn_on_tag(screen, tag, spawn_cmd, spawn_props)
+    awful.screen.focus(screen)
+    awful.screen.focused().tags[tag]:view_only()
+    awful.spawn.with_shell(spawn_cmd, spawn_props)
+end
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xst"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -128,33 +139,27 @@ local taglist_buttons = gears.table.join(
 --                                               awful.client.focus.byidx(-1)
 --                                           end))
 
-local function set_wallpaper(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end
-
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
--- screen.connect_signal("property::geometry", set_wallpaper)
-
 awful.screen.connect_for_each_screen(function(s)
-    print(s.geometry.width, s.geometry.height)
+    print(s.index, s.geometry.width, s.geometry.height)
 
     -- Each screen has its own tag table.
     for i = 1, 9 do
         -- local use_single_master = s.geometry.width > s.geometry.height and s.geometry.width <= 1920
 
+        local is_vertical = s.geometry.height > s.geometry.width
+        local is_ultrawide = s.geometry.width > 3000
+
+        -- bling.layout.equalarea,
+        -- bling.layout.centered,
+
         awful.tag.add(tostring(i), {
             screen = s,
             -- master_count = use_single_master and 1 or 2,
             -- Vertical tile layout as default for vertical monitor
-            layout = s.geometry.height > s.geometry.width and awful.layout.suit.tile.bottom or awful.layout.suit.tile.right,
+            -- layout = is_vertical and awful.layout.suit.tile.bottom or
+            --     awful.layout.suit.tile.right,
+            layout = is_vertical and tilewide.bottom or is_ultrawide and tilewide.right or awful.layout.suit.tile.right,
+            column_count = (is_ultrawide or is_vertical) and 2 or 1,
         })
     end
 
@@ -201,6 +206,8 @@ awful.screen.connect_for_each_screen(function(s)
             s.mylayoutbox,
         },
     }
+
+    -- s.tags[1]:view_only()
 end)
 -- }}}
 
@@ -208,8 +215,8 @@ end)
 root.buttons(gears.table.join(
 -- show menu, unused
 -- awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({}, 4, awful.tag.viewnext),
-    awful.button({}, 5, awful.tag.viewprev)
+-- awful.button({}, 4, awful.tag.viewnext),
+-- awful.button({}, 5, awful.tag.viewprev)
 ))
 -- }}}
 
@@ -224,8 +231,8 @@ globalkeys = gears.table.join(
         { description = "view previous", group = "tag" }),
     awful.key({ modkey, }, "Right", awful.tag.viewnext,
         { description = "view next", group = "tag" }),
-    awful.key({ modkey, }, "Escape", awful.tag.history.restore,
-        { description = "go back", group = "tag" }),
+    -- awful.key({ modkey, }, "Escape", awful.tag.history.restore,
+    --     { description = "go back", group = "tag" }),
 
     awful.key({ modkey, }, "j",
         function()
@@ -279,6 +286,13 @@ globalkeys = gears.table.join(
         { description = "focus the previous screen", group = "screen" }),
 
     -- Standard program
+
+    -- TODO
+    awful.key({ modkey, }, "y", function() spawn_on_tag(1, 3 - 1, terminal .. " --class ranger -e ranger ~/Downloads")
+    end,
+        { description = "testing opening of programs on screen and tag", group = "launcher" }),
+    -- END TODO
+
     awful.key({ modkey, }, "Return", function() awful.spawn(terminal) end,
         { description = "open a terminal", group = "launcher" }),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
@@ -377,7 +391,12 @@ for i = 1, 9 do
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
                 if tag then
-                    tag:view_only()
+                    -- go back to previous tag, i3 style
+                    if #screen.selected_tags == 1 and screen.selected_tag == tag then
+                        awful.tag.history.restore(screen)
+                    else
+                        tag:view_only()
+                    end
                 end
             end,
             { description = "view tag #" .. i, group = "tag" }),
@@ -452,12 +471,6 @@ awful.rules.rules = {
         }
     },
 
-    { rule = { class = "initialbrave" },
-        properties = { screen = 1,
-            tag = "1",
-        }
-    },
-
     -- Floating clients.
     { rule_any = {
         instance = {
@@ -492,7 +505,13 @@ awful.rules.rules = {
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+    --   properties = { screen = 1, tag = 2 } },
+    { rule = { instance = "ranger" },
+        properties = { screen = 1, tag = "3", urgent = false } },
+    { rule = { instance = "initialterm" },
+        properties = { screen = 2, tag = "1", urgent = false } },
+    { rule = { class = "Brave-browser" },
+        properties = { screen = 1, tag = "1", urgent = false } },
 }
 -- }}}
 
@@ -511,6 +530,46 @@ client.connect_signal("manage", function(c)
     end
 end)
 
+-- Add a titlebar if titlebars_enabled is set to true in the rules.
+client.connect_signal("request::titlebars", function(c)
+    -- buttons for the titlebar
+    local buttons = gears.table.join(
+        awful.button({}, 1, function()
+            c:emit_signal("request::activate", "titlebar", { raise = true })
+            awful.mouse.client.move(c)
+        end),
+        awful.button({}, 3, function()
+            c:emit_signal("request::activate", "titlebar", { raise = true })
+            awful.mouse.client.resize(c)
+        end)
+    )
+
+    awful.titlebar(c):setup {
+        { -- Left
+            awful.titlebar.widget.iconwidget(c),
+            buttons = buttons,
+            layout  = wibox.layout.fixed.horizontal
+        },
+        { -- Middle
+            { -- Title
+                align  = "center",
+                widget = awful.titlebar.widget.titlewidget(c)
+            },
+            buttons = buttons,
+            layout  = wibox.layout.flex.horizontal
+        },
+        { -- Right
+            awful.titlebar.widget.floatingbutton(c),
+            awful.titlebar.widget.maximizedbutton(c),
+            awful.titlebar.widget.stickybutton(c),
+            awful.titlebar.widget.ontopbutton(c),
+            awful.titlebar.widget.closebutton(c),
+            layout = wibox.layout.fixed.horizontal()
+        },
+        layout = wibox.layout.align.horizontal
+    }
+end)
+
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", { raise = false })
@@ -519,20 +578,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
-
--- client.connect_signal("manage", function (c)
---     -- Some applications (like Spotify) does not respect ICCCM rules correctly -- and redefine the window class property.
---     -- This leads to having window which does *NOT* follow the user rules
---     -- defined in the tableawful.rules.rules`. c:connect_signal("property::class", rules.apply)
---     rules.apply(c)
--- end)
-
--- client.connect_signal("unmanage", function (c)
---     c:disconnect_signal("property::class", rules.apply)
--- end)
-
-
 
 -- TODO: detect laptop or dual / triple monitors
 -- Add gaps
@@ -546,61 +591,84 @@ awful.spawn.with_shell("~/bin/wallpaper")
 awful.spawn.with_shell("xrdb ~/.Xresources")
 awful.spawn.with_shell("pgrep picom && pkill picom || picom -b --experimental-backends")
 
-local screen1 = 1
-local screen2 = 2
-local screen3 = 3
+local screen1 = screen[1]
+local screen2 = screen[2]
+local screen3 = screen[3]
 
+--[[
 -- web
-awful.spawn("brave --class=initialbrave", {
+awful.spawn.once("brave", {
     placement = awful.placement.left,
     screen = screen1,
-    urgent = false,
+    tag = 1,
 })
 
-awful.spawn("brave --incognito --class=initialbrave", {
+awful.spawn.once("brave --incognito", {
     placement = awful.placement.right,
     screen = screen1,
-    urgent = false,
+    tag = 1,
 })
+--]]
 
 -- file browsers
-awful.spawn(terminal .. "-e ranger ~/Downloads", {
-    tag = "3",
-    screen = screen1,
-    urgent = false,
-})
+-- awful.spawn.once(terminal .. " --class ranger -e ranger ~/Downloads")
 
-awful.spawn("nemo", {
-    tag = "4",
-    screen = screen1,
-    urgent = false,
-})
+-- awful.spawn.once("nemo", {
+--     screen = screen1,
+--     tag = 4,
+-- })
 
 -- misc terminal
-awful.spawn(terminal, {
-    tag = "2",
-    screen = screen2,
-    urgent = false,
-})
+-- awful.spawn.once(terminal .. " --class initialterm")
 
 -- chats
-awful.spawn("firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com http://localhost:9091", {
-    tag = "1",
-    screen = screen3,
-    urgent = false,
-})
+-- awful.spawn.once("firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com http://localhost:9091"
+--     , {
+--     screen = screen3,
+--     tag = 1,
+-- })
 
---downloads
-awful.spawn(terminal, {
-    placement = awful.placement.right,
-    tag = "2",
-    screen = screen3,
-    urgent = false,
-})
+-- --downloads
+-- awful.spawn.once(terminal, {
+--     placement = awful.placement.right,
+--     screen = screen3,
+--     tag = 2,
+-- })
 
-awful.spawn(editor_cmd .. " ~/Desktop/yt.txt", {
-    placement = awful.placement.left,
-    tag = "2",
-    screen = screen3,
-    urgent = false,
-})
+-- awful.spawn.once(editor_cmd .. " ~/Desktop/yt.txt", {
+--     placement = awful.placement.left,
+--     screen = screen3,
+--     tag = 2,
+-- })
+
+-- autostart, OrderedClientList adapted from:
+-- https://reddit.com/r/awesomewm/comments/a1uccr/guide_autostart_script_for_spawning_clients_on/
+
+-- popen not the best way to check if startup already happened...but good enough
+-- until 4.3 comes out, and pgrep is quick enough to not block for periods of
+-- time
+
+-- local fd = io.popen("pgrep bash | wc -l")
+-- local num_bash = tonumber(fd:read('*all'))
+-- fd:close()
+-- if (num_bash < 1) then
+
+--USAGE: OCS:add_app(index, command, tag, screen, [geo={x,y,w,h}])
+-- OCS:add_app("brave", screen1.tags[1], screen1)
+-- OCS:add_app("brave --incognito", screen1.tags[1], screen1)
+
+-- OCS:add_app(terminal .. " --class ranger -e ranger ~/Downloads", screen1.tags[3], screen1)
+-- OCS:add_app("nemo", screen1.tags[4], screen1)
+
+-- OCS:add_app(terminal .. " --class initialterm", screen2.tags[1], screen2)
+
+OCS:add_app(
+    "firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me https://web.whatsapp.com http://localhost:9091"
+    , 3, 1)
+
+-- OCS:add_app(terminal, screen3.tags[2], screen3)
+-- OCS:add_app(editor_cmd .. " ~/Desktop/yt.txt", screen3.tags[2], screen3)
+
+-- starts spawning apps
+OCS:begin_startup()
+-- end
