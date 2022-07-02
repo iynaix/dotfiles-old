@@ -1,3 +1,5 @@
+#! /bin/sh
+
 dunst &
 udiskie &
 
@@ -16,10 +18,11 @@ transmission-daemon &
 source ~/bin/wallpaper
 
 wm_=bspwm
-if [ $wm_ == awesome ]; then
-    sxhkd -c ~/.config/sxhkd/common.conf &
+if [ $wm_ == dk ]; then
+    exec dk
+elif [ $wm_ == awesome ]; then
+    sxhkd -c "$HOME/.config/awesome/sxhkdrc" &
     exec awesome >> /tmp/awesome_stdout 2>> /tmp/awesome_stderr
 else
-    sxhkd -c ~/.config/sxhkd/common.conf ~/.config/sxhkd/bspwm.conf &
     exec bspwm
 fi

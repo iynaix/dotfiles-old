@@ -21,6 +21,8 @@ require("awful.hotkeys_popup.keys")
 -- local bling = require("bling")
 local OCS = require("OrderedClientStartup")
 local tilewide = require("tilewide")
+local fix_startup_id = require("config.fix_startup_id")
+
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
