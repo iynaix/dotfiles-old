@@ -17,10 +17,9 @@ transmission-daemon &
 # setup displays and wallpaper
 source ~/bin/wallpaper
 
+# use dbus-launch to init wm with keyring
 wm_=bspwm
-if [ $wm_ == dk ]; then
-    exec dk
-elif [ $wm_ == awesome ]; then
+if [ $wm_ == awesome ]; then
     sxhkd -c "$HOME/.config/awesome/sxhkdrc" &
     exec awesome >> /tmp/awesome_stdout 2>> /tmp/awesome_stderr
 else

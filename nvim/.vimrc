@@ -18,6 +18,7 @@ Plug 'mattn/emmet-vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'ojroques/nvim-bufdel'
+Plug 'pantharshit00/vim-prisma'
 Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
 Plug 'tpope/vim-abolish' " :%S
 Plug 'tpope/vim-commentary'

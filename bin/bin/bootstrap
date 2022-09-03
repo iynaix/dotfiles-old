@@ -10,7 +10,6 @@ set -e
 [ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 base_packages=(
-    "alsa-utils"
     "arc-gtk-theme"
     "bat"
     "broot"
@@ -58,8 +57,11 @@ base_packages=(
     "nvidia"
     "nvidia-settings"
     "openssh"
+    "pavucontrol"
     "peek"
     "picom"
+    "pipewire"
+    "pipewire-pulse"
     "postgresql"
     "python-black"
     "python-pip"

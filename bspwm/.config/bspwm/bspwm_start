@@ -40,12 +40,17 @@ if hash sxhkd >/dev/null 2>&1; then
 	sxhkd -c "$HOME/.config/bspwm/sxhkdrc" "$HOME/.config/bspwm/bspwm_sxhkdrc" &
 fi
 
+# init keyring
+gnome-keyring-daemon --start &
+export GNOME_KEYRING_CONTROL=/run/user/1000/keyring
+export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+
 # (re)start picom
 pgrep picom && pkill picom || picom -b --experimental-backends
 
 # web browsers
 bspc rule -a $chromeclass -o desktop=$webdesktop &
-brave &
+brave --profile-drectory=Default &
 
 bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
 brave --incognito &
