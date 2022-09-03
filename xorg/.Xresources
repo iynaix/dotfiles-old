@@ -8,8 +8,8 @@ Xft.lcdfilter: lcddefault
 Xcursor.theme: Adwaita
 Xcursor.size: 24
 
-*.font: FuraCode Nerd Font Mono:Medium:size=11
-*.bold_font: FuraCode Nerd Font Mono:Bold:size=11
+*.font: FiraCode Nerd Font Mono:Medium:size=11
+*.bold_font: FiraCode Nerd Font Mono:Bold:size=11
 
 st.borderpx: 8
 st.termname: st-256color

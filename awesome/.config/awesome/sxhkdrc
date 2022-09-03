@@ -12,7 +12,7 @@ super + shift + Return
 
 # rofi shutdown actions menu
 ctrl + alt + Delete
-	rofi -show power-menu -font "FuraCode Nerd Font Regular 10" -modi power-menu:rofi-power-menu
+	rofi -show power-menu -font "FiraCode Nerd Font Regular 10" -modi power-menu:rofi-power-menu
 
 # rofi shutdown actions menu
 # super + shift + s

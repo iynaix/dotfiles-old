@@ -119,7 +119,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("FuraCode Nerd Font"
+   dotspacemacs-default-font '("FiraCode Nerd Font"
                                :size 15
                                :powerline-scale 1.2)
    ;; The leader key
