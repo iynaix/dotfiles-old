@@ -127,50 +127,53 @@ if __name__ == "__main__":
         #         continue
 
         # setup auto balancing for 3 windows if ultrawide or vertical
-        if ULTRAWIDE_ID or VERTICAL_ID:
-            if ev == "node_add":
-                node_add_third_window(ev, ev_args)
+        try:
+            if ULTRAWIDE_ID or VERTICAL_ID:
+                if ev == "node_add":
+                    node_add_third_window(ev, ev_args)
 
-            if ev == "node_remove":
-                node_remove_third_window(ev, ev_args)
+                if ev == "node_remove":
+                    node_remove_third_window(ev, ev_args)
 
-            if ev == "node_transfer":
-                node_transfer_third_window(ev, ev_args)
+                if ev == "node_transfer":
+                    node_transfer_third_window(ev, ev_args)
 
-        # monitors turned on / off
-        if ev == "monitor_geometry":
-            connected = set()
-            disconnected = set()
+            # monitors turned on / off
+            if ev == "monitor_geometry":
+                connected = set()
+                disconnected = set()
 
-            for line in cmd("xrandr", output=True).splitlines():
-                if " connected " in line:
-                    connected.add(line.split()[0])
-                if " disconnected " in line:
-                    disconnected.add(line.split()[0])
+                for line in cmd("xrandr", output=True).splitlines():
+                    if " connected " in line:
+                        connected.add(line.split()[0])
+                    if " disconnected " in line:
+                        disconnected.add(line.split()[0])
 
-            if "DP-2" in disconnected:
-                continue
+                if "DP-2" in disconnected:
+                    continue
 
-            vertical_mon = "DP-0.8"
-            packedpixel_mon = "HDMI-0"
+                vertical_mon = "DP-0.8"
+                packedpixel_mon = "HDMI-0"
 
-            mon2 = VERTICAL_ID
-            mon3 = PACKEDPIXEL_ID
+                mon2 = VERTICAL_ID
+                mon3 = PACKEDPIXEL_ID
 
-            if vertical_mon in disconnected and packedpixel_mon in disconnected:
-                mon2 = ULTRAWIDE_ID
-                mon3 = ULTRAWIDE_ID
+                if vertical_mon in disconnected and packedpixel_mon in disconnected:
+                    mon2 = ULTRAWIDE_ID
+                    mon3 = ULTRAWIDE_ID
 
-            elif packedpixel_mon in disconnected:
-                mon3 = VERTICAL_ID
+                elif packedpixel_mon in disconnected:
+                    mon3 = VERTICAL_ID
 
-            elif vertical_mon in disconnected:
-                mon2 = ULTRAWIDE_ID
+                elif vertical_mon in disconnected:
+                    mon2 = ULTRAWIDE_ID
 
-            bspc.desktop(6, "-m", mon2)
-            bspc.desktop(7, "-m", mon2)
-            bspc.desktop(8, "-m", mon2)
-            bspc.desktop(9, "-m", mon3)
-            bspc.desktop(10, "-m", mon3)
+                bspc.desktop(6, "-m", mon2)
+                bspc.desktop(7, "-m", mon2)
+                bspc.desktop(8, "-m", mon2)
+                bspc.desktop(9, "-m", mon3)
+                bspc.desktop(10, "-m", mon3)
+        except:
+            pass
 
         # q(int(time()), ev, ev_args)
