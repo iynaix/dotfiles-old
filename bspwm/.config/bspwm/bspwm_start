@@ -52,7 +52,7 @@ pgrep picom && pkill picom || picom -b --experimental-backends
 bspc rule -a $chromeclass -o desktop=$webdesktop &
 brave --profile-drectory=Default &
 
-bspc rule -a $chromeclass -o desktop=$webdesktop follow=on &
+bspc rule -a $chromeclass -o desktop=$webdesktop &
 brave --incognito &
 
 bspc rule -a $termclass:dltxt -o desktop=$dldesktop &
@@ -72,7 +72,7 @@ firefox-developer-edition --class=ffchat https://discordapp.com/channels/@me htt
 bspc rule -a $termclass:ranger -o desktop=$filedesktop &
 openterm ranger -e ranger ~/Downloads &
 
-bspc rule -a $termclass:initialterm -o desktop=$sectermdesktop follow=on &
+bspc rule -a $termclass:initialterm -o desktop=$sectermdesktop &
 openterm initialterm &
 
 # subscribe to bspc events

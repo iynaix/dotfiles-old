@@ -115,8 +115,6 @@ aur_packages=(
     # https://gitlab.freedesktop.org/xorg/lib/libxft/merge_requests/1
     "libxft-bgra"
     "lf"
-    "mongodb-bin"
-    "mongodb-compass"
     "neovim-plug-git"
     "nerd-fonts-fira-code"
     "nerd-fonts-jetbrains-mono"

@@ -8,6 +8,7 @@ BAR_HEIGHT = 30
 MONITORS = {}
 ULTRAWIDE_ID = None
 VERTICAL_ID = None
+PACKEDPIXEL_ID = None
 
 
 def _resize_to_aspect_ratio(width, height, aspect):
@@ -23,6 +24,11 @@ def _resize_to_aspect_ratio(width, height, aspect):
 
 def config(*args, debug=False):
     args = [str(a) for a in ["bspc", "config", *args]]
+    return cmd(args, debug=debug)
+
+
+def desktop(*args, debug=False):
+    args = [str(a) for a in ["bspc", "desktop", *args]]
     return cmd(args, debug=debug)
 
 
@@ -135,5 +141,7 @@ for mon_id in query("-M"):
 
     if monitor["width"] >= 3440:
         ULTRAWIDE_ID = mon_id
-    if monitor["width"] < monitor["height"]:
+    elif monitor["width"] < monitor["height"]:
         VERTICAL_ID = mon_id
+    else:
+        PACKEDPIXEL_ID = mon_id
