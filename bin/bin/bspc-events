@@ -149,12 +149,38 @@ if __name__ == "__main__":
                     if " disconnected " in line:
                         disconnected.add(line.split()[0])
 
-                if "DP-2" in disconnected:
-                    continue
-
+                ultrawide_mon = "DP-2"
                 vertical_mon = "DP-0.8"
                 packedpixel_mon = "HDMI-0"
 
+                # do nothing if ultrawide disconnected
+                if ultrawide_mon in disconnected:
+                    continue
+
+                ultrawide_workspaces = [1, 2, 3, 4, 5]
+                vertical_workspaces = []
+                packpixel_workspaces = []
+
+                mon2_workspaces = [6, 7, 8]
+                mon3_workspaces = [9, 10]
+
+                if vertical_mon in disconnected and packedpixel_mon in disconnected:
+                    ultrawide_workspaces.extend(mon2_workspaces)
+                    ultrawide_workspaces.extend(mon3_workspaces)
+                elif packedpixel_mon in disconnected:
+                    vertical_workspaces.extend(mon2_workspaces)
+                    vertical_workspaces.extend(mon3_workspaces)
+                elif vertical_mon in disconnected:
+                    ultrawide_workspaces.extend(mon2_workspaces)
+                    packpixel_workspaces.extend(mon3_workspaces)
+
+                bspc.monitor(ultrawide_mon, "-d", *ultrawide_workspaces)
+                if vertical_workspaces:
+                    bspc.monitor(vertical_mon, "-d", *vertical_workspaces)
+                if packpixel_workspaces:
+                    bspc.monitor(packedpixel_mon, "-d", *packpixel_workspaces)
+
+                """
                 mon2 = VERTICAL_ID
                 mon3 = PACKEDPIXEL_ID
 
@@ -168,11 +194,20 @@ if __name__ == "__main__":
                 elif vertical_mon in disconnected:
                     mon2 = ULTRAWIDE_ID
 
+                print({"mon1": ULTRAWIDE_ID, "mon2": mon2, "mon3": mon3})
+
+                # mon3 is None
+                # monitor event monitor_geometry ['0x00C00004', '1920x1080+1754+0']
+
                 bspc.desktop(6, "-m", mon2)
                 bspc.desktop(7, "-m", mon2)
                 bspc.desktop(8, "-m", mon2)
                 bspc.desktop(9, "-m", mon3)
                 bspc.desktop(10, "-m", mon3)
+
+            if ev.startswith("monitor_"):
+                print(ev, ev_args)
+                """
         except:
             pass
 

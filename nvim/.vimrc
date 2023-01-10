@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'haishanh/night-owl.vim'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'haya14busa/incsearch.vim'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -35,7 +36,7 @@ Plug 'windwp/nvim-autopairs'
 " Language Server Protocol
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
-Plug 'glepnir/lspsaga.nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 Plug 'folke/trouble.nvim'
 Plug 'mhartington/formatter.nvim'
 
@@ -139,7 +140,7 @@ set exrc " use project specific vimrc
 set diffopt+=context:3
 
 "check if running in terminal and set to 256 colors
-colorscheme night-owl
+colorscheme catppuccin-mocha
 
 "Sign column same color as line numbers
 highlight clear SignColumn

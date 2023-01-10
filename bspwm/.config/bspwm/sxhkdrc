@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + shift + Return
-	rofi -combi-modi drun,run -show combi -modi combi
+	rofi -show drun
 
 # rofi shutdown actions menu
 ctrl + alt + Delete

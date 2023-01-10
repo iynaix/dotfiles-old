@@ -171,40 +171,44 @@ font:
 #draw_bold_text_with_bright_colors: false
 
 # Colors (Night Owl)
-colors:
-   # Default colors
-  primary:
-    background: '#011627'
-    foreground: '#d6deeb'
+# colors:
+#    # Default colors
+#   primary:
+#     background: '#011627'
+#     foreground: '#d6deeb'
 
-  cursor:
-    text: '#011627'
-    cursor: '#d6deeb'
+#   cursor:
+#     text: '#011627'
+#     cursor: '#d6deeb'
 
-  selection:
-    background: '#1b90dd'
+#   selection:
+#     background: '#1b90dd'
 
-   # Normal colors
-  normal:
-    black:   '#011627'
-    red:     '#ef5350'
-    green:   '#22da6e'
-    yellow:  '#c5e478'
-    blue:    '#82aaff'
-    magenta: '#c792ea'
-    cyan:    '#21c7a8'
-    white:   '#ffffff'
+#    # Normal colors
+#   normal:
+#     black:   '#011627'
+#     red:     '#ef5350'
+#     green:   '#22da6e'
+#     yellow:  '#c5e478'
+#     blue:    '#82aaff'
+#     magenta: '#c792ea'
+#     cyan:    '#21c7a8'
+#     white:   '#ffffff'
 
-   # Bright colors
-  bright:
-    black:   '#575656'
-    red:     '#ef5350'
-    green:   '#22da6e'
-    yellow:  '#ffeb95'
-    blue:    '#82aaff'
-    magenta: '#c792ea'
-    cyan:    '#7fdbca'
-    white:   '#ffffff'
+#    # Bright colors
+#   bright:
+#     black:   '#575656'
+#     red:     '#ef5350'
+#     green:   '#22da6e'
+#     yellow:  '#ffeb95'
+#     blue:    '#82aaff'
+#     magenta: '#c792ea'
+#     cyan:    '#7fdbca'
+#     white:   '#ffffff'
+
+# Colors (Catppuccin)
+import:
+  - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
 
 # Visual Bell
 #
@@ -236,7 +240,7 @@ colors:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-window.opacity: 0.8
+window.opacity: 1.0
 
 selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"

@@ -21,16 +21,16 @@ openterm() {
 
 # setups for different machines
 if xrandr | grep "eDP1 connected"; then
-    xwallpaper --output 'eDP1' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_1920.png'
+    xwallpaper --output 'eDP1' --zoom '/home/iynaix/Pictures/Wallpapers/gits-catppuccin-1920.png'
 
     # remap caps lock to mod tap Esc and Super
     xmodmap ~/.xmodmap
     xcape -e 'Super_R=Escape' -t 200
 else
     if xrandr | grep "HDMI-0 connected"; then
-        xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png' --output 'HDMI-0' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_1920.png'
+        xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/gits-catppuccin-3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/gits-catppuccin-2560.png' --output 'HDMI-0' --zoom '/home/iynaix/Pictures/Wallpapers/gits-catppuccin-1920.png'
     else
-        xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/balloons_2560.png'
+        xwallpaper --output 'DP-2' --zoom '/home/iynaix/Pictures/Wallpapers/gits-catppuccin-3440.png' --output 'DP-0.8' --zoom '/home/iynaix/Pictures/Wallpapers/gits-catppuccin-2560.png'
     fi
 fi
 
@@ -46,7 +46,7 @@ export GNOME_KEYRING_CONTROL=/run/user/1000/keyring
 export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
 
 # (re)start picom
-pgrep picom && pkill picom || picom -b --experimental-backends
+pgrep picom && pkill picom || picom -b
 
 # web browsers
 bspc rule -a $chromeclass -o desktop=$webdesktop &

@@ -595,7 +595,7 @@ beautiful.border_focus = "#4491ed"
 -- TODO: Autostart
 awful.spawn.with_shell("~/bin/wallpaper")
 awful.spawn.with_shell("xrdb ~/.Xresources")
-awful.spawn.with_shell("pgrep picom && pkill picom || picom -b --experimental-backends")
+awful.spawn.with_shell("pgrep picom && pkill picom || picom -b")
 
 local screen1 = screen[1]
 local screen2 = screen[2]
