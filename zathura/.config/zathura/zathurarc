@@ -13,4 +13,5 @@ map i recolor
 
 # startup options
 set adjust-open best-fit
-set recolor                     true
+
+include catppuccin-mocha
